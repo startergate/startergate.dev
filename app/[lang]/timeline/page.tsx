@@ -1,4 +1,6 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import { TimelineList } from "@/components/timeline/TimelineList";
+import { getTimelineItems } from "@/lib/data/timeline";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/locales";
 
@@ -6,8 +8,13 @@ export default async function TimelinePage({
   params,
 }: PageProps<"/[lang]/timeline">) {
   const { lang } = await params;
-  const dict = await getDictionary(isLocale(lang) ? lang : DEFAULT_LOCALE);
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE;
+  const dict = await getDictionary(locale);
 
-  // TODO(4단계): 카테고리 칩 + 연도별 세로 타임라인으로 채운다.
-  return <PageHeader title={dict.pageTitles.timeline} />;
+  return (
+    <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
+      <PageHeader title={dict.pageTitles.timeline} />
+      <TimelineList lang={locale} dict={dict} items={getTimelineItems()} />
+    </div>
+  );
 }

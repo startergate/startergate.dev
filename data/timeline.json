@@ -1,6 +1,7 @@
 [
   {
     "type": "career",
+    "year": "2020",
     "date": "2020.12 ~ 2026.03",
     "title": { "ko": "백엔드 엔지니어" },
     "org": { "ko": "FETCHING" },
@@ -11,6 +12,7 @@
   },
   {
     "type": "career",
+    "year": "2020",
     "date": "2020.01 ~ 2020.02",
     "title": { "ko": "백엔드 엔지니어 (현장실습)" },
     "org": { "ko": "피플펀드컴퍼니" },
@@ -21,6 +23,7 @@
   },
   {
     "type": "edu",
+    "year": "2018",
     "date": "2018.03 ~ 2021.01",
     "title": { "ko": "소프트웨어개발과" },
     "org": { "ko": "광주소프트웨어마이스터고등학교" },
@@ -29,6 +32,7 @@
   },
   {
     "type": "award",
+    "year": "2018",
     "date": "2018.06",
     "title": { "ko": "글로벌 비즈쿨 CO-TDM 창업경진대회" },
     "org": { "ko": "최우수상" },
@@ -36,6 +40,7 @@
   },
   {
     "type": "award",
+    "year": "2018",
     "date": "2018.04",
     "title": { "ko": "GSM 창의알고리즘 콘테스트" },
     "org": { "ko": "장려상" },
@@ -43,6 +48,7 @@
   },
   {
     "type": "award",
+    "year": "2019",
     "date": "2019",
     "title": { "ko": "GSM 소프트웨어 개발 경진 콘테스트" },
     "org": { "ko": "장려상" },
@@ -50,6 +56,7 @@
   },
   {
     "type": "award",
+    "year": "2020",
     "date": "2020.09",
     "title": { "ko": "GSM 팀프로젝트발표회" },
     "org": { "ko": "장려상" },
@@ -57,6 +64,7 @@
   },
   {
     "type": "award",
+    "year": "2020",
     "date": "2020.09",
     "title": { "ko": "GSM 전공 동아리 해커톤 대회" },
     "org": { "ko": "장려상" },
@@ -64,34 +72,43 @@
   },
   {
     "type": "cert",
+    "year": "2019",
     "date": "2019.03",
     "title": { "ko": "정보처리기능사" },
     "org": { "ko": "한국산업인력공단" }
   },
   {
     "type": "cert",
+    "year": "2018",
     "date": "2018.08",
     "title": { "ko": "TOEIC" },
     "org": { "ko": "865점" }
   },
   {
     "type": "group",
+    "year": "2018",
     "date": "2018.03 ~ 2020.08",
-    "title": { "ko": "빈실" },
-    "org": { "ko": "광주소프트웨어마이스터고등학교 웹 개발 동아리" },
-    "description": {
-      "ko": "동아리원(2018.3~2020.8), 부장(2020.1~2020.8). 프로젝트: DOTORI, GSM Pay"
-    },
+    "title": { "ko": "동아리원" },
+    "org": { "ko": "빈실" },
+    "description": { "ko": "광주소프트웨어마이스터고등학교 웹 개발 동아리" },
     "link": "https://github.com/BeanSil"
   },
   {
     "type": "group",
+    "year": "2020",
+    "date": "2020.01 ~ 2020.08",
+    "title": { "ko": "부장" },
+    "org": { "ko": "빈실" },
+    "description": { "ko": "광주소프트웨어마이스터고등학교 웹 개발 동아리 · 프로젝트: DOTORI, GSM Pay" },
+    "link": "https://github.com/BeanSil"
+  },
+  {
+    "type": "group",
+    "year": "2019",
     "date": "2019.03 ~",
-    "title": { "ko": "Tiny Beluga" },
-    "org": { "ko": "광주소프트웨어마이스터고등학교 게임 개발 동아리" },
-    "description": {
-      "ko": "동아리원·부장(2019.3~). 프로젝트: Lost"
-    },
+    "title": { "ko": "동아리원 · 부장" },
+    "org": { "ko": "Tiny Beluga" },
+    "description": { "ko": "광주소프트웨어마이스터고등학교 게임 개발 동아리 · 프로젝트: Lost" },
     "link": "https://github.com/tiny-beluga"
   }
 ]

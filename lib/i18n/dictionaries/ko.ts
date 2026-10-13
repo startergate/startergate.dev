@@ -116,6 +116,16 @@ const ko = {
   links: {
     heading: "Links",
   },
+  timelinePage: {
+    all: "전체",
+    types: {
+      career: "경력",
+      award: "수상",
+      cert: "자격",
+      group: "그룹 활동",
+      edu: "학력",
+    },
+  },
   projectsPage: {
     filters: {
       cat: "분류",

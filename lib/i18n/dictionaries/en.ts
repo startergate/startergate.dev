@@ -118,6 +118,16 @@ const en: Dictionary = {
   links: {
     heading: "Links",
   },
+  timelinePage: {
+    all: "All",
+    types: {
+      career: "Career",
+      award: "Awards",
+      cert: "Certifications",
+      group: "Activities",
+      edu: "Education",
+    },
+  },
   projectsPage: {
     filters: {
       cat: "Category",

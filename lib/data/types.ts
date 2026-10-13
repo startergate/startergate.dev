@@ -28,6 +28,18 @@ export type Experience = {
 
 export type LinkItem = { type: string; link: string; external_id: string };
 
+export type TimelineType = "career" | "award" | "cert" | "group" | "edu";
+
+export type TimelineItem = {
+  type: TimelineType;
+  year: string;
+  date: string;
+  title: L10n;
+  org?: L10n;
+  description?: L10n;
+  link?: string;
+};
+
 export type Project = {
   id: string;
   name: string;
