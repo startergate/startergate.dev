@@ -1,0 +1,32 @@
+[
+  {
+    "company": { "ko": "FETCHING" },
+    "companyLogo": { "src": "teams/fetching.svg" },
+    "title": { "ko": "백엔드 엔지니어" },
+    "period": { "ko": "2020.12 ~ 2026.03 (5년 3개월)" },
+    "location": { "ko": "서울특별시 성동구" },
+    "link": "https://fetching.co.kr",
+    "summary": {
+      "ko": "MAU 75만명을 처리하는 백엔드 서버, 일 500만건 규모의 크롤링 시스템, 주문 및 커머스 컨텐츠 관리부터 회계 시스템을 포함한 다양한 기능의 어드민과 이를 운영하는 인프라와 사내 네트워크 관리까지 다양한 업무를 경험했습니다."
+    },
+    "detail": {
+      "ko": "사내 어드민, 커머스, 상품 수집 시스템 등 회사의 모든 프로덕트 개발에 참여하였고, 몇몇 프로젝트는 초기부터 담당하여 전체적인 아키텍처까지 직접 설계하고 구축했습니다.\n\n개발한 프로덕트의 운영에도 모두 참여했으며, 비용이 제한된 환경에서 효율적이고 안정적으로 데이터베이스를 운영하고, 자동 빌드 및 AWS 클라우드 환경과 온프레미스 환경에 자동 배포하는 등의 CI/CD를 직접 구축했습니다."
+    },
+    "techs": ["TypeScript", "Node.js", "NestJS", "MySQL", "AuroraDB", "Redis", "RabbitMQ", "AWS"]
+  },
+  {
+    "company": { "ko": "피플펀드컴퍼니 (현. 피에프씨테크놀로지스)" },
+    "companyLogo": {
+      "src": "teams/peoplefund_white.png",
+      "srcOnLight": "teams/peoplefund.png"
+    },
+    "title": { "ko": "백엔드 엔지니어 (현장실습)" },
+    "period": { "ko": "2020.01 ~ 2020.02 (1개월)" },
+    "location": { "ko": "서울특별시 강남구" },
+    "link": "https://www.pfct.co.kr/",
+    "summary": {
+      "ko": "고등학교 2학년 겨울방학에 현장실습으로 1개월간 근무했습니다. 계정 인증 미들웨어를 개선했고 일부 기능 리팩토링을 진행했습니다."
+    },
+    "techs": ["Python", "Django"]
+  }
+]
