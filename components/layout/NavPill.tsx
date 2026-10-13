@@ -61,8 +61,8 @@ export function NavPill() {
               tabIndex={0}
               aria-label={`${dict.nav.blog}, ${dict.nav.blogSoon}`}
             >
-              <span className={styles.navSoonA}>{dict.nav.blog}</span>
-              <span className={styles.navSoonB} aria-hidden="true">
+              {dict.nav.blog}
+              <span className={styles.navSoonBubble} aria-hidden="true">
                 {dict.nav.blogSoon}
               </span>
             </span>

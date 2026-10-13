@@ -97,28 +97,58 @@
 
 .navSoon {
   position: relative;
-  display: inline-grid;
   cursor: default;
-  color: var(--dim);
 }
-.navSoon > span {
-  grid-area: 1 / 1;
-  transition: opacity 0.15s ease;
-}
-.navSoonB {
-  opacity: 0;
-  color: var(--accent);
-  font-size: 13px;
+
+/* 호버/포커스 시 글자를 바꾸지 않고 아래에 말풍선을 띄운다. */
+.navSoonBubble {
+  position: absolute;
+  top: calc(100% + 11px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 5;
   white-space: nowrap;
-  justify-self: center;
-}
-.navSoon:hover .navSoonA,
-.navSoon:focus .navSoonA {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0s linear 0.15s;
 }
-.navSoon:hover .navSoonB,
-.navSoon:focus .navSoonB {
+
+.navSoonBubble::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--glass);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.navSoon:hover .navSoonBubble,
+.navSoon:focus .navSoonBubble,
+.navSoon:focus-within .navSoonBubble {
   opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0s;
 }
 
 .langWrap,

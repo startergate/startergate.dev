@@ -160,13 +160,17 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
+html {
+  min-height: 100%;
 }
 
 body {
   margin: 0;
+  /* min-height(100%이 아니라)를 써야 내용이 한 화면보다 길어질 때도
+     body가 실제 내용 높이만큼 자라고, 그라데이션이 그 전체 길이를
+     따라 지면(Ground)까지 이어진다. height:100%로 고정하면 한 화면
+     분량만 칠해지고 그 아래는 배경이 끊긴다. */
+  min-height: 100vh;
   /* 단색이 아니라 하늘 그라데이션 배경 (spec §3.3). 별·유성은 히어로
      영역에만 두므로 메인 페이지 구현(3단계)에서 별도로 얹는다. */
   background: var(--sky-gradient);
