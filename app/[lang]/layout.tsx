@@ -10,7 +10,7 @@ import { inter, jetbrainsMono } from "@/lib/fonts";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { LangProvider } from "@/lib/i18n/LangProvider";
 import { DEFAULT_LOCALE, LOCALES, isLocale } from "@/lib/i18n/locales";
-import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site-meta";
+import { SITE_TITLE, SITE_URL, getSiteDescription } from "@/lib/site-meta";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme-init-script";
 import "../globals.css";
@@ -24,6 +24,7 @@ export async function generateMetadata({
 }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE;
+  const description = getSiteDescription(locale);
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -31,7 +32,7 @@ export async function generateMetadata({
       default: SITE_TITLE,
       template: `%s | ${SITE_TITLE}`,
     },
-    description: SITE_DESCRIPTION[locale],
+    description,
     alternates: {
       canonical: `/${locale}/`,
       languages: {
@@ -42,7 +43,7 @@ export async function generateMetadata({
     },
     openGraph: {
       title: SITE_TITLE,
-      description: SITE_DESCRIPTION[locale],
+      description,
       type: "website",
       url: `${SITE_URL}/${locale}/`,
     },
@@ -50,7 +51,7 @@ export async function generateMetadata({
       card: "summary",
       creator: "@startergate",
       title: SITE_TITLE,
-      description: SITE_DESCRIPTION[locale],
+      description,
     },
   };
 }

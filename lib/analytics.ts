@@ -1,5 +1,7 @@
-// GA4 측정 ID (spec §9) — 기존 Gatsby 사이트와 동일.
-export const GA_MEASUREMENT_ID = "G-99G6KZQV5K";
+import siteData from "@/data/site.json";
+
+// GA4 측정 ID (spec §9) — 기존 Gatsby 사이트와 동일. data/site.json에서 관리한다.
+export const GA_MEASUREMENT_ID = siteData.gaMeasurementId;
 
 type GtagEventParams = Record<string, string | number | boolean | undefined>;
 
