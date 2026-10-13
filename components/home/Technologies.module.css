@@ -1,0 +1,47 @@
+.section {
+  padding: 40px 0 112px;
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 40px 0 36px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.groupLabel {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.learned {
+  color: var(--muted);
+}
+
+.learning {
+  border-style: dashed;
+  color: var(--muted);
+}

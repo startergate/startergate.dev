@@ -1,0 +1,42 @@
+.group {
+  display: flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--fab-bg);
+  backdrop-filter: blur(10px);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn:hover {
+  color: var(--text);
+}
+.btnOn {
+  background: var(--fab-on) !important;
+  color: var(--text) !important;
+}
+
+.emoji {
+  font-size: 18px;
+  line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+.btn:hover .emoji,
+.btnOn .emoji {
+  opacity: 1;
+}

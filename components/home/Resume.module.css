@@ -1,0 +1,256 @@
+.section {
+  padding: 40px 0 112px;
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 40px 0 32px;
+}
+
+.heading {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.downloadWrap {
+  position: relative;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.downloadBtn:hover {
+  border-color: var(--text);
+}
+
+.downloadMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 5;
+  width: 220px;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.downloadOpt {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13.5px;
+  transition: background 0.15s ease;
+}
+.downloadOpt:hover {
+  background: var(--surface2);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.exp {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 28px;
+  transition: border-color 0.2s ease;
+}
+.exp:hover,
+.exp:focus-within,
+.expOpen {
+  border-color: var(--accent) !important;
+}
+
+.expRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  align-items: flex-start;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--surface2);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  overflow: hidden;
+}
+.logoImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.main {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  align-items: baseline;
+}
+
+.company {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.companyTitle {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.period {
+  font-size: 14px;
+  color: var(--dim);
+}
+
+.place {
+  font-size: 13.5px;
+  color: var(--dim);
+}
+
+.summary {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
+.stackRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.stackBadge {
+  min-height: 30px;
+  font-size: 13px;
+  padding: 0 11px 0 3px;
+}
+.stackBadgeLogo {
+  width: 24px;
+  height: 24px;
+  font-size: 9px;
+}
+
+.more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.exp:hover .more,
+.exp:focus-within .more,
+.expOpen .more {
+  grid-template-rows: 1fr;
+}
+.moreInner {
+  overflow: hidden;
+}
+.detail {
+  margin: 18px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--muted);
+  white-space: pre-line;
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.toggleBtn:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+.chev {
+  transition: transform 0.25s ease;
+}
+.exp:hover .chev,
+.expOpen .chev {
+  transform: rotate(180deg);
+}
+
+.timelineLink {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 22px 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.timelineLink:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.timelineLinkTitle {
+  font-size: 17px;
+  font-weight: 600;
+}
+.timelineLinkSub {
+  margin-left: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.timelineLinkCta {
+  color: var(--accent);
+  font-weight: 500;
+}

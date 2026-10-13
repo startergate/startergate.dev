@@ -1,0 +1,27 @@
+.section {
+  padding: 40px 0 72px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.badge {
+  min-height: 44px;
+  padding-right: 16px;
+  font-size: 15px;
+}
+
+.logo {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 10px !important;
+}
+
+.handle {
+  color: var(--dim);
+  font-weight: 400;
+}
