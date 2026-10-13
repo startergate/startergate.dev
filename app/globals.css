@@ -167,7 +167,9 @@ body {
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* 단색이 아니라 하늘 그라데이션 배경 (spec §3.3). 별·유성은 히어로
+     영역에만 두므로 메인 페이지 구현(3단계)에서 별도로 얹는다. */
+  background: var(--sky-gradient);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;

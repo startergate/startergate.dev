@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { BottomDock } from "@/components/layout/BottomDock";
+import { Ground } from "@/components/layout/Ground";
 import { NavPill } from "@/components/layout/NavPill";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -77,6 +79,8 @@ export default async function LangLayout({
           <LangProvider lang={lang} dict={dict}>
             <NavPill />
             {children}
+            <Ground />
+            <BottomDock />
           </LangProvider>
         </ThemeProvider>
       </body>

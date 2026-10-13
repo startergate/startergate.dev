@@ -1,0 +1,28 @@
+.dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fab {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--fab-bg);
+  backdrop-filter: blur(10px);
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+
+.fab:hover {
+  color: var(--text);
+}
