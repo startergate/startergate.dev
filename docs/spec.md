@@ -203,18 +203,72 @@ type Project = {
 | `imgSrc`, `imgSrcOnLightMode`, `imageIsTitle` | `logo` |
 | `isHighlighted`, `orderLevel` | `highlight` |
 
-- 기존 하이라이트는 `type`에 "Game"이 있는지로 모드를 나눴다. 새 스키마에서는 `highlight.backend`와 `highlight.game`으로 직접 지정한다.
-- `category`(현업/팀/개인)는 기존 데이터에 없으므로 새로 채운다. 시안 작업 때 정한 분류는 `docs/design/Projects.dc.html`의 `CAT_OF`에 있으니 참고한다.
+- 기존 하이라이트는 `type`에 "Game"이 있는지로 모드를 나눴다. 새 스키마에서는 `highlight.backend`와 `highlight.game`으로 직접 지정한다. 2단계 이전 때는 기존 `index.tsx`의 GraphQL 쿼리(`isHighlighted DESC, orderLevel ASC, name ASC`, `limit 4`)를 그대로 계산해 고정값으로 옮겼다 — backend: `fetching-admin`(1), `fetching-commerce`(2), `dotori`(3), `eliverd`(4) / game: `lost`(1), `basterds`(2), `dont-afraid`(3).
+- `category`(현업/팀/개인)는 기존 데이터에 없으므로 새로 채운다. 시안 작업 때 정한 분류는 `docs/design/Projects.dc.html`의 `CAT_OF`에 있으니 참고한다(해당 파일은 `fetching-admin` 등을 `admin`처럼 줄인 id로 쓰지만, 실제 `id`는 이 문서의 예시대로 `fetching-admin` 전체를 쓴다).
 - 사람 정보(`src/enums/people.ts`: GitHub 링크, 아바타)와 단체 정보(`organizations.ts`)는 `data/people.json`과 `data/organizations.json`으로 옮긴다.
+- `fetching-*` 5개 프로젝트는 기존 데이터에 `owner`가 없고 대신 `collaborators`에 "FETCHING"을 가짜 참여자로 넣어뒀었다. 이전하면서 그 가짜 참여자를 지우고 `team: { name: "FETCHING", link: "https://github.com/Fetching-Korea" }`를 추가했다.
+- `part`(담당 영역)는 기존 데이터에 대응하는 값이 없어 **2단계에서는 비워뒀다**. 필요하면 프로젝트별로 직접 채운다.
+- 기존 데이터의 `"Native Appliation"` 오타(`dont-afraid`, `the-intersection`)는 `"Native Application"`으로 고쳤다(시안도 이미 고쳐서 쓰고 있었다).
 
-### 5.2 기타 데이터
+### 5.2 기타 데이터 **[2단계 데이터 이전 때 확정한 스키마]**
 
-- `data/site.json`: `openToWork`, 이메일, GA ID 등 사이트 설정.
-- `data/links.json`: 기존 파일을 그대로 쓴다.
-- `data/techs.json`: 기존 `languages.json`을 옮긴다. 이름, 로고 경로, 모드, 숙련 그룹을 담고, 로고가 없으면 `abbr`(글자 약어)를 쓴다.
-- `data/experiences.json`: 회사, 로고, 직함, 기간, 요약, 상세, 기술. 모두 L10n이다.
-- `data/timeline.json`: 타임라인 항목. 필드는 `type`, 날짜, 제목, 소속, 설명, 링크다.
-- 이미지와 로고: 기존 `src/images/**`를 `public/images/**`로 그대로 옮긴다. 회사 로고, 기술 로고, 링크 아이콘, 프로필, 프로젝트 이미지가 모두 포함된다.
+이미지 경로는 전부 `public/images/` 기준 상대 경로이고 **선행 슬래시가 없다** (예: `"projects/dotori/logo.png"` → 실제 렌더링 시 `/images/projects/dotori/logo.png`). 기존 `src/images/**`를 그대로 `public/images/**`로 옮겼다 (회사 로고, 기술 로고, 링크 아이콘, 프로필, 프로젝트 이미지 포함). 기존 `gatsby-astronaut.png`, `gatsby-icon.png`, `pacman.png`, `down-arrow.png`는 새 디자인에서 쓸 곳이 없어 옮기지 않았다.
+
+- `data/site.json`:
+  ```ts
+  type Site = {
+    title: string;
+    email: string;
+    openToWork: boolean;
+    gaMeasurementId: string;
+    description: L10n;
+  };
+  ```
+- `data/links.json`: 기존 파일을 그대로 쓴다 (`mailto://` 오타만 `mailto:`로 고쳤다).
+  ```ts
+  type LinkItem = { type: string; link: string; external_id: string };
+  ```
+- `data/techs.json`: 기존 `languages.json`을 옮겼다. 전부 로고가 있어서 `abbr`는 아직 쓰인 데이터가 없지만(로고가 없어지면 그 항목에 추가), 필드로는 남겨둔다.
+  ```ts
+  type Tech = {
+    name: string;
+    mode: 'backend' | 'game' | 'all';
+    level: 'using' | 'learned' | 'learning';
+    logo?: { src: string; background?: string; cover?: boolean };
+    abbr?: string;
+  };
+  ```
+- `data/experiences.json`: 기존 `index.tsx`의 경력 문단 중 첫 문단을 `summary`(카드에 항상 보임), 나머지를 `detail`(펼쳤을 때)로 나눴다. `techs`는 기존 데이터에 없던 필드라 경력 설명에 등장하는 기술 위주로 새로 채웠다.
+  ```ts
+  type Experience = {
+    company: L10n;
+    companyLogo?: { src: string; srcOnLight?: string };
+    title: L10n;          // 직함
+    period: L10n;         // "2020.12 ~ 2026.03 (5년 3개월)" 같은 기간 표시
+    location?: L10n;
+    link?: string;
+    summary: L10n;
+    detail?: L10n;
+    techs: string[];      // techs.json의 name 참조
+  };
+  ```
+- `data/timeline.json`: 경력·학력·수상·자격·그룹 활동을 모두 같은 모양으로 담는다. `org`는 항목 종류에 따라 회사명/학과/수상 등급/발급 기관/동아리 설명처럼 의미가 달라지는 보조 라벨이다.
+  ```ts
+  type TimelineItem = {
+    type: 'career' | 'award' | 'cert' | 'group' | 'edu';
+    date: string;          // 표시용 문자열, 예: "2020.12 ~ 2026.03"
+    title: L10n;
+    org?: L10n;
+    description?: L10n;
+    link?: string;
+  };
+  ```
+- `data/people.json`, `data/organizations.json`: 기존 `src/enums/people.ts`, `organizations.ts`를 이름을 키로 하는 객체로 옮겼다.
+  ```ts
+  type PersonOrOrg = { link: string; avatar?: string };
+  // { "최호승": { link: "https://github.com/startergate", avatar: "startergate.png" }, ... }
+  ```
+- 기존 `src/enums/langs.ts`(LanguageColor), `links.ts`(링크 아이콘·배경색)는 위 스키마 어디에도 대응되지 않아 옮기지 않았다. 필요해지면 그때 스키마를 정한다.
 
 ## 6. 컴포넌트
 
