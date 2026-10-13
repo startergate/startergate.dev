@@ -1,0 +1,57 @@
+{
+  "id": "the-intersection",
+  "name": "The Intersection",
+  "description": {
+    "ko": "PC 플랫폼 게임 통합 런처"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2019-04-23",
+  "finishedAt": "2019-07-16",
+  "types": [
+    "Native Application",
+    "Back-end"
+  ],
+  "techs": [
+    "C++",
+    "JavaScript",
+    "Qt",
+    "Express.js",
+    "AWS EC2"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/The-Intersection",
+      "label": "The-Intersection"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/The-Intersection-Server",
+      "label": "The-Intersection-Server"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/The-Intersection-2",
+      "label": "The-Intersection-2"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/EpicGamesStoreCrawler",
+      "label": "EpicGamesStoreCrawler"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/OriginCrawler",
+      "label": "OriginCrawler"
+    }
+  ]
+}

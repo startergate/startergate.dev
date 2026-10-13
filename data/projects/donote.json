@@ -1,0 +1,52 @@
+{
+  "id": "donote",
+  "name": "DoNote",
+  "description": {
+    "ko": "간단한 메모 웹앱"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2017-10-27",
+  "finishedAt": "2019-05-07",
+  "types": [
+    "Full-stack"
+  ],
+  "techs": [
+    "PHP",
+    "MySQL",
+    "AWS EC2"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/donote.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/DoNote",
+      "label": "DoNote"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/DoNote-API",
+      "label": "DoNote-API"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/DoNote-Desktop",
+      "label": "DoNote-Desktop"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/DoCalender",
+      "label": "DoCalender"
+    }
+  ]
+}

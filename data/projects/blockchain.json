@@ -1,0 +1,50 @@
+{
+  "id": "blockchain",
+  "name": "Untitled Blockchain Project",
+  "description": {
+    "ko": "실버 택배 블록체인 보상 체계"
+  },
+  "category": "team",
+  "status": "canceled",
+  "startedAt": "2018-08-31",
+  "finishedAt": "2018-09-01",
+  "types": [
+    "Etc"
+  ],
+  "techs": [
+    "Python",
+    "JavaScript",
+    "Node.js"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개발"
+      ]
+    },
+    {
+      "name": "모훈",
+      "roles": [
+        "개발"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/SW-Hackathon-2018-GSM",
+      "label": "SW-Hackathon-2018-GSM"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/SW-Hackathon-2018-GSM/Blockchain-Post",
+      "label": "SW-Hackathon-2018-GSM/Blockchain-Post"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/SW-Hackathon-2018-GSM/Blockchain-Web",
+      "label": "SW-Hackathon-2018-GSM/Blockchain-Web"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "moviebot",
+  "name": "MovieBot",
+  "description": {
+    "ko": "디스코드 영화 정보 크롤링 봇"
+  },
+  "category": "personal",
+  "status": "planning",
+  "startedAt": "2019-05-07",
+  "types": [
+    "Chatbot"
+  ],
+  "techs": [
+    "Python",
+    "Discord"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/moviebot.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/MovieBot",
+      "label": "MovieBot"
+    }
+  ]
+}

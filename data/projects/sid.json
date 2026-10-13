@@ -1,0 +1,99 @@
+{
+  "id": "sid",
+  "name": "SID",
+  "description": {
+    "ko": "STARTERGATE IDENTITY: 통합 계정 서비스"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2019-01-09",
+  "finishedAt": "2019-09-15",
+  "types": [
+    "Full-stack"
+  ],
+  "techs": [
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "AWS EC2"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/sid.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID-1.0",
+      "label": "SID-1.0"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID-2.0",
+      "label": "SID-2.0"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID-2.0-Client",
+      "label": "SID-2.0"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.php",
+      "label": "SID.php"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.js",
+      "label": "SID.js"
+    },
+    {
+      "type": "npm",
+      "link": "https://www.npmjs.com/package/@startergate/sidjs",
+      "label": "@startergate/sidjs"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.ts",
+      "label": "SID.ts"
+    },
+    {
+      "type": "npm",
+      "link": "https://www.npmjs.com/package/@startergate/sidts",
+      "label": "@startergate/sidts"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.js-for-jQuery",
+      "label": "SID.js-for-jQuery"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.cpp",
+      "label": "SID.cpp"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.NET",
+      "label": "SID.NET"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.java",
+      "label": "SID.java"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SID.py",
+      "label": "SID.py"
+    }
+  ]
+}

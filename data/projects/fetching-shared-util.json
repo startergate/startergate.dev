@@ -1,0 +1,31 @@
+{
+  "id": "fetching-shared-util",
+  "name": "FETCHING Shared Util",
+  "description": {
+    "ko": "페칭 프로젝트 공유 라이브러리"
+  },
+  "category": "work",
+  "team": {
+    "name": "FETCHING",
+    "link": "https://github.com/Fetching-Korea"
+  },
+  "status": "done",
+  "startedAt": "2021-05-02",
+  "finishedAt": "2026-03-31",
+  "types": [
+    "Etc"
+  ],
+  "techs": [
+    "TypeScript",
+    "Node.js",
+    "npm"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개발"
+      ]
+    }
+  ]
+}

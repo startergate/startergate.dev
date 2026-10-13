@@ -1,0 +1,36 @@
+{
+  "id": "fetching-crawler",
+  "name": "FETCHING Crawler",
+  "description": {
+    "ko": "페칭 크롤링 시스템"
+  },
+  "category": "work",
+  "team": {
+    "name": "FETCHING",
+    "link": "https://github.com/Fetching-Korea"
+  },
+  "status": "done",
+  "startedAt": "2020-12-31",
+  "finishedAt": "2026-03-31",
+  "types": [
+    "Crawler"
+  ],
+  "techs": [
+    "TypeScript",
+    "Node.js",
+    "AWS ECS",
+    "MySQL",
+    "Aurora MySQL",
+    "Docker",
+    "npm",
+    "RabbitMQ"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개발"
+      ]
+    }
+  ]
+}

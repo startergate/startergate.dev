@@ -1,0 +1,41 @@
+{
+  "id": "nearby",
+  "name": "Nearby",
+  "description": {
+    "ko": "주변 정보 검색 페이지"
+  },
+  "category": "team",
+  "status": "done",
+  "startedAt": "2018-10-29",
+  "finishedAt": "2018-11-08",
+  "types": [
+    "Front-end"
+  ],
+  "techs": [
+    "HTML",
+    "JavaScript",
+    "Google Maps API"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "디자인",
+        "개발"
+      ]
+    },
+    {
+      "name": "장지수",
+      "roles": [
+        "기획"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Nearby",
+      "label": "Nearby"
+    }
+  ]
+}

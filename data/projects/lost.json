@@ -1,0 +1,75 @@
+{
+  "id": "lost",
+  "name": "Lost",
+  "description": {
+    "ko": "2D 플랫포머 게임"
+  },
+  "category": "team",
+  "team": {
+    "name": "Tiny Beluga",
+    "link": "https://tiny-beluga.github.io"
+  },
+  "status": "done",
+  "startedAt": "2019-03-08",
+  "finishedAt": "2020-08-06",
+  "types": [
+    "Game"
+  ],
+  "techs": [
+    "C#",
+    "Unity",
+    "Steamworks"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "팀장",
+        "기획",
+        "게임 개발"
+      ]
+    },
+    {
+      "name": "박종효",
+      "roles": [
+        "게임 개발"
+      ]
+    },
+    {
+      "name": "정상현",
+      "roles": [
+        "게임 개발"
+      ]
+    },
+    {
+      "name": "박재홍",
+      "roles": [
+        "QA"
+      ]
+    },
+    {
+      "name": "오영빈",
+      "roles": [
+        "작곡"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/lost.png"
+  },
+  "links": [
+    {
+      "type": "Steam",
+      "link": "https://store.steampowered.com/app/1095360/Lost/",
+      "label": "Lost"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/tiny-beluga/Lost-Issue-Tracker",
+      "label": "tiny-beluga/Lost-Issue-Tracker"
+    }
+  ],
+  "highlight": {
+    "game": 1
+  }
+}

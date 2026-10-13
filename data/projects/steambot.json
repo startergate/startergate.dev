@@ -1,0 +1,43 @@
+{
+  "id": "steambot",
+  "name": "SteamBot",
+  "description": {
+    "ko": "디스코드 스팀 크롤링 봇"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2019-03-14",
+  "finishedAt": "2019-09-10",
+  "types": [
+    "Chatbot"
+  ],
+  "techs": [
+    "Python",
+    "Discord",
+    "Docker",
+    "Threading"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/steambot.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SteamBot",
+      "label": "SteamBot"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/SteamBot-Deploy",
+      "label": "SteamBot-Deploy"
+    }
+  ]
+}

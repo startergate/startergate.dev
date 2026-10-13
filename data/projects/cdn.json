@@ -1,0 +1,35 @@
+{
+  "id": "cdn",
+  "name": "STARTERGATE.CDN",
+  "description": {
+    "ko": "개인 프로젝트용 CDN"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2019-04-29",
+  "finishedAt": "2019-06-03",
+  "types": [
+    "Full-stack"
+  ],
+  "techs": [
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "Google Cloud Platform"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/STARTERGATE.CDN",
+      "label": "STARTERGATE.CDN"
+    }
+  ]
+}

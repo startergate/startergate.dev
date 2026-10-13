@@ -1,0 +1,33 @@
+{
+  "id": "bkng",
+  "name": "BKNG",
+  "description": {
+    "ko": "학원 포인트 적립 시스템"
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2018-01-27",
+  "finishedAt": "2018-04-02",
+  "types": [
+    "Full-stack"
+  ],
+  "techs": [
+    "PHP",
+    "MySQL"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개인 개발"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/BKNG",
+      "label": "BKNG"
+    }
+  ]
+}

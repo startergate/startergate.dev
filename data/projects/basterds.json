@@ -1,0 +1,75 @@
+{
+  "id": "basterds",
+  "name": "Basterds: Hair Naked",
+  "description": {
+    "ko": "타워 디펜스 게임"
+  },
+  "category": "team",
+  "status": "done",
+  "startedAt": "2019-12-18",
+  "finishedAt": "2020-01-08",
+  "types": [
+    "Game",
+    "Back-end"
+  ],
+  "techs": [
+    "Python",
+    "TypeScript",
+    "C++",
+    "Node.js",
+    "Django",
+    "Koa.js",
+    "Unreal Engine",
+    "MySQL",
+    "AWS EC2"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "팀장",
+        "기획",
+        "서버 개발",
+        "게임 네트워킹"
+      ]
+    },
+    {
+      "name": "정민우",
+      "roles": [
+        "디자인",
+        "프론트 개발"
+      ]
+    },
+    {
+      "name": "최준혁",
+      "roles": [
+        "게임 개발"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/Jeong-Mw/Basterds_app",
+      "label": "Jeong-Mw/Basterds_app"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Basterds-Game-Server",
+      "label": "Basterds-Game-Server"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Basterds-Stat-Server",
+      "label": "Basterds-Stat-Server"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Basterds-Stat-Client",
+      "label": "Basterds-Stat-Client"
+    }
+  ],
+  "highlight": {
+    "game": 2
+  }
+}

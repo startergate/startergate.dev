@@ -1,0 +1,67 @@
+{
+  "id": "cloudy",
+  "name": "Cloudy",
+  "description": {
+    "ko": "설치형 클라우드 드라이브 서비스"
+  },
+  "category": "team",
+  "status": "done",
+  "startedAt": "2018-01-02",
+  "finishedAt": "2018-01-08",
+  "types": [
+    "Full-stack"
+  ],
+  "techs": [
+    "PHP",
+    "AWS EC2"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "팀장",
+        "기획",
+        "서버 개발"
+      ]
+    },
+    {
+      "name": "조도울",
+      "roles": [
+        "서버 개발"
+      ]
+    },
+    {
+      "name": "차명준",
+      "roles": [
+        "프론트 개발"
+      ]
+    },
+    {
+      "name": "정지원",
+      "roles": [
+        "디자인",
+        "프론트 개발"
+      ]
+    }
+  ],
+  "logo": {
+    "src": "projects/cloudy.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Cloudy",
+      "label": "Cloudy"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Thundercloudy",
+      "label": "Thundercloudy"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/Thundercloudy-Server",
+      "label": "Thundercloudy-Server"
+    }
+  ]
+}

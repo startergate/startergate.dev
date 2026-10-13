@@ -1,0 +1,36 @@
+{
+  "id": "fetching-data-processor",
+  "name": "FETCHING Data Processor",
+  "description": {
+    "ko": "페칭 배치 데이터 프로세서 모노레포"
+  },
+  "category": "work",
+  "team": {
+    "name": "FETCHING",
+    "link": "https://github.com/Fetching-Korea"
+  },
+  "status": "done",
+  "startedAt": "2021-05-02",
+  "finishedAt": "2026-03-31",
+  "types": [
+    "Etc"
+  ],
+  "techs": [
+    "TypeScript",
+    "Node.js",
+    "AWS ECS",
+    "MySQL",
+    "Aurora MySQL",
+    "Docker",
+    "npm",
+    "RabbitMQ"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        "개발"
+      ]
+    }
+  ]
+}
