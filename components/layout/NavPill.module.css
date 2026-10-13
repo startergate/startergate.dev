@@ -76,6 +76,10 @@
   padding: 0 14px 0 4px;
   opacity: 1;
   visibility: visible;
+  /* 펼쳐진 뒤에는 폭이 이미 다 찼으니 접기용 overflow:hidden이 더
+     필요 없다 — Blog 말풍선이 이 컨테이너 아래로 튀어나와야 하는데
+     hidden에 가려져 있었다. */
+  overflow: visible;
   transition:
     max-width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
     padding 0.4s ease,
@@ -260,6 +264,7 @@
     max-height: 300px;
     padding: 6px;
     max-width: none;
+    overflow: visible;
     transition:
       max-height 0.35s ease,
       opacity 0.25s ease,

@@ -65,7 +65,7 @@ export function ProjectCard({
         ) : null}
         <span aria-hidden="true">·</span>
         <span className={styles.part}>{part}</span>
-        <span className={styles.period}>{cardPeriod(project)}</span>
+        <span className={`mono ${styles.period}`}>{cardPeriod(project)}</span>
       </span>
     </button>
   );

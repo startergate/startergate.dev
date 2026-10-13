@@ -29,15 +29,25 @@ export type ConsoleCapabilities = {
   reset?: () => void;
 };
 
-const Ctx = createContext<{
-  capabilities: ConsoleCapabilities;
-  setCapabilities: (c: ConsoleCapabilities) => void;
-} | null>(null);
+type SetCapabilities = (c: ConsoleCapabilities) => void;
+
+// 두 컨텍스트로 나눈다: setter는 절대 바뀌지 않는 안정된 참조이고,
+// 값(capabilities)만 등록될 때마다 바뀐다. 하나로 합치면(예:
+// {capabilities, setCapabilities} 객체 하나) 등록하는 쪽의 effect가
+// 그 합쳐진 값을 의존성으로 가지게 되어, setCapabilities를 부르면
+// 그 effect가 다시 돌고 또 setCapabilities를 불러 무한 루프에
+// 빠진다(실제로 재현된 "Maximum update depth exceeded" 버그).
+const CapabilitiesContext = createContext<ConsoleCapabilities>({});
+const SetCapabilitiesContext = createContext<SetCapabilities | null>(null);
 
 export function ConsoleCapabilitiesProvider({ children }: { children: ReactNode }) {
   const [capabilities, setCapabilities] = useState<ConsoleCapabilities>({});
   return (
-    <Ctx.Provider value={{ capabilities, setCapabilities }}>{children}</Ctx.Provider>
+    <SetCapabilitiesContext.Provider value={setCapabilities}>
+      <CapabilitiesContext.Provider value={capabilities}>
+        {children}
+      </CapabilitiesContext.Provider>
+    </SetCapabilitiesContext.Provider>
   );
 }
 
@@ -47,15 +57,14 @@ export function ConsoleCapabilitiesProvider({ children }: { children: ReactNode 
  * 때만 다시 등록되고 콘솔이 최신 state를 보고 동작한다.
  */
 export function useRegisterConsoleCapabilities(capabilities: ConsoleCapabilities) {
-  const ctx = useContext(Ctx);
+  const setCapabilities = useContext(SetCapabilitiesContext);
   useEffect(() => {
-    if (!ctx) return;
-    ctx.setCapabilities(capabilities);
-    return () => ctx.setCapabilities({});
-  }, [ctx, capabilities]);
+    if (!setCapabilities) return;
+    setCapabilities(capabilities);
+    return () => setCapabilities({});
+  }, [setCapabilities, capabilities]);
 }
 
 export function useConsoleCapabilities(): ConsoleCapabilities {
-  const ctx = useContext(Ctx);
-  return ctx?.capabilities ?? {};
+  return useContext(CapabilitiesContext);
 }

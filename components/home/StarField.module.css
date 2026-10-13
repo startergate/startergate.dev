@@ -29,7 +29,9 @@
   position: absolute;
   width: 120px;
   height: 1.5px;
-  background: linear-gradient(to left, var(--star), transparent);
+  /* 진행 방향(아래-왼쪽, translate(-340px,150px))의 앞머리가 밝고
+     꼬리가 옅어져야 한다 — 반대로 돼 있던 걸 바로잡았다. */
+  background: linear-gradient(to right, var(--star), transparent);
   opacity: 0;
   transform: rotate(-24deg);
   animation: meteor 14s ease-in infinite;

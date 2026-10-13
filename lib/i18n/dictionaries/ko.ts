@@ -50,6 +50,7 @@ const ko = {
     skyMine: "내 위치 상공",
     locToMine: "내 위치로 보기",
     locToSeoul: "서울 기준으로 보기",
+    satMetaTemplate: "방위 {az}° · 앙각 {el}°",
   },
   about: {
     backend: {

@@ -34,6 +34,10 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
   const [positions, setPositions] = useState<SatellitePosition[]>([]);
   const satellitesRef = useRef<LoadedSatellite[]>([]);
   const [loaded, setLoaded] = useState(false);
+  // 위성별 직전 위치 — 점 옆 트레일 방향 계산용.
+  const lastSeenRef = useRef<Map<number, { azimuthDeg: number; elevationDeg: number }>>(
+    new Map(),
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -106,14 +110,26 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
         return b.elevationDeg - a.elevationDeg;
       });
 
-      setPositions(
-        computed.slice(0, MAX_SATELLITES).map(({ name, noradId, azimuthDeg, elevationDeg }) => ({
-          name,
-          noradId,
-          azimuthDeg,
-          elevationDeg,
-        })),
-      );
+      const next = computed
+        .slice(0, MAX_SATELLITES)
+        .map(({ name, noradId, azimuthDeg, elevationDeg }) => {
+          const prev = lastSeenRef.current.get(noradId);
+          return {
+            name,
+            noradId,
+            azimuthDeg,
+            elevationDeg,
+            prevAzimuthDeg: prev?.azimuthDeg,
+            prevElevationDeg: prev?.elevationDeg,
+          };
+        });
+      for (const p of next) {
+        lastSeenRef.current.set(p.noradId, {
+          azimuthDeg: p.azimuthDeg,
+          elevationDeg: p.elevationDeg,
+        });
+      }
+      setPositions(next);
     };
 
     tick();

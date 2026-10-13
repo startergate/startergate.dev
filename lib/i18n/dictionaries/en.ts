@@ -52,6 +52,7 @@ const en: Dictionary = {
     skyMine: "Sky above you",
     locToMine: "View from my location",
     locToSeoul: "Reset to Seoul",
+    satMetaTemplate: "Az {az}° · El {el}°",
   },
   about: {
     backend: {

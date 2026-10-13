@@ -60,47 +60,31 @@ export function MoonIcon({ className }: { className?: string }) {
 }
 
 export function FlagKR({ className }: { className?: string }) {
+  // 태극기 공식 비율 그대로(Wikimedia Commons Flag_of_South_Korea.svg
+  // 좌표를 그대로 옮겼다 — 손으로 만든 버전은 괘 모양이 실제와 달라서
+  // 검증된 원본으로 교체했다).
   return (
     <svg
       className={className}
       width="22"
       height="15"
-      viewBox="0 0 30 20"
+      viewBox="-72 -48 144 96"
       aria-hidden="true"
     >
-      <rect width="30" height="20" fill="#FFFFFF" />
-      <circle cx="15" cy="10" r="5" fill="#0047A0" />
-      <path
-        d="M10 10a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z"
-        fill="#CD2E3A"
-      />
-      <g fill="#000000">
-        <g transform="translate(5.2 3.5) rotate(56.3)">
-          <rect x="-2" y="-1.8" width="4" height="0.8" />
-          <rect x="-2" y="-0.4" width="4" height="0.8" />
-          <rect x="-2" y="1" width="4" height="0.8" />
-        </g>
-        <g transform="translate(24.8 16.5) rotate(56.3)">
-          <rect x="-2" y="-1.8" width="1.8" height="0.8" />
-          <rect x="0.2" y="-1.8" width="1.8" height="0.8" />
-          <rect x="-2" y="-0.4" width="1.8" height="0.8" />
-          <rect x="0.2" y="-0.4" width="1.8" height="0.8" />
-          <rect x="-2" y="1" width="1.8" height="0.8" />
-          <rect x="0.2" y="1" width="1.8" height="0.8" />
-        </g>
-        <g transform="translate(24.8 3.5) rotate(-56.3)">
-          <rect x="-2" y="-1.8" width="1.8" height="0.8" />
-          <rect x="0.2" y="-1.8" width="1.8" height="0.8" />
-          <rect x="-2" y="-0.4" width="4" height="0.8" />
-          <rect x="-2" y="1" width="1.8" height="0.8" />
-          <rect x="0.2" y="1" width="1.8" height="0.8" />
-        </g>
-        <g transform="translate(5.2 16.5) rotate(-56.3)">
-          <rect x="-2" y="-1.8" width="4" height="0.8" />
-          <rect x="-2" y="-0.4" width="1.8" height="0.8" />
-          <rect x="0.2" y="-0.4" width="1.8" height="0.8" />
-          <rect x="-2" y="1" width="4" height="0.8" />
-        </g>
+      <rect x="-72" y="-48" width="144" height="96" fill="#FFFFFF" />
+      <g stroke="#000000" strokeWidth="4">
+        <path
+          transform="rotate(33.69006752598)"
+          d="M-50-12v24m6 0v-24m6 0v24m76 0V1m0-2v-11m6 0v11m0 2v11m6 0V1m0-2v-11"
+        />
+        <path
+          transform="rotate(-33.69006752598)"
+          d="M-50-12v24m6 0V1m0-2v-11m6 0v24m76 0V1m0-2v-11m6 0v24m6 0V1m0-2v-11"
+        />
+      </g>
+      <g transform="rotate(33.69006752598)">
+        <path fill="#CD2E3A" d="M12 0a18 18 0 11-36 0 24 24 0 1148 0" />
+        <path fill="#0047A0" d="M-24 0a24 24 0 1048 0A12 12 0 100 0a12 12 0 11-24 0" />
       </g>
     </svg>
   );
