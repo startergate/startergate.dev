@@ -1,0 +1,253 @@
+.nav {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--glass2);
+  backdrop-filter: blur(10px);
+}
+
+.pillBtn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.pillBtn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.navToggle .menuChevOpen {
+  transform: rotate(180deg);
+}
+.navToggle svg {
+  transition: transform 0.3s ease;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  visibility: hidden;
+  transition:
+    max-width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    padding 0.4s ease,
+    opacity 0.25s ease,
+    visibility 0s linear 0.4s;
+}
+
+.navLinksOpen {
+  max-width: 600px;
+  padding: 0 14px 0 4px;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    max-width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    padding 0.4s ease,
+    opacity 0.3s ease 0.08s,
+    visibility 0s;
+}
+
+.navlink {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.15s ease;
+  text-decoration: none;
+}
+
+.navlink:hover {
+  color: var(--accent);
+}
+
+.navSoon {
+  position: relative;
+  display: inline-grid;
+  cursor: default;
+  color: var(--dim);
+}
+.navSoon > span {
+  grid-area: 1 / 1;
+  transition: opacity 0.15s ease;
+}
+.navSoonB {
+  opacity: 0;
+  color: var(--accent);
+  font-size: 13px;
+  white-space: nowrap;
+  justify-self: center;
+}
+.navSoon:hover .navSoonA,
+.navSoon:focus .navSoonA {
+  opacity: 0;
+}
+.navSoon:hover .navSoonB,
+.navSoon:focus .navSoonB {
+  opacity: 1;
+}
+
+.langWrap,
+.langWrapFallback {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.langMenu {
+  position: absolute;
+  right: -8px;
+  top: calc(100% + 10px);
+  z-index: 5;
+  width: 168px;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.langOpt {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.langOpt:hover,
+.langOptOn {
+  background: var(--surface2);
+}
+
+.langCode {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.langName {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.logoTrigger {
+  display: flex;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 50%;
+}
+.logoTrigger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+.logoBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f2f3f5;
+}
+
+.logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .navLinks {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    max-width: none;
+    max-height: 0;
+    padding: 0;
+    border-radius: 14px;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    transition:
+      max-height 0.35s ease,
+      opacity 0.25s ease,
+      visibility 0s linear 0.35s;
+  }
+  .navLinksOpen {
+    max-height: 300px;
+    padding: 6px;
+    max-width: none;
+    transition:
+      max-height 0.35s ease,
+      opacity 0.25s ease,
+      visibility 0s;
+  }
+  .navLinks .navlink {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navLinks,
+  .navLinksOpen,
+  .navToggle svg,
+  .logoTrigger {
+    transition: none !important;
+  }
+}
