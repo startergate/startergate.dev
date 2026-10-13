@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>프로젝트 상세 팝업</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<style>
+@font-face{font-family:'Pretendard';src:url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2-variations'),url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2');font-weight:45 920;font-style:normal;font-display:swap}
+body{margin:0}
+</style>
+</helmet>
+<div class="pm-overlay" role="dialog" aria-modal="true" aria-label="{{dialogLabel}}" tabindex="-1" ref="{{overlayRef}}" onClick="{{onBackdrop}}" onKeyDown="{{onKey}}" style="position: fixed; inset: 0; z-index: 60; display: flex; justify-content: center; align-items: flex-start; padding: 48px 24px; box-sizing: border-box; overflow-y: auto; background: rgba(4, 6, 12, 0.62); backdrop-filter: blur(6px); font-family: 'Inter', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; color: var(--text, #E8ECF4); line-height: 1.7;">
+<div class="pm-panel" onClick="{{stop}}" style="position: relative; width: 100%; max-width: 1080px; box-sizing: border-box; padding: 32px; border: 1px solid var(--line, #232B3D); border-radius: 24px; background: var(--bg, #080B12); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);">
+
+<button type="button" class="pm-copy" onClick="{{copyLink}}" title="{{shareUrl}}" style="position: absolute; top: 20px; right: 68px; display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line, #232B3D); background: transparent; color: var(--muted, #A6AFC1); font-family: inherit; font-size: 13px; cursor: pointer;">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"></path><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"></path></svg>
+<span aria-live="polite">{{copyLabel}}</span>
+</button>
+<button type="button" class="pm-close" onClick="{{onClose}}" aria-label="닫기" style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line, #232B3D); background: transparent; color: var(--muted, #A6AFC1); cursor: pointer;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+</button>
+
+<header style="display: flex; align-items: center; gap: 18px; padding-right: 190px;">
+<span style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 60px; height: 60px; border-radius: 16px; background: var(--surface2, #182033); font-size: 15px; font-weight: 700; color: var(--muted, #A6AFC1);">{{mono}}</span>
+<div style="min-width: 0;">
+<div style="font-size: 13px; font-weight: 600; color: var(--accent, #FFB547);">{{kindLabel}}</div>
+<h2 class="pm-title" style="margin: 0; font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2;">{{name}}</h2>
+<p style="margin: 4px 0 0; font-size: 17px; color: var(--muted, #A6AFC1);">{{desc}}</p>
+</div>
+</header>
+
+<div class="pm-grid" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 28px;">
+
+<div class="pm-tile pm-s4 pm-strip" style="grid-column: span 4; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 28px; padding: 22px 28px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<div>
+<div style="font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">시작</div>
+<div style="margin-top: 2px; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;">{{start}}</div>
+</div>
+<div class="pm-route" aria-hidden="true" style="position: relative; height: 64px;">
+<svg width="100%" height="56" viewBox="0 0 400 56" preserveAspectRatio="none" fill="none" style="position: absolute; left: 0; top: 0; display: block; overflow: visible;">
+<path d="M2 52 Q200 -20 398 52" style="stroke: var(--line, #232B3D);" stroke-width="1.5" stroke-dasharray="3 6" vector-effect="non-scaling-stroke"></path>
+<defs><clipPath id="{{clipId}}"><rect x="0" y="-30" height="100" width="{{clipW}}"><animate attributeName="width" from="0" to="{{clipW}}" dur="1.2s" begin="0.2s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"></animate></rect></clipPath></defs>
+<path d="M2 52 Q200 -20 398 52" clip-path="url(#{{clipId}})" style="stroke: {{statusColor}};" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+</svg>
+<span style="position: absolute; left: -4px; top: 48px; width: 8px; height: 8px; border-radius: 50%; background: {{statusColor}};"></span>
+<span style="position: absolute; right: -4px; top: 48px; width: 8px; height: 8px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{statusColor}}; background: var(--surface, #0F1420);"></span>
+<span class="pm-plane" style="position: absolute; left: 50%; top: 5px; margin-left: -11px; display: flex; width: 22px; height: 22px;">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(90 12 12)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" style="fill: var(--muted, #A6AFC1);"></path></g></svg>
+</span>
+<div style="position: absolute; left: 0; right: 0; top: 34px; text-align: center; font-size: 13px; color: var(--muted, #A6AFC1); font-variant-numeric: tabular-nums;">{{routeCaption}}</div>
+</div>
+<div style="text-align: right;">
+<div style="font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">{{endLabel}}</div>
+<div style="margin-top: 2px; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;">{{end}}</div>
+</div>
+</div>
+
+<sc-if value="{{hasImage}}" hint-placeholder-val="{{ true }}">
+<div class="pm-tile pm-s4" style="grid-column: span 4; min-height: 320px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface2, #182033); font-size: 14px; color: var(--dim, #8590A5);">{{image}}</div>
+</sc-if>
+
+<div class="pm-tile" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px; padding: 22px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<span style="font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">진행 상황</span>
+<div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; background: {{statusColor}}; box-shadow: 0 0 0 4px color-mix(in srgb, {{statusColor}} 22%, transparent);"></span>
+<span style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: {{statusColor}};">{{statusLabel}}</span>
+</div>
+</div>
+</div>
+
+<div class="pm-tile pm-s3" style="grid-column: span 3; display: flex; flex-direction: column; gap: 14px; padding: 22px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<span style="font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">참여 인원 <span style="color: var(--muted, #A6AFC1); font-variant-numeric: tabular-nums;">{{memberCount}}</span></span>
+<div class="pm-members" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px;">
+<sc-for list="{{members}}" as="m" hint-placeholder-count="3">
+<a class="pm-member" href="{{m.href}}" style="display: flex; align-items: center; gap: 10px; min-width: 0; padding: 8px 10px; border-radius: 12px; color: var(--text, #E8ECF4); text-decoration: none;">
+<span style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: {{m.avatarBg}}; font-size: 12px; font-weight: 700; color: {{m.avatarFg}};">{{m.initial}}</span>
+<span style="display: flex; flex-direction: column; min-width: 0;">
+<span style="font-size: 14.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{m.name}}</span>
+<span style="font-size: 12.5px; color: var(--muted, #A6AFC1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{m.role}}</span>
+</span>
+</a>
+</sc-for>
+</div>
+</div>
+
+<article class="pm-tile pm-s2" style="grid-column: span 2; padding: 24px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<h3 style="margin: 0; font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">개요</h3>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 1.8;">{{overview}}</p>
+</article>
+
+<article class="pm-tile pm-s2" style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; padding: 24px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<h3 style="margin: 0; font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">기술 스택</h3>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{stack}}" as="t" hint-placeholder-count="6">
+<span style="display: inline-flex; align-items: center; gap: 7px; min-height: 32px; padding: 0 12px 0 4px; border: 1px solid var(--line, #232B3D); border-radius: 999px; font-size: 13.5px; font-weight: 500;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface2, #182033); font-size: 9px; font-weight: 700; color: var(--muted, #A6AFC1);">{{t.m}}</span>{{t.n}}</span>
+</sc-for>
+</div>
+</article>
+
+<sc-for list="{{sections}}" as="sec" hint-placeholder-count="3">
+<article class="pm-tile pm-s2" style="grid-column: span 2; display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<span style="font-size: 13px; font-weight: 600; color: var(--accent, #FFB547);">{{sec.no}}</span>
+<h3 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">{{sec.title}}</h3>
+<p style="margin: 0; font-size: 15px; line-height: 1.8; color: var(--muted, #A6AFC1);">{{sec.body}}</p>
+<sc-if value="{{sec.figure}}" hint-placeholder-val="{{ false }}">
+<div style="margin-top: 6px; min-height: 160px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: var(--surface2, #182033); font-size: 13px; color: var(--dim, #8590A5);">{{sec.figure}}</div>
+</sc-if>
+</article>
+</sc-for>
+
+<sc-if value="{{hasLinks}}" hint-placeholder-val="{{ true }}">
+<div class="pm-tile pm-s4" style="grid-column: span 4; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 20px 24px; border: 1px solid var(--line, #232B3D); border-radius: 18px; background: var(--surface, #0F1420);">
+<span style="margin-right: 6px; font-size: 13px; font-weight: 500; color: var(--dim, #8590A5);">링크</span>
+<sc-for list="{{links}}" as="l" hint-placeholder-count="3">
+<a href="{{l.href}}" class="pm-link" style="display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 0 13px 0 4px; border: 1px solid var(--line, #232B3D); border-radius: 999px; color: var(--text, #E8ECF4); text-decoration: none; font-size: 13.5px;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--surface2, #182033); font-size: 9px; font-weight: 700; color: var(--muted, #A6AFC1);">{{l.m}}</span>{{l.label}}<span style="color: var(--dim, #8590A5);">↗</span></a>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+
+<nav aria-label="다른 프로젝트" style="display: flex; justify-content: space-between; gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line, #232B3D);">
+<sc-if value="{{hasPrev}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="pm-nav" onClick="{{onPrev}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 0; border: none; background: transparent; color: var(--text, #E8ECF4); font-family: inherit; text-align: left; cursor: pointer;"><span style="font-size: 13px; color: var(--dim, #8590A5);">← 이전 프로젝트</span><span style="font-size: 17px; font-weight: 700;">{{prevName}}</span></button>
+</sc-if>
+<span style="flex: 1;"></span>
+<sc-if value="{{hasNext}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="pm-nav" onClick="{{onNext}}" style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 8px 0; border: none; background: transparent; color: var(--text, #E8ECF4); font-family: inherit; text-align: right; cursor: pointer;"><span style="font-size: 13px; color: var(--dim, #8590A5);">다음 프로젝트 →</span><span style="font-size: 17px; font-weight: 700;">{{nextName}}</span></button>
+</sc-if>
+</nav>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"project":{"editor":null},"onClose":{"editor":null},"onPrev":{"editor":null},"onNext":{"editor":null},"prevName":{"editor":null},"nextName":{"editor":null},"$preview":{"width":1200,"height":1500}}'>
+var S = function (m, n) { return { m: m, n: n }; };
+var ME = function (role) { return { name: '최호승', role: role, gh: 'startergate', me: true }; };
+var M = function (name, role, gh) { return { name: name, role: role, gh: gh || '' }; };
+var TBD_SECTIONS = [
+  { no: '01', title: '[주요 작업 1]', body: '[무엇을 했고 어떤 문제를 해결했는지]' },
+  { no: '02', title: '[주요 작업 2]', body: '[무엇을 했고 어떤 문제를 해결했는지]', figure: '[아키텍처 다이어그램]' },
+  { no: '03', title: '[주요 작업 3]', body: '[무엇을 했고 어떤 문제를 해결했는지]' }
+];
+var DETAILS = {
+  admin: {
+    days: '1,916', range: '2020.12.31 — 2026.03.31', team: 'FETCHING', roles: ['Full-stack'], image: '[대표 스크린샷]',
+    members: [ME('개발'), { name: 'FETCHING 팀', role: '팀', gh: 'Fetching-Korea', team: true }],
+    overview: '페칭에 근무하며 개발한 어드민 시스템입니다. 이전 어드민부터 현재 사용 중인 어드민의 신규 개발까지 참여했고, 백엔드와 프론트엔드를 모두 담당했습니다.',
+    stack: [S('TS','TypeScript'), S('N','Node.js'), S('Nx','Next.js'), S('Ne','Nest.js'), S('My','MySQL'), S('Au','Aurora MySQL'), S('ECS','AWS ECS')],
+    sections: [
+      { no: '01', title: '커머스 관리', body: '주문·취소·외부 PG 연동 같은 결제 시스템과 기획전·이벤트 등 콘텐츠 시스템을 최초 개발부터 운영까지 맡았고, 배포 파이프라인 구축에도 깊이 참여했습니다.' },
+      { no: '02', title: '상품 수집 시스템 관리', body: '크롤러와 피드 수집기의 실행 상황을 모니터링하고, 크롤링 우선순위를 비개발자도 어드민에서 조정할 수 있게 만들었습니다. AWS API 연동과 로컬 서버 통신으로 세밀한 제어가 가능합니다.', figure: '[아키텍처 다이어그램]' },
+      { no: '03', title: '권한 시스템', body: '어드민에서 수행 가능한 행동 단위로 권한을 부여·회수하고, 요청마다 이를 검사하는 시스템을 개발했습니다.' }
+    ],
+    links: []
+  },
+  commerce: {
+    days: '1,681', range: '2021.08.23 — 2026.03.31', team: 'FETCHING', roles: ['Full-stack'],
+    members: [ME('개발'), { name: 'FETCHING 팀', role: '팀', gh: 'Fetching-Korea', team: true }],
+    overview: '[프로젝트 개요]',
+    stack: [S('TS','TypeScript'), S('N','Node.js'), S('Nx','Next.js'), S('Ne','Nest.js'), S('My','MySQL'), S('Au','Aurora MySQL'), S('ECS','AWS ECS')],
+    sections: TBD_SECTIONS, links: []
+  },
+  dotori: {
+    days: '194', range: '2020.02.14 — 2020.08.26', status: 'canceled', statusNote: '동아리 제도 변경으로 미완성 종료', team: '빈실', roles: ['Back-end', '팀장'], image: '[DOTORI 메인 화면]',
+    members: [ME('팀장 · 서버 개발 리드'), M('박준영', '서버 개발', 'Unperknown'), M('최연진', '서버 개발', 'Choi-YeonJin'), M('정현문', '서버 개발', 'hmoon630'), M('권희준', '프론트 개발 리드', 'GwonHeeJun'), M('김아련', '프론트 개발'), M('안채웅', '프론트 개발'), M('이진혁', '프론트 개발')],
+    overview: '광주소프트웨어마이스터고 기숙사 관리와 교내 커뮤니티를 위한 소프트웨어입니다. 노트북 예약, 기상음악 신청, 호실 변경 신청 등의 기능을 제공했습니다.',
+    stack: [S('TS','TypeScript'), S('N','Node.js'), S('Ko','Koa.js'), S('Ma','MariaDB'), S('EC2','AWS EC2')],
+    sections: [
+      { no: '01', title: '처음 해보는 것 투성이', body: '유닛 테스트, 문서화, GitHub Actions 등 여러 DevOps 도구와 Redis, prettier를 처음 도입했고, 11명의 협업을 위해 스프린트와 git flow를 운영했습니다. 가장 많은 것을 배운 프로젝트입니다.' },
+      { no: '02', title: 'Write and Go', body: 'OpenAPI 3.0으로 문서화하고 Jest로 테스트를 작성했습니다. 프론트의 질문이 크게 줄었고, 후반부에는 테스트를 의무화해 커버리지 100%를 달성했습니다.', figure: '[API 문서 · 테스트 화면]' }
+    ],
+    links: [
+      { m: 'GH', label: 'BeanSil/DOTORI-api', href: 'https://github.com/BeanSil/DOTORI-api' },
+      { m: 'GH', label: 'GwonHeeJun/Dotori-Client', href: 'https://github.com/GwonHeeJun/Dotori-Client' },
+      { m: 'GH', label: 'BeanSil/git-flow-automation', href: 'https://github.com/BeanSil/git-flow-automation' }
+    ]
+  },
+  eliverd: {
+    days: '177', range: '2020.04.24 — 2020.10.18', roles: ['Back-end', '팀장'], image: '[앱 화면]',
+    members: [ME('팀장 · 기획 · 서버 개발'), M('박준영', '디자인 · 모바일 앱 개발', 'Unperknown'), M('박종효', '데스크탑 앱 개발', 'Parkjonghyo')],
+    overview: '상품 재고 관리, 온라인 몰 운영, 주문, 배달까지 처리하는 상점 관리 & 배달 서비스입니다. 모든 소상공인이 온라인 판매와 배달을 쓸 수 있게 하는 것을 목표로 개발했고, 2020 GSM 졸업 프로젝트 장려상을 받았습니다.',
+    stack: [S('Py','Python'), S('Dj','Django'), S('My','MySQL'), S('Dk','Docker'), S('EC2','AWS EC2'), S('S3','AWS S3')],
+    sections: [
+      { no: '01', title: '처음 해보는 규모', body: '클라이언트 3개가 하나의 API 서버를 쓰고, 재고·쇼핑몰·추천·주문·결제·배송을 모두 다뤘습니다. 기존 리소스를 재사용할 수 있게 설계하고 문서화로 소통 지연을 막았습니다.' },
+      { no: '02', title: '실무적 설계', body: '실제 서비스를 목표로 컨테이너화와 확장성을 고려했고, 상점별로 주문을 나눠 전달하는 비즈니스 로직에 맞춰 DB를 설계했습니다. 카카오페이와 연동했습니다.', figure: '[서비스 구성도]' },
+      { no: '03', title: '\'그\' 바이러스', body: '코로나19로 온라인 협업만 가능해, 회의는 Discord로, 코드 협업은 GitHub Issue로 진행했습니다.' }
+    ],
+    links: [
+      { m: 'GH', label: 'Eliverd-API', href: 'https://github.com/Junyeong-Market/Eliverd-API' },
+      { m: 'GH', label: 'eliverd_customer', href: 'https://github.com/Junyeong-Market/eliverd_customer' },
+      { m: 'GH', label: 'eliverd_store', href: 'https://github.com/Junyeong-Market/eliverd_store' }
+    ]
+  },
+  lost: {
+    days: '517', range: '2019.03.08 — 2020.08.06', team: 'Tiny Beluga', roles: ['Game', '팀장'],
+    members: [ME('팀장 · 기획 · 게임 개발'), M('박종효', '게임 개발', 'Parkjonghyo'), M('정상현', '게임 개발', 'HumanAdjust'), M('박재홍', 'QA', 'gasd238'), M('오영빈', '작곡', 'dieacake')],
+    overview: '2D 플랫포머 게임으로, Steam에 출시했습니다. [프로젝트 개요 보강]',
+    stack: [S('C#','C#'), S('U','Unity'), S('St','Steamworks')],
+    sections: TBD_SECTIONS,
+    links: [
+      { m: 'St', label: 'Steam', href: 'https://store.steampowered.com/app/1095360/Lost/' },
+      { m: 'GH', label: 'Lost-Issue-Tracker', href: 'https://github.com/tiny-beluga/Lost-Issue-Tracker' }
+    ]
+  },
+  basterds: {
+    days: '21', range: '2019.12.18 — 2020.01.08', roles: ['Back-end', '팀장'],
+    members: [ME('팀장 · 기획 · 서버 개발 · 게임 네트워킹'), M('정민우', '디자인 · 프론트 개발', 'Jeong-Mw'), M('최준혁', '게임 개발', 'Rex0070')],
+    overview: '타워 디펜스 게임입니다. [프로젝트 개요 보강]',
+    stack: [S('Py','Python'), S('TS','TypeScript'), S('C++','C++'), S('N','Node.js'), S('Dj','Django'), S('Ko','Koa.js'), S('UE','Unreal Engine'), S('My','MySQL')],
+    sections: TBD_SECTIONS,
+    links: [
+      { m: 'GH', label: 'Basterds-Game-Server', href: 'https://github.com/startergate/Basterds-Game-Server' },
+      { m: 'GH', label: 'Basterds-Stat-Server', href: 'https://github.com/startergate/Basterds-Stat-Server' }
+    ]
+  },
+  dontafraid: {
+    days: '1', range: '2018.08.07 — 2018.08.08', roles: ['Game'],
+    members: [ME('게임 개발 · 게임 런처 개발'), M('김건', '개발', 'KimGGun'), M('김혜연', '개발', 'KimHye-yeon'), M('nightgrow', '개발')],
+    overview: '해커톤에서 만든 트라우마 치료 게임입니다. [프로젝트 개요 보강]',
+    stack: [S('C#','C#'), S('JS','JavaScript'), S('N','Node.js'), S('U','Unity'), S('El','Electron')],
+    sections: TBD_SECTIONS,
+    links: [ { m: 'GH', label: 'DontAfraid', href: 'https://github.com/Co-Hackaton-2018-8-1/DontAfraid' } ]
+  }
+};
+var STATUS = {
+  planning: { label: '계획 중', endLabel: '종료 예정', color: 'var(--st-plan, #8E97A8)', off: 100 },
+  active: { label: '진행 중', endLabel: '종료', color: 'var(--st-act, #F5C542)', off: 50 },
+  canceled: { label: '취소', endLabel: '취소', color: 'var(--st-cancel, #F87171)', off: 0 },
+  done: { label: '완료', endLabel: '종료', color: 'var(--st-done, #4ADE80)', off: 0 }
+};
+function genericDetail(p) {
+  var toDate = function (s) { return new Date(s.replace(/\./g, '-') + 'T00:00:00'); };
+  var days = p.start ? Math.max(1, Math.round(((p.end ? toDate(p.end) : new Date()) - toDate(p.start)) / 86400000)) : 0;
+  return {
+    days: days.toLocaleString('en-US'), range: (p.start || '') + ' — ' + (p.end || ''),
+    team: p.cat === 'work' ? 'FETCHING' : undefined, solo: p.cat === 'personal',
+    members: [ME('[역할]')], overview: '[프로젝트 개요]',
+    stack: (p.techs || []).map(function (t) { return S(t.replace(/[^A-Za-z0-9#+]/g, '').slice(0, 2), t); }),
+    sections: TBD_SECTIONS, links: []
+  };
+}
+var SAMPLE = { id: 'admin', mono: 'FA', name: 'FETCHING Admin', desc: '페칭 서비스 어드민' };
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    try { setTimeout(function () { self._ov && self._ov.focus({ preventScroll: true }); }, 0); } catch (e) {}
+  }
+  componentWillUnmount() { clearTimeout(this._cp); }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var p = this.props.project || SAMPLE;
+    var d = DETAILS[p.id] || (p.start ? genericDetail(p) : DETAILS.admin);
+    var st = p.status || d.status || 'done';
+    var close = this.props.onClose || function () {};
+    var url = 'startergate.dev/projects/' + p.id;
+    return {
+      dialogLabel: p.name + ' 상세',
+      overlayRef: function (el) { self._ov = el; },
+      mono: p.mono, name: p.name, desc: p.desc,
+      kindLabel: d.team ? d.team + ' 프로젝트' : (d.solo ? '개인 프로젝트' : '팀 프로젝트'),
+      days: d.days, start: d.range.split(' — ')[0], end: (st === 'active' || st === 'planning') && !d.range.split(' — ')[1] ? '—' : (d.range.split(' — ')[1] || '—'),
+      statusColor: STATUS[st].color, statusLabel: STATUS[st].label, endLabel: STATUS[st].endLabel,
+      clipW: st === 'planning' ? 0 : (st === 'active' ? 200 : 400),
+      clipId: 'pmclip-' + p.id,
+      routeCaption: st === 'planning' ? '계획 중' : d.days + '일 · ' + STATUS[st].label,
+      statusNote: d.statusNote || '',
+      hasNote: !!d.statusNote,
+      hasImage: !!d.image, image: d.image || '',
+      memberCount: (d.members || []).filter(function (m) { return !m.team; }).length + '명',
+      members: (d.members || []).map(function (m) {
+        return {
+          name: m.name, role: m.role,
+          initial: m.team ? '팀' : m.name.charAt(0).toUpperCase(),
+          href: m.gh ? 'https://github.com/' + m.gh : '#',
+          avatarBg: m.me ? 'var(--accent, #FFB547)' : 'var(--surface2, #182033)',
+          avatarFg: m.me ? 'var(--accent-ink, #080B12)' : 'var(--muted, #A6AFC1)'
+        };
+      }),
+      overview: d.overview,
+      stack: d.stack, sections: d.sections, links: d.links, hasLinks: d.links.length > 0,
+      hasPrev: !!this.props.prevName, hasNext: !!this.props.nextName,
+      prevName: this.props.prevName || '', nextName: this.props.nextName || '',
+      shareUrl: url,
+      copyLabel: s.copied ? '링크 복사됨' : '링크 복사',
+      copyLink: function () {
+        try { navigator.clipboard && navigator.clipboard.writeText('https://' + url); } catch (e) {}
+        self.setState({ copied: true });
+        clearTimeout(self._cp);
+        self._cp = setTimeout(function () { self.setState({ copied: false }); }, 1800);
+      },
+      onClose: function () { close(); },
+      onPrev: function () { self.props.onPrev && self.props.onPrev(); },
+      onNext: function () { self.props.onNext && self.props.onNext(); },
+      onBackdrop: function () { close(); },
+      stop: function (e) { e.stopPropagation(); },
+      onKey: function (e) {
+        if (e.key === 'Escape') { e.preventDefault(); close(); }
+        else if (e.key === 'ArrowLeft' && self.props.prevName) { self.props.onPrev && self.props.onPrev(); }
+        else if (e.key === 'ArrowRight' && self.props.nextName) { self.props.onNext && self.props.onNext(); }
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
