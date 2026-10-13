@@ -116,6 +116,23 @@ const ko = {
   links: {
     heading: "Links",
   },
+  projectsPage: {
+    filters: {
+      cat: "분류",
+      tech: "사용 기술",
+      type: "프로젝트 유형",
+      status: "진행 상황",
+    },
+    category: {
+      work: "현업",
+      team: "팀 프로젝트",
+      personal: "개인 프로젝트",
+    },
+    resultCountTemplate: "{count}개 프로젝트",
+    noResults: "조건에 맞는 프로젝트가 없어요.",
+    resetFilters: "필터 초기화",
+    removeChipAriaTemplate: "{label} 필터 해제",
+  },
   modal: {
     closeAria: "닫기",
     copyLink: "링크 복사",

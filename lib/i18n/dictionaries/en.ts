@@ -118,6 +118,23 @@ const en: Dictionary = {
   links: {
     heading: "Links",
   },
+  projectsPage: {
+    filters: {
+      cat: "Category",
+      tech: "Tech",
+      type: "Type",
+      status: "Status",
+    },
+    category: {
+      work: "Work",
+      team: "Team project",
+      personal: "Personal project",
+    },
+    resultCountTemplate: "{count} projects",
+    noResults: "No projects match these filters.",
+    resetFilters: "Reset filters",
+    removeChipAriaTemplate: "Remove {label} filter",
+  },
   modal: {
     closeAria: "Close",
     copyLink: "Copy link",

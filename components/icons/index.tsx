@@ -241,3 +241,22 @@ export function LocationPinIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="11"
+      height="11"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m5 12 5 5 9-10" />
+    </svg>
+  );
+}
