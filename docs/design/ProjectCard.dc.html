@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>프로젝트 카드</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<style>
+@font-face{font-family:'Pretendard';src:url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2-variations'),url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2');font-weight:45 920;font-style:normal;font-display:swap}
+body{margin:0}
+</style>
+</helmet>
+<button type="button" class="pcard surf" onClick="{{open}}" aria-haspopup="dialog" aria-label="{{label}}" style="cursor: pointer; text-align: left; font-size: inherit; display: flex; flex-direction: column; gap: 14px; width: 100%; height: 100%; box-sizing: border-box; padding: 18px 20px; border: 1px solid var(--line, #232B3D); border-radius: 16px; background: var(--surface, #0F1420); color: var(--text, #E8ECF4); text-decoration: none; font-family: 'Inter', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; line-height: 1.5;">
+<span style="display: flex; align-items: center; gap: 14px; min-width: 0;">
+<span style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--surface2, #182033); font-size: 12px; font-weight: 700; color: var(--muted, #A6AFC1);">{{mono}}</span>
+<span style="display: flex; flex-direction: column; min-width: 0; flex: 1;">
+<span style="font-size: 17px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{name}}</span>
+<span style="font-size: 13.5px; color: var(--muted, #A6AFC1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{desc}}</span>
+</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; font-size: 12.5px; font-weight: 600; color: {{statusColor}};"><span style="width: 7px; height: 7px; border-radius: 50%; background: {{statusColor}};"></span>{{statusLabel}}</span>
+</span>
+<span style="display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; font-size: 12.5px; color: var(--dim, #8590A5);">
+<sc-for list="{{langs}}" as="l" hint-placeholder-count="1">
+<span style="display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; height: 26px; padding: 0 9px 0 3px; border: 1px solid var(--line, #232B3D); border-radius: 999px; color: var(--text, #E8ECF4); font-weight: 500;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface2, #182033); font-size: 8.5px; font-weight: 700; color: var(--muted, #A6AFC1);">{{l.m}}</span>{{l.n}}</span>
+</sc-for>
+<span aria-hidden="true">·</span>
+<span style="min-width: 0; overflow: hidden; text-overflow: ellipsis;">{{part}}</span>
+<span style="margin-left: auto; flex-shrink: 0; font-family: 'JetBrains Mono', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', monospace; font-size: 11.5px; font-variant-numeric: tabular-nums;">{{period}}</span>
+</span>
+</button>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"project":{"editor":null},"onOpen":{"editor":null},"$preview":{"width":560,"height":124}}'>
+var STATUS = {
+  planning: { label: '계획 중', color: 'var(--st-plan, #8E97A8)' },
+  active: { label: '진행 중', color: 'var(--st-act, #F5C542)' },
+  canceled: { label: '취소', color: 'var(--st-cancel, #F87171)' },
+  done: { label: '완료', color: 'var(--st-done, #4ADE80)' }
+};
+var SAMPLE = { mono: 'FA', name: 'FETCHING Admin', desc: '페칭 서비스 어드민', langs: [{ m: 'TS', n: 'TypeScript' }], part: 'Full-stack', period: '2020 — 26', status: 'done' };
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var p = this.props.project || SAMPLE;
+    return {
+      mono: p.mono, name: p.name, desc: p.desc,
+      langs: p.langs || [], part: p.part, period: p.period,
+      statusLabel: (STATUS[p.status] || STATUS.done).label,
+      statusColor: (STATUS[p.status] || STATUS.done).color,
+      label: p.name + ' 상세 보기 · ' + (STATUS[p.status] || STATUS.done).label,
+      open: function () { self.props.onOpen && self.props.onOpen(); }
+    };
+  }
+}
+</script>
+</body>
+</html>

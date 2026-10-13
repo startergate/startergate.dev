@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>startergate.dev 타임라인</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap">
+<style>
+@font-face{font-family:'Pretendard';src:url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2-variations'),url(/_blob/ac65f40825ff4a824106986fd4efaa40) format('woff2');font-weight:45 920;font-style:normal;font-display:swap}
+body{margin:0}
+.t-dark{--bg:#080B12;--surface:#0F1420;--surface2:#182033;--line:#232B3D;--text:#E8ECF4;--muted:#A6AFC1;--dim:#8590A5;--star:#DDE4F2;--hill1:#101828;--hill2:#0B111D;--satbody:#1A2235;--glass:rgba(15,20,32,0.82);--glass2:rgba(15,20,32,0);--sky:#4E586C;--skyline:#1C2333;--starop:1}
+.t-dark.skybg{background:linear-gradient(to bottom,#03050B 0%,#060A16 16%,#0B1428 34%,#12204A 56%,#1C2D5E 74%,#2E3468 88%,#4A3F70 96%,#5A4673 100%)}
+.t-dark .surf{background:rgba(13,19,34,0.78)!important;backdrop-filter:blur(6px)}
+.t-light{--bg:#F4F6FA;--surface:#FFFFFF;--surface2:#E9EDF4;--line:#DBE0EA;--text:#0F1522;--muted:#495266;--dim:#636C82;--star:#8D99B2;--hill1:#D5DCE8;--hill2:#C3CCDB;--satbody:#FFFFFF;--glass:rgba(255,255,255,0.86);--glass2:rgba(255,255,255,0);--sky:#A3ACBD;--skyline:#E2E6EE;--starop:.35}
+.t-light.skybg{background:linear-gradient(to bottom,#A9C3E8 0%,#C3D5EF 18%,#DAE5F4 40%,#EBF0F7 62%,#F6EFE7 84%,#F5DEC6 100%)}
+.t-light .surf{background:rgba(255,255,255,0.82)!important;backdrop-filter:blur(6px)}
+.meteor{position:absolute;width:120px;height:1.5px;background:linear-gradient(to left,var(--star),transparent);opacity:0;transform:rotate(-24deg);animation:meteor 14s ease-in infinite}
+@keyframes meteor{0%,86%{opacity:0;transform:translate(0,0) rotate(-24deg)}88%{opacity:.8}96%{opacity:0;transform:translate(-340px,150px) rotate(-24deg)}100%{opacity:0}}
+a{color:var(--text);text-decoration:none}
+a:hover{color:var(--accent)}
+.mono{font-family:'JetBrains Mono','Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',ui-monospace,monospace}
+.num{font-variant-numeric:tabular-nums}
+.navlink{color:var(--text);font-weight:600;font-size:14px;transition:color .15s ease}
+.navlink:hover{color:var(--accent)}
+.icon-btn{cursor:pointer;transition:all .15s ease}
+.icon-btn:hover{color:var(--text)!important;border-color:var(--text)!important}
+.logo-btn{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.logo-trigger:hover .logo-btn{transform:scale(1.05);box-shadow:0 0 0 3px var(--accent)}
+.pill-btn{cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px;height:36px;padding:0;border:none;border-radius:50%;background:transparent;color:var(--muted);transition:background .15s ease,color .15s ease}
+.pill-btn:hover{background:var(--surface2);color:var(--text)}
+.menu-chev{transition:transform .3s ease}
+.nav-toggle[aria-expanded="true"] .menu-chev{transform:rotate(180deg)}
+.nav-links{display:flex;align-items:center;gap:22px;max-width:0;padding:0;opacity:0;overflow:hidden;white-space:nowrap;visibility:hidden;transition:max-width .4s cubic-bezier(.2,.8,.2,1),padding .4s ease,opacity .25s ease,visibility 0s linear .4s}
+.nav-links.is-open{max-width:460px;padding:0 14px 0 4px;opacity:1;visibility:visible;transition:max-width .4s cubic-bezier(.2,.8,.2,1),padding .4s ease,opacity .3s ease .08s,visibility 0s}
+.nav-links .navlink{font-size:14px}
+@media (max-width:700px){.nav-links{position:absolute;top:calc(100% + 8px);right:0;flex-direction:column;align-items:stretch;gap:0;max-width:none;max-height:0;padding:0;border-radius:14px;background:var(--glass);backdrop-filter:blur(12px);transition:max-height .35s ease,opacity .25s ease,visibility 0s linear .35s}.nav-links.is-open{max-height:300px;padding:6px;max-width:none;transition:max-height .35s ease,opacity .25s ease,visibility 0s}.nav-links .navlink{display:flex;align-items:center;min-height:44px;padding:0 14px}.nav-toggle[aria-expanded="true"] .menu-chev{transform:rotate(-90deg)}}
+.is-hidden{display:none!important}
+.menu-in{animation:menuIn .18s ease-out}
+@keyframes menuIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.menu-link{transition:background .15s ease}
+.flag{display:block;flex-shrink:0;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,0.18)}
+.lang-chev{transition:transform .2s ease}
+.lang-cur[aria-expanded="true"] .lang-chev{transform:rotate(180deg)}
+.lang-opt{cursor:pointer;display:flex;align-items:center;gap:10px;width:100%;box-sizing:border-box;min-height:40px;padding:0 10px;border:none;border-radius:10px;background:transparent;color:var(--text);font-family:inherit;text-align:left;transition:background .15s ease}
+.lang-opt:hover{background:var(--surface2)}
+.lang-opt.is-on{background:var(--surface2)}
+.menu-link:hover{background:var(--surface2)}
+.sec-label{display:flex;align-items:center;gap:12px}
+.sec-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.star{position:absolute;border-radius:50%;background:var(--star)}
+.twinkle{animation:twinkle 3.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+.skydot{position:absolute;width:0;height:0;animation:drift 70s linear infinite}
+@keyframes drift{0%{transform:translate(0,0);opacity:0}6%{opacity:1}94%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.sky-pt{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.75;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);transition:transform .2s ease,opacity .2s ease}
+.sky-trail{position:absolute;left:0;top:-1px;width:46px;height:2px;transform-origin:0 50%;background:linear-gradient(to right,color-mix(in srgb,var(--accent) 35%,transparent),transparent)}
+.sky-label{position:absolute;left:11px;top:-9px;white-space:nowrap;font-size:11px;letter-spacing:.02em;color:var(--sky);transition:color .2s ease}
+.skydot:hover .sky-label{color:var(--muted)}
+.sky-meta{display:block;max-height:0;opacity:0;overflow:hidden;font-size:10px;transition:max-height .2s ease,opacity .2s ease}
+.skydot:hover .sky-meta{max-height:16px;opacity:1}
+.skydot:hover .sky-pt{transform:scale(1.4);opacity:1}
+.compass{position:absolute;top:10px;transform:translateX(-50%);font-size:11px;color:var(--sky)}
+.fab{cursor:pointer;transition:all .15s ease}
+.fab:hover{color:var(--text)!important}
+.t-dark{--fab-bg:rgba(15,20,32,0);--fab-on:rgba(232,236,244,0.2)}
+.t-light{--fab-bg:rgba(15,21,34,0.08);--fab-on:rgba(15,21,34,0.16)}
+.fab.is-on{background:var(--fab-on)!important;color:var(--text)!important}
+.fab-emoji{font-size:18px;line-height:1;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;opacity:.6;transition:opacity .15s ease}
+.fab:hover .fab-emoji,.fab.is-on .fab-emoji{opacity:1}
+.blink{animation:blinkl 1.4s steps(1) infinite}
+@keyframes blinkl{50%{opacity:0}}
+.cue{animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.slogan{display:inline-block;background:var(--text);color:var(--bg);padding:0 14px 4px}
+.seg{cursor:pointer;transition:all .15s ease}
+.seg.is-on{background:var(--text)!important;color:var(--bg)!important}
+.badge{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 13px 0 5px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px;font-weight:500;transition:border-color .15s ease,transform .15s ease}
+.badge:hover{border-color:var(--accent);transform:translateY(-1px)}
+.t-dark .badge{background:rgba(13,19,34,0.72)}
+.t-light .badge{background:rgba(255,255,255,0.78)}
+.logo{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--surface2);font-size:9.5px;font-weight:700;color:var(--muted);letter-spacing:-0.02em}
+.pcard{transition:border-color .2s ease,transform .2s ease}
+.pcard:hover{border-color:var(--accent)!important;transform:translateY(-3px)}
+.pcard:hover .p-go{color:var(--accent);transform:translate(2px,-2px)}
+.p-go{transition:transform .2s ease,color .2s ease}
+.exp{transition:border-color .2s ease}
+.tl-link{transition:border-color .2s ease,transform .2s ease}
+.tl-link:hover{border-color:var(--accent)!important;transform:translateY(-2px)}
+.exp:hover,.exp:focus-within,.exp.is-open{border-color:var(--accent)!important}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.more>div{overflow:hidden}
+.exp:hover .more,.exp:focus-within .more,.exp.is-open .more{grid-template-rows:1fr}
+.exp .chev{transition:transform .25s ease}
+.exp:hover .chev,.exp.is-open .chev{transform:rotate(180deg)}
+.btn{cursor:pointer;transition:all .15s ease}
+.btn-ghost:hover{border-color:var(--text)!important}
+.signal{background:repeating-linear-gradient(to top,var(--accent) 0 6px,transparent 6px 14px);animation:signal 1.2s linear infinite;opacity:.7}
+@keyframes signal{from{background-position:0 0}to{background-position:0 -28px}}
+.about strong{color:var(--text);font-weight:600}
+.egg{font-family:'JetBrains Mono','Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',ui-monospace,monospace}
+.egg-opt{cursor:pointer;color:#E8E8E8;background:none;border:none;font:inherit;padding:6px 4px;text-decoration:none}
+.egg-opt:hover{background:#E8E8E8;color:#000}
+.egg-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;box-sizing:border-box;text-align:left;min-height:34px}
+.egg-val{color:#9A9A9A}
+.egg-opt:hover .egg-val{color:#333}
+.egg-input{flex:1;min-width:0;min-height:32px;background:transparent;border:none;outline:none;color:#E8E8E8;font:inherit;caret-color:#E8E8E8;padding:0}
+.egg-input::placeholder{color:#5A5A5A}
+.pulse{animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}100%{box-shadow:0 0 0 8px transparent}}
+.t-dark{--ok:#4ADE80}
+.t-light{--ok:#16A34A}
+.pulse-ok{animation:pulseok 2s ease-out infinite}
+@keyframes pulseok{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 55%,transparent)}100%{box-shadow:0 0 0 5px transparent}}
+.status-chip{transition:color .15s ease}
+.status-chip:hover{color:var(--muted)!important}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}100%{box-shadow:0 0 0 5px transparent}}
+.launcher{cursor:pointer;transition:all .2s ease}
+.lx-dot{max-width:0;margin-right:0;opacity:0;flex-shrink:0;transition:max-width .25s ease,margin .25s ease,opacity .2s ease}
+.lx-label{display:inline-block;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;font-size:12.5px;transition:max-width .25s ease,margin .25s ease,opacity .2s ease}
+.launcher:hover .lx-dot,.launcher:focus-visible .lx-dot{max-width:7px;margin-right:10px;opacity:1}
+.launcher:hover .lx-label,.launcher:focus-visible .lx-label{max-width:140px;margin-left:8px;opacity:1}
+.launcher:hover{border-color:var(--accent)!important}
+.egg-grow{animation:eggGrow .38s cubic-bezier(.2,.8,.2,1) both}
+.egg-shrink{animation:eggShrink .24s cubic-bezier(.4,0,.6,1) both}
+@keyframes eggGrow{from{clip-path:inset(calc(100% - 46px) calc(100% - 46px) 0 0 round 23px)}to{clip-path:inset(0 0 0 0 round 0)}}
+@keyframes eggShrink{from{clip-path:inset(0 0 0 0 round 0)}to{clip-path:inset(calc(100% - 46px) calc(100% - 46px) 0 0 round 23px)}}
+.egg-grow .egg-body{animation:eggFade .3s ease .14s both}
+.egg-shrink .egg-body{animation:eggFadeOut .12s ease both}
+@keyframes eggFade{from{opacity:0}to{opacity:1}}
+@keyframes eggFadeOut{from{opacity:1}to{opacity:0}}
+.egg-cursor{display:inline-block;width:.55em;height:1.05em;background:#E8E8E8;vertical-align:-0.16em;animation:blinkl 1s steps(1) infinite}
+.egg-in{animation:eggIn .35s ease-out}
+@keyframes eggIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px;box-sizing:border-box}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.agrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 64px}
+
+
+@media (max-width:700px){.wrap{padding:0 20px}.pgrid,.agrid{grid-template-columns:minmax(0,1fr)}.hero-title{font-size:40px!important}.compass-mid{display:none}.hide-sm{display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.filter-label{display:inline-flex;align-items:center;min-width:44px;font-size:13px;font-weight:600;color:var(--dim)}
+.chip{cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;font-weight:500;transition:all .15s ease}
+.t-dark .chip{background:rgba(13,19,34,0.72)}
+.t-light .chip{background:rgba(255,255,255,0.78)}
+.chip:hover{border-color:var(--text)}
+.chip.is-on,.chip.is-on:hover{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip-count{font-size:12px;opacity:.65;font-variant-numeric:tabular-nums}
+.chip-reset{cursor:pointer;min-height:38px;padding:0 10px;border:none;background:transparent;color:var(--accent);font-family:inherit;font-size:13.5px;font-weight:500}
+.chip-reset:hover{text-decoration:underline}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.tl-axis{position:absolute;top:8px;bottom:40px;left:125px;width:1px;background:var(--line)}
+.tl-row{position:relative;display:grid;grid-template-columns:110px minmax(0,1fr);gap:0 44px;padding-bottom:36px}
+.tl-year{padding-top:18px;font-size:22px;font-weight:700;letter-spacing:-0.02em;text-align:right;font-variant-numeric:tabular-nums}
+.tl-item{position:relative;padding:18px 22px;border:1px solid var(--line);border-radius:16px;background:var(--surface);transition:border-color .2s ease,transform .2s ease}
+.tl-item:hover{border-color:var(--accent);transform:translateX(3px)}
+.tl-dot{position:absolute;left:-25px;top:26px;width:11px;height:11px;border-radius:50%}
+.dot-award{background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.dot-career{background:var(--text)}
+.dot-other{background:var(--bg);border:2px solid var(--muted);box-sizing:border-box}
+.tl-type{display:inline-flex;align-items:center;min-height:24px;padding:0 10px;border-radius:999px;background:var(--surface2);font-size:12px;font-weight:600;color:var(--muted)}
+@media (max-width:700px){.page-title{font-size:32px!important}header#top{padding-right:200px!important}.plist{grid-template-columns:minmax(0,1fr)}.tl-axis{display:none}.tl-row{grid-template-columns:minmax(0,1fr)}.tl-year{text-align:left;padding:0 0 8px}.tl-dot{display:none}}
+.nav-soon{position:relative;display:inline-grid;cursor:default;color:var(--dim)}
+.nav-soon>span{grid-area:1/1;transition:opacity .15s ease}
+.nav-soon .ns-b{opacity:0;color:var(--accent);font-size:13px;white-space:nowrap;justify-self:center}
+.nav-soon:hover .ns-a,.nav-soon:focus .ns-a{opacity:0}
+.nav-soon:hover .ns-b,.nav-soon:focus .ns-b{opacity:1}
+.egg-cmd{display:inline-block;min-width:44px;color:#FFFFFF;font-weight:700}
+.nav-links.is-open{max-width:600px!important}
+</style>
+</helmet>
+<div class="skybg {{themeClass}} {{railClass}}" style="--accent: {{accent}}; --accent-ink: {{accentInk}}; position: relative; color: var(--text); min-height: 100%; font-family: 'Inter', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden;">
+<svg width="0" height="0" aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;">
+<defs>
+<symbol id="flag-kr" viewBox="0 0 30 20">
+<rect width="30" height="20" fill="#FFFFFF"></rect>
+<circle cx="15" cy="10" r="5" fill="#0047A0"></circle>
+<path d="M10 10a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0z" fill="#CD2E3A"></path>
+<g fill="#000000">
+<g transform="translate(5.2 3.5) rotate(56.3)"><rect x="-2" y="-1.8" width="4" height="0.8"></rect><rect x="-2" y="-0.4" width="4" height="0.8"></rect><rect x="-2" y="1" width="4" height="0.8"></rect></g>
+<g transform="translate(24.8 16.5) rotate(56.3)"><rect x="-2" y="-1.8" width="1.8" height="0.8"></rect><rect x="0.2" y="-1.8" width="1.8" height="0.8"></rect><rect x="-2" y="-0.4" width="1.8" height="0.8"></rect><rect x="0.2" y="-0.4" width="1.8" height="0.8"></rect><rect x="-2" y="1" width="1.8" height="0.8"></rect><rect x="0.2" y="1" width="1.8" height="0.8"></rect></g>
+<g transform="translate(24.8 3.5) rotate(-56.3)"><rect x="-2" y="-1.8" width="1.8" height="0.8"></rect><rect x="0.2" y="-1.8" width="1.8" height="0.8"></rect><rect x="-2" y="-0.4" width="4" height="0.8"></rect><rect x="-2" y="1" width="1.8" height="0.8"></rect><rect x="0.2" y="1" width="1.8" height="0.8"></rect></g>
+<g transform="translate(5.2 16.5) rotate(-56.3)"><rect x="-2" y="-1.8" width="4" height="0.8"></rect><rect x="-2" y="-0.4" width="1.8" height="0.8"></rect><rect x="0.2" y="-0.4" width="1.8" height="0.8"></rect><rect x="-2" y="1" width="4" height="0.8"></rect></g>
+</g>
+</symbol>
+<symbol id="flag-us" viewBox="0 0 30 20">
+<rect width="30" height="20" fill="#FFFFFF"></rect>
+<g fill="#B22234"><rect y="0" width="30" height="1.54"></rect><rect y="3.08" width="30" height="1.54"></rect><rect y="6.15" width="30" height="1.54"></rect><rect y="9.23" width="30" height="1.54"></rect><rect y="12.31" width="30" height="1.54"></rect><rect y="15.38" width="30" height="1.54"></rect><rect y="18.46" width="30" height="1.54"></rect></g>
+<rect width="12" height="10.77" fill="#3C3B6E"></rect>
+<g fill="#FFFFFF"><circle cx="2" cy="1.8" r="0.45"></circle><circle cx="5" cy="1.8" r="0.45"></circle><circle cx="8" cy="1.8" r="0.45"></circle><circle cx="10.5" cy="1.8" r="0.45"></circle><circle cx="3.5" cy="4" r="0.45"></circle><circle cx="6.5" cy="4" r="0.45"></circle><circle cx="9.3" cy="4" r="0.45"></circle><circle cx="2" cy="6.2" r="0.45"></circle><circle cx="5" cy="6.2" r="0.45"></circle><circle cx="8" cy="6.2" r="0.45"></circle><circle cx="10.5" cy="6.2" r="0.45"></circle><circle cx="3.5" cy="8.6" r="0.45"></circle><circle cx="6.5" cy="8.6" r="0.45"></circle><circle cx="9.3" cy="8.6" r="0.45"></circle></g>
+</symbol>
+</defs>
+</svg>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 1600px; opacity: var(--starop); -webkit-mask-image: linear-gradient(to bottom, #000, transparent); mask-image: linear-gradient(to bottom, #000, transparent); pointer-events: none;">
+<sc-for list="{{farStars}}" as="s" hint-placeholder-count="30">
+<span class="star {{s.cls}}" style="left: {{s.x}}%; top: {{s.y}}%; width: {{s.size}}px; height: {{s.size}}px; opacity: {{s.o}}; animation-delay: {{s.d}}s;"></span>
+</sc-for>
+</div>
+
+<nav aria-label="주 메뉴" style="position: fixed; top: 24px; right: 32px; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div class="nav-pill" style="position: relative; display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: var(--glass2); backdrop-filter: blur(10px);">
+<button type="button" class="pill-btn nav-toggle" onClick="{{toggleMenu}}" aria-label="{{menuLabel}}" aria-expanded="{{menuExpanded}}" aria-controls="nav-links">
+<svg class="menu-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+</button>
+<div id="nav-links" class="nav-links {{navLinksCls}}">
+<a class="navlink" href="https://github.com/startergate">GitHub</a>
+<a class="navlink" href="Projects.dc.html">Projects</a>
+<a class="navlink" href="Timeline.dc.html">Timeline</a>
+<a class="navlink" href="https://startergate.dev/Conferences">Conferences</a>
+<span class="navlink nav-soon" tabindex="0" aria-label="Blog, 준비 중"><span class="ns-a">Blog</span><span class="ns-b" aria-hidden="true">준비 중</span></span>
+<a class="navlink" href="Main.dc.html#resume">CV</a>
+</div>
+<div class="lang-wrap" style="position: relative;">
+<button type="button" class="pill-btn lang-cur" onClick="{{toggleLangMenu}}" aria-haspopup="listbox" aria-expanded="{{langMenuExpanded}}" aria-label="{{langAria}}" title="{{langAria}}">
+<sc-if value="{{isKo}}" hint-placeholder-val="{{ true }}"><svg class="flag" width="22" height="15" viewBox="0 0 30 20" aria-hidden="true"><use href="#flag-kr"></use></svg></sc-if>
+<sc-if value="{{isEn}}" hint-placeholder-val="{{ false }}"><svg class="flag" width="22" height="15" viewBox="0 0 30 20" aria-hidden="true"><use href="#flag-us"></use></svg></sc-if>
+</button>
+<sc-if value="{{langMenuOpen}}" hint-placeholder-val="{{ false }}">
+<div class="menu-in" role="listbox" aria-label="언어 선택 Language" style="position: absolute; right: -8px; top: calc(100% + 10px); z-index: 5; width: 168px; box-sizing: border-box; padding: 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--glass); backdrop-filter: blur(12px); box-shadow: 0 16px 40px rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 2px;">
+<button type="button" role="option" class="lang-opt {{langKo}}" aria-selected="{{pressKo}}" onClick="{{useKo}}" lang="ko"><svg class="flag" width="22" height="15" viewBox="0 0 30 20" aria-hidden="true"><use href="#flag-kr"></use></svg><span class="mono" style="font-weight: 700; font-size: 12.5px;">KO</span><span style="color: var(--muted); font-size: 13px;">한국어</span></button>
+<button type="button" role="option" class="lang-opt {{langEn}}" aria-selected="{{pressEn}}" onClick="{{useEn}}" lang="en"><svg class="flag" width="22" height="15" viewBox="0 0 30 20" aria-hidden="true"><use href="#flag-us"></use></svg><span class="mono" style="font-weight: 700; font-size: 12.5px;">EN</span><span style="color: var(--muted); font-size: 13px;">English</span></button>
+</div>
+</sc-if>
+</div>
+<button type="button" class="pill-btn" onClick="{{toggleTheme}}" aria-label="{{themeLabel}}">
+<sc-if value="{{isDark}}" hint-placeholder-val="{{ true }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</sc-if>
+<sc-if value="{{isLight}}" hint-placeholder-val="{{ false }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+</sc-if>
+</button>
+</div>
+<a class="logo-trigger" href="Main.dc.html" aria-label="STARTERGATE 홈" style="display: flex;">
+<span class="logo-btn" style="display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: #F2F3F5;">
+<svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><path d="M17 3 29 10v14L17 31 5 24V10z" stroke="#1B1F27" stroke-width="2.4" stroke-linejoin="round"></path></svg>
+</span>
+</a>
+</div>
+</nav>
+
+<div class="wrap" style="position: relative; z-index: 1;">
+<header id="top" style="display: flex; align-items: center; min-height: 64px; padding-top: 24px; padding-right: 360px;">
+<h1 class="page-title" style="margin: 0; font-size: 44px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15;">Timeline</h1>
+</header>
+
+<section aria-label="소개와 필터" style="padding: 48px 0 40px;">
+<div role="group" aria-label="분류 필터" style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{tlFilters}}" as="f" hint-placeholder-count="6">
+<button type="button" class="chip {{f.cls}}" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}">{{f.label}}<span class="chip-count">{{f.count}}</span></button>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="타임라인" style="position: relative; max-width: 900px; padding-bottom: 40px;">
+<div aria-hidden="true" class="tl-axis"></div>
+<sc-for list="{{years}}" as="yr" hint-placeholder-count="4">
+<div class="tl-row">
+<div class="tl-year">{{yr.year}}</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<sc-for list="{{yr.items}}" as="it" hint-placeholder-count="3">
+<article class="tl-item surf">
+<span aria-hidden="true" class="tl-dot {{it.dot}}"></span>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;">
+<span class="tl-type">{{it.typeLabel}}</span>
+<span class="mono" style="font-size: 12.5px; color: var(--dim); font-variant-numeric: tabular-nums;">{{it.date}}</span>
+</div>
+<h2 style="margin: 8px 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.01em;">{{it.title}}</h2>
+<p style="margin: 2px 0 0; font-size: 14.5px; color: var(--muted);">{{it.sub}}</p>
+</article>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+</div>
+
+<footer style="position: relative; height: 240px; margin-top: 120px;">
+<svg aria-hidden="true" width="100%" height="220" viewBox="0 0 1440 220" preserveAspectRatio="none" style="position: absolute; left: 0; right: 0; bottom: 0; display: block;">
+<path d="M0 90 C 260 50, 480 96, 720 70 C 960 44, 1180 92, 1440 64 L1440 220 L0 220 Z" style="fill: var(--hill1);"></path>
+<path d="M0 140 C 240 112, 460 150, 700 130 C 940 110, 1180 150, 1440 126 L1440 220 L0 220 Z" style="fill: var(--hill2);"></path>
+</svg>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;">
+<div class="wrap" style="padding-bottom: 36px; display: flex; justify-content: center; text-align: center; font-size: 13px; color: var(--muted);">
+<span>© 2026 startergate</span>
+</div>
+</div>
+</footer>
+
+<div style="position: fixed; right: 24px; bottom: 24px; z-index: 25; display: flex; align-items: center; gap: 10px;">
+<a class="fab" href="#top" aria-label="맨 위로" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--fab-bg); backdrop-filter: blur(10px); color: var(--muted);">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+</a>
+</div>
+
+<sc-if value="{{eggClosed}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="launcher mono" onClick="{{openEgg}}" aria-label="지상국 콘솔 열기" aria-expanded="false" style="position: fixed; left: 24px; bottom: 24px; z-index: 25; display: flex; align-items: center; height: 46px; min-width: 46px; box-sizing: border-box; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--fab-bg); backdrop-filter: blur(10px); color: var(--muted); font-size: 13px;"><span class="lx-dot blink" style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent);"></span><span style="font-weight: 700;">&gt;_</span><span class="lx-label">ground station</span></button>
+</sc-if>
+
+<sc-if value="{{eggVisible}}" hint-placeholder-val="{{ false }}">
+<aside class="egg {{eggAnim}}" role="dialog" aria-label="지상국 콘솔" onKeyDown="{{onPanelKey}}" style="position: fixed; left: 24px; bottom: 24px; z-index: 30; width: 520px; max-width: calc(100vw - 32px); box-sizing: border-box; background: #000000; color: #E8E8E8; font-size: 13px; line-height: 1.7; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
+<div class="egg-body" style="padding: 22px 24px 18px;">
+<div style="display: flex; justify-content: space-between; gap: 12px;">
+<p style="margin: 0;">satellite 와의 교신이 연결되었습니다.<br><span style="color: #9A9A9A;">항목을 누르거나 명령을 입력하세요.</span></p>
+<button type="button" class="egg-opt" onClick="{{closeEgg}}" aria-label="콘솔 닫기" style="align-self: flex-start; padding: 0 4px;">[x]</button>
+</div>
+<div aria-hidden="true" style="margin-top: 14px; white-space: nowrap; overflow: hidden; color: #9A9A9A;">=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</div>
+<div style="border-left: 1px solid #9A9A9A; border-right: 1px solid #9A9A9A; padding: 8px 12px; display: flex; flex-direction: column;">
+<button type="button" class="egg-opt egg-row" onClick="{{cmdTheme}}"><span><span class="egg-cmd">theme</span>테마 전환</span><span class="egg-val">{{themeName}}</span></button>
+<button type="button" class="egg-opt egg-row" onClick="{{cmdLang}}"><span><span class="egg-cmd">lang</span>언어</span><span class="egg-val">{{langName}}</span></button>
+<div class="egg-row" style="padding: 6px 4px; flex-wrap: wrap; justify-content: flex-start; gap: 4px 10px;">
+<span><span class="egg-cmd">goto</span>이동</span>
+<a class="egg-opt" href="#about" style="padding: 0 4px;">about</a>
+<a class="egg-opt" href="#projects" style="padding: 0 4px;">projects</a>
+<a class="egg-opt" href="#tech" style="padding: 0 4px;">tech</a>
+<a class="egg-opt" href="#resume" style="padding: 0 4px;">cv</a>
+<a class="egg-opt" href="Timeline.dc.html" style="padding: 0 4px;">timeline</a>
+<a class="egg-opt" href="https://startergate.dev/Conferences" style="padding: 0 4px;">conferences</a>
+</div>
+<a class="egg-opt egg-row" href="mailto:me@startergate.dev" onClick="{{cmdMailLog}}"><span><span class="egg-cmd">mail</span>교신 요청</span><span class="egg-val">me@startergate.dev</span></a>
+<button type="button" class="egg-opt egg-row" onClick="{{closeEgg}}"><span><span class="egg-cmd">exit</span>교신 종료</span><span class="egg-val">esc</span></button>
+</div>
+<div aria-hidden="true" style="white-space: nowrap; overflow: hidden; color: #9A9A9A;">=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</div>
+<div aria-live="polite" style="margin-top: 12px; max-height: 150px; overflow-y: auto; color: #BDBDBD;">
+<sc-for list="{{eggLog}}" as="line" hint-placeholder-count="2">
+<div style="white-space: pre-wrap;">{{line}}</div>
+</sc-for>
+</div>
+<label style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+<span>~ ground$</span>
+<input class="egg-input" type="text" value="{{eggInput}}" onChange="{{onEggInput}}" onKeyDown="{{onEggKey}}" ref="{{eggRef}}" aria-label="명령 입력" autocomplete="off" spellcheck="false" placeholder="help">
+</label>
+</div>
+</aside>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"initialTheme":{"editor":"enum","options":["dark","light","system"],"default":"dark","section":"Theme"},"accent":{"editor":"enum","options":["amber","blue","green"],"default":"amber","section":"Theme"},"eggOpen":{"editor":"boolean","default":false,"section":"Ground station"},"navOpen":{"editor":"boolean","default":false,"section":"Navigation"},"$preview":{"width":1440,"height":2700}}'>
+var ACCENTS = {
+  amber: { dark: '#FFB547', light: '#9C5300' },
+  blue:  { dark: '#8AAAFF', light: '#2453D1' },
+  green: { dark: '#5EE08A', light: '#15803D' }
+};
+function makeStars(seed0, count) {
+  var seed = seed0, out = [];
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  for (var i = 0; i < count; i++) {
+    var big = rnd() > 0.88;
+    out.push({
+      x: (rnd() * 100).toFixed(2), y: (rnd() * 100).toFixed(2),
+      size: big ? 2.4 : (rnd() > 0.5 ? 1.6 : 1.1),
+      o: (0.25 + rnd() * 0.6).toFixed(2), d: (rnd() * 3.6).toFixed(2),
+      cls: big || rnd() > 0.7 ? 'twinkle' : ''
+    });
+  }
+  return out;
+}
+var PROJECTS = [
+  { mono: 'FA', name: 'FETCHING Admin', desc: '페칭 서비스 어드민', langs: [{ m: 'TS', n: 'TypeScript' }], part: 'Front-end · Back-end', period: '2020 — 26', cat: 'work', highlight: true, href: 'Project.dc.html' },
+  { mono: 'FC', name: 'FETCHING Commerce', desc: '페칭 커머스 서비스', langs: [{ m: 'TS', n: 'TypeScript' }], part: 'Full-stack', period: '2021 — 26', cat: 'work', highlight: true, href: 'Project.dc.html' },
+  { mono: 'DO', name: 'DOTORI', desc: 'GSM 기숙사 관리 시스템', langs: [{ m: 'TS', n: 'TypeScript' }], part: 'Back-end', period: '2020', cat: 'team', highlight: true, href: 'Project.dc.html' },
+  { mono: 'EL', name: 'Eliverd', desc: '모두를 위한 배달 서비스', langs: [{ m: 'Py', n: 'Python' }], part: 'Back-end', period: '2020', cat: 'team', highlight: true, href: 'Project.dc.html' }
+];
+
+var TL_TYPES = { career: '경력', award: '수상', cert: '자격', group: '그룹 활동', edu: '학력' };
+var TL_ITEMS = [
+  { year: '2020', type: 'career', date: '2020.12 — 2026.03', title: 'FETCHING · 백엔드 엔지니어', sub: '5년 3개월 · 서울 성동구 · 강남구 · 경기 성남시' },
+  { year: '2020', type: 'award', date: '2020.09', title: 'GSM 전공 동아리 해커톤 대회 장려상', sub: 'GSM Pay' },
+  { year: '2020', type: 'award', date: '2020.09', title: 'GSM 팀프로젝트발표회 장려상', sub: 'Eliverd' },
+  { year: '2020', type: 'career', date: '2020.01 — 2020.02', title: '피플펀드컴퍼니 · 백엔드 엔지니어 (현장실습)', sub: '계정 인증 미들웨어 개선, 일부 기능 리팩토링' },
+  { year: '2020', type: 'group', date: '2020.01 — 2020.08', title: '빈실 · 부장', sub: '광주소프트웨어마이스터고 웹 개발 동아리 · DOTORI, GSM Pay' },
+  { year: '2019', type: 'award', date: '2019', title: 'GSM 소프트웨어 개발 경진 콘테스트 장려상', sub: 'The Intersection' },
+  { year: '2019', type: 'group', date: '2019.03 —', title: 'Tiny Beluga · 부장', sub: '광주소프트웨어마이스터고 게임 개발 동아리 · Lost' },
+  { year: '2019', type: 'cert', date: '2019.03', title: '정보처리기능사', sub: '한국산업인력공단' },
+  { year: '2018', type: 'cert', date: '2018.08', title: 'TOEIC 865점', sub: '' },
+  { year: '2018', type: 'award', date: '2018.06', title: '글로벌 비즈쿨 CO-TDM 창업경진대회 최우수상', sub: 'E-Faucet: 스마트 수도꼭지' },
+  { year: '2018', type: 'award', date: '2018.04', title: 'GSM 창의알고리즘 콘테스트 장려상', sub: 'M2C: Modular Multi Camera' },
+  { year: '2018', type: 'group', date: '2018.03 — 2020.08', title: '빈실 · 동아리원', sub: '광주소프트웨어마이스터고 웹 개발 동아리' },
+  { year: '2018', type: 'edu', date: '2018.03 — 2021.01', title: '광주소프트웨어마이스터고등학교', sub: '소프트웨어개발과' }
+];
+function groupYears(active) {
+  var years = [];
+  TL_ITEMS.forEach(function (i) {
+    if (active !== 'all' && i.type !== active) return;
+    var item = Object.assign({}, i, { typeLabel: TL_TYPES[i.type], dot: i.type === 'award' ? 'dot-award' : (i.type === 'career' ? 'dot-career' : 'dot-other') });
+    var last = years[years.length - 1];
+    if (last && last.year === i.year) last.items.push(item); else years.push({ year: i.year, items: [item] });
+  });
+  return years;
+}
+var STARS = makeStars(7, 90);
+var FAR_STARS = makeStars(23, 70);
+var INTRO_LOG = ['백엔드 엔지니어를 찾고 계신가요? 이 위성은 지금 새 궤도를 찾고 있습니다.', 'help 를 입력하면 명령어 목록을 볼 수 있어요.'];
+// 예시 배치: 실제로는 TLE + satellite.js로 계산한 방위각(az)과 앙각(el)을 넣는다
+var HORIZON_Y = 820, ZENITH_Y = 80;
+var SAT_SAMPLE = [
+  { name: 'ISS (ZARYA)', az: 250, el: 55, dx: -160, dy: 60, delay: 12 },
+  { name: 'TIANGONG', az: 120, el: 75, dx: 120, dy: 40, delay: 40 },
+  { name: 'HST', az: 320, el: 28, dx: -40, dy: -30, delay: 25 },
+  { name: 'NOAA 19', az: 40, el: 18, dx: 60, dy: -50, delay: 5 },
+  { name: 'KOMPSAT-3A', az: 190, el: 38, dx: -30, dy: 80, delay: 55 },
+  { name: 'STARLINK', az: 285, el: 80, dx: 80, dy: 30, delay: 33 }
+];
+var SATS = SAT_SAMPLE.map(function (p) {
+  return {
+    name: p.name, az: p.az, el: p.el,
+    x: (p.az / 360 * 100).toFixed(2),
+    y: Math.round(HORIZON_Y - (p.el / 90) * (HORIZON_Y - ZENITH_Y)),
+    dx: p.dx, dy: p.dy, delay: p.delay,
+    trail: Math.round(Math.atan2(p.dy, p.dx) * 180 / Math.PI + 180)
+  };
+});
+function kst() {
+  try { return new Date().toLocaleTimeString('ko-KR', { timeZone: 'Asia/Seoul', hour12: false }); } catch (e) { return '--:--:--'; }
+}
+var EXPS = [
+  { id: 'fetching', logo: 'FETCHING', company: '페칭', title: '백엔드 엔지니어', period: '2020.12 — 2026.03 · 5년 3개월', place: '서울 성동구 · 서울 강남구 · 경기 성남시',
+    summary: '커머스·어드민·상품 수집 등 전 프로덕트의 개발과 운영, 인프라와 CI/CD 구축',
+    detail: 'MAU 75만 명을 처리하는 백엔드 서버, 일 500만 건 규모의 크롤링 시스템, 주문·커머스 콘텐츠 관리부터 회계 시스템을 포함한 어드민, 이를 운영하는 인프라와 사내 네트워크 관리까지 담당했습니다. 사내 모든 프로덕트 개발에 참여했고 몇몇 프로젝트는 초기부터 전체 아키텍처를 직접 설계했습니다. 비용이 제한된 환경에서 데이터베이스를 효율적으로 운영하고, AWS와 온프레미스 자동 배포까지 CI/CD를 직접 구축했습니다.',
+    stack: [{m:'TS',n:'TypeScript'},{m:'N',n:'Node.js'},{m:'Ne',n:'Nest.js'},{m:'Re',n:'React'},{m:'Nx',n:'Next.js'},{m:'Au',n:'Aurora MySQL'},{m:'Rd',n:'Redis'},{m:'Rb',n:'RabbitMQ'},{m:'Es',n:'Elasticsearch'}] },
+  { id: 'pfct', logo: 'peoplefund', company: '피플펀드컴퍼니', title: '백엔드 엔지니어 (현장실습)', period: '2020.01 — 2020.02 · 1개월', place: '서울 강남구',
+    summary: '고등학교 2학년 겨울방학 현장실습, 인증 미들웨어 개선',
+    detail: '계정 인증 미들웨어를 개선하고 일부 기능을 리팩토링했습니다. 실무에서 Python과 Django 웹서버를 다뤄본 첫 경험입니다.',
+    stack: [{m:'Py',n:'Python'},{m:'Dj',n:'Django'}] }
+];
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    this.setState({ clock: kst() });
+    this._c = setInterval(function () { self.setState({ clock: kst() }); }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this._c); clearTimeout(this._x); }
+  closeConsole() {
+    var self = this;
+    if ((this.state || {}).egg !== 'open') return;
+    this.setState({ egg: 'closing', input: '' });
+    clearTimeout(this._x);
+    this._x = setTimeout(function () { self.setState({ egg: 'closed' }); }, 240);
+  }
+  pushLog(cmd, out) {
+    var prev = (this.state || {}).log || INTRO_LOG;
+    var next = prev.concat(['~ ground$ ' + cmd]).concat(out).slice(-10);
+    this.setState({ log: next, input: '' });
+  }
+  scrollTo(id) {
+    try { var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+  }
+  runCmd(raw) {
+    var self = this;
+    var s = this.state || {};
+    var text = String(raw || '').trim();
+    if (!text) return;
+    var parts = text.toLowerCase().split(/\s+/);
+    var cmd = parts[0], arg = parts[1];
+    var theme = this.resolveTheme();
+    var SECTIONS = { about: 'about', projects: 'projects', project: 'projects', tech: 'tech', technologies: 'tech', cv: 'resume', resume: 'resume', links: 'links' };
+    if (cmd === 'help' || cmd === '?') {
+      this.pushLog(text, ['theme [dark|light]   테마 전환', 'lang [ko|en]         언어 전환', 'goto <about|projects|tech|cv|links>', 'open <프로젝트> · ls · close · filter <그룹> <값> · reset', 'menu · top · timeline · conferences · mail · whoami · clear · exit']);
+    } else if (cmd === 'theme' || cmd === 't') {
+      var nextTheme = (arg === 'dark' || arg === 'light') ? arg : (theme === 'dark' ? 'light' : 'dark');
+      this.setState({ theme: nextTheme });
+      this.pushLog(text, ['theme → ' + nextTheme]);
+    } else if (cmd === 'mode' || cmd === 'm') {
+      this.pushLog(text, ['프로필 모드는 메인 페이지에서만 바꿀 수 있어요']);
+    } else if (false) {
+      var cur = s.mode || 'backend';
+      var nextMode = (arg === 'backend' || arg === 'game') ? arg : (cur === 'backend' ? 'game' : 'backend');
+      this.setState({ mode: nextMode });
+      this.pushLog(text, ['mode → ' + (nextMode === 'game' ? '게임 개발자' : '백엔드 엔지니어')]);
+    } else if (cmd === 'lang' || cmd === 'l') {
+      var curLang = s.lang || 'ko';
+      var nextLang = (arg === 'ko' || arg === 'en') ? arg : (curLang === 'ko' ? 'en' : 'ko');
+      this.setState({ lang: nextLang });
+      this.pushLog(text, ['lang → ' + (nextLang === 'en' ? 'English' : '한국어')]);
+    } else if (cmd === 'goto' || cmd === 'g' || cmd === 'cd') {
+      var id = SECTIONS[arg];
+      if (id) { this.scrollTo(id); this.pushLog(text, ['→ #' + id]); }
+      else if (arg === 'conferences') this.pushLog(text, ['→ /Conferences']);
+      else this.pushLog(text, ['goto: 대상이 필요해요 (about · projects · tech · cv · links · conferences)']);
+    } else if (cmd === 'conferences' || (cmd === 'goto' && arg === 'conferences')) {
+      this.pushLog(text, ['→ /Conferences']);
+    } else if (cmd === 'timeline') {
+      this.pushLog(text, ['→ /timeline  (실제 사이트에서는 페이지 이동, 시안에서는 [5] 링크 사용)']);
+    } else if (cmd === 'mail' || cmd === 'c') {
+      this.pushLog(text, ['uplink → mailto:me@startergate.dev', '메일 앱을 여는 중… 응답을 기다리겠습니다.']);
+      try { window.location.href = 'mailto:me@startergate.dev'; } catch (e) {}
+    } else if (cmd === 'top') {
+      this.scrollTo('top');
+      this.pushLog(text, ['→ 맨 위로']);
+    } else if (cmd === 'menu') {
+      var menuOn = s.menu == null ? !!(this.props.navOpen ?? false) : !!s.menu;
+      this.setState({ menu: !menuOn });
+      this.pushLog(text, ['menu → ' + (menuOn ? '접힘' : '펼침')]);
+    } else if (cmd === 'ls' || cmd === 'open') {
+      var plist = typeof ALL_PROJECTS !== 'undefined' ? ALL_PROJECTS : (typeof PROJECTS !== 'undefined' ? PROJECTS.filter(function (p) { return p.highlight; }) : []);
+      if (typeof this.modalVals !== 'function') plist = [];
+      if (cmd === 'ls') {
+        this.pushLog(text, plist.length ? [plist.map(function (p) { return p.id; }).join('  ')] : ['이 페이지에는 프로젝트가 없어요']);
+      } else {
+        var q = parts.slice(1).join(' ');
+        var hit = plist.filter(function (p) { return p.id === q || p.name.toLowerCase() === q; })[0]
+          || plist.filter(function (p) { return q && p.name.toLowerCase().indexOf(q) >= 0; })[0];
+        if (hit) {
+          this.setState({ openId: hit.id, openList: plist.map(function (p) { return p.id; }) });
+          this.pushLog(text, ['→ ' + hit.name + ' 상세 열기']);
+        } else {
+          this.pushLog(text, [!plist.length ? '이 페이지에서는 프로젝트를 열 수 없어요 · goto projects' : q ? 'open: "' + q + '" 프로젝트를 찾지 못했어요 · ls 로 목록 확인' : 'open <프로젝트 id 또는 이름>']);
+        }
+      }
+    } else if (cmd === 'filter') {
+      var rest = text.split(/\s+/).slice(1);
+      if (typeof FILTER_GROUPS !== 'undefined') {
+        var g = FILTER_GROUPS.filter(function (x) { return x.key === (rest[0] || '').toLowerCase(); })[0];
+        var val = rest.slice(1).join(' ');
+        var opt = g && g.opts.filter(function (o) { return o.k.toLowerCase() === val.toLowerCase() || o.label === val; })[0];
+        if (g && opt) {
+          var cur = (s['f' + g.key] || []);
+          var upd = {}; upd['f' + g.key] = toggleIn(cur, opt.k);
+          this.setState(upd);
+          this.pushLog(text, ['filter ' + g.key + ' → ' + (cur.indexOf(opt.k) >= 0 ? '해제: ' : '추가: ') + opt.label]);
+        } else {
+          this.pushLog(text, ['filter <cat|tech|type|status> <값>', '예) filter tech TypeScript · filter status done']);
+        }
+      } else if (typeof TL_TYPES !== 'undefined') {
+        var tk = (rest[0] || 'all').toLowerCase();
+        if (tk === 'all' || TL_TYPES[tk]) { this.setState({ tl: tk }); this.pushLog(text, ['filter → ' + (tk === 'all' ? '전체' : TL_TYPES[tk])]); }
+        else this.pushLog(text, ['filter <all|career|award|cert|group|edu>']);
+      } else {
+        this.pushLog(text, ['이 페이지에는 필터가 없어요']);
+      }
+    } else if (cmd === 'reset') {
+      this.setState({ fcat: [], ftech: [], ftype: [], fstatus: [], tl: 'all', dd: null });
+      this.pushLog(text, ['필터 초기화']);
+    } else if (cmd === 'close') {
+      this.setState({ openId: null });
+      this.pushLog(text, ['상세 닫기']);
+    } else if (cmd === 'whoami') {
+      this.pushLog(text, ['최호승 · STARTERGATE · a.k.a. satellite']);
+    } else if (cmd === 'clear') {
+      this.setState({ log: [], input: '' });
+    } else if (cmd === 'exit' || cmd === 'q' || cmd === 'quit') {
+      this.closeConsole();
+    } else {
+      this.pushLog(text, ['command not found: ' + cmd + ' — help 를 입력해 보세요']);
+    }
+  }
+  resolveTheme() {
+    var s = this.state || {};
+    if (s.theme) return s.theme;
+    var init = this.props.initialTheme ?? 'dark';
+    if (init === 'system') {
+      try { return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; }
+    }
+    return init;
+  }
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var theme = this.resolveTheme();
+    var pal = ACCENTS[this.props.accent ?? 'amber'] || ACCENTS.amber;
+    var egg = s.egg || ((this.props.eggOpen ?? false) ? 'open' : 'closed');
+    var modeKey = s.mode || 'backend';
+    var lang = s.lang || 'ko';
+    var menuOn = s.menu == null ? !!(this.props.navOpen ?? false) : !!s.menu;
+    var loc = s.loc || 'seoul';
+    return {
+      themeClass: theme === 'dark' ? 't-dark' : 't-light',
+      themeName: theme,
+      themeLabel: theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환',
+      isDark: theme === 'dark',
+      isLight: theme !== 'dark',
+      accent: pal[theme],
+      accentInk: theme === 'dark' ? '#080B12' : '#FFFFFF',
+      toggleTheme: function () { self.setState({ theme: theme === 'dark' ? 'light' : 'dark' }); },
+      railClass: '',
+      menuOpen: menuOn,
+      navLinksCls: menuOn ? 'is-open' : '',
+      menuLabel: menuOn ? '메뉴 접기' : '메뉴 펼치기',
+      menuExpanded: menuOn ? 'true' : 'false',
+      toggleMenu: function () { self.setState({ menu: !menuOn }); },
+      stars: STARS,
+      farStars: FAR_STARS,
+      clock: s.clock || '--:--:--',
+      sats: SATS,
+      roleLabel: lang === 'en' ? (modeKey === 'game' ? 'Game Developer' : 'Backend Engineer') : (modeKey === 'game' ? '게임 개발자' : '백엔드 엔지니어'),
+      langKo: lang === 'ko' ? 'is-on' : '',
+      langEn: lang === 'en' ? 'is-on' : '',
+      pressKo: lang === 'ko' ? 'true' : 'false',
+      pressEn: lang === 'en' ? 'true' : 'false',
+      langName: lang === 'en' ? 'en · English' : 'ko · 한국어',
+      isKo: lang === 'ko',
+      isEn: lang === 'en',
+      langAria: lang === 'en' ? 'Language: English' : '언어: 한국어',
+      langMenuOpen: !!s.langMenu,
+      langMenuExpanded: s.langMenu ? 'true' : 'false',
+      toggleLangMenu: function () { self.setState({ langMenu: !s.langMenu }); },
+      useKo: function () { self.setState({ lang: 'ko', langMenu: false }); },
+      useEn: function () { self.setState({ lang: 'en', langMenu: false }); },
+      cmdLang: function () { self.runCmd('lang'); },
+      modeBackend: (s.mode || 'backend') === 'backend' ? 'is-on' : '',
+      modeGame: s.mode === 'game' ? 'is-on' : '',
+      pressBackend: (s.mode || 'backend') === 'backend' ? 'true' : 'false',
+      pressGame: s.mode === 'game' ? 'true' : 'false',
+      useBackend: function () { self.setState({ mode: 'backend' }); },
+      useGame: function () { self.setState({ mode: 'game' }); },
+      skyCaption: (loc === 'mine' ? '내 위치 상공' : '서울 상공') + ' · ' + (s.clock || '--:--:--'),
+      eggVisible: egg === 'open' || egg === 'closing',
+      eggClosed: egg === 'closed',
+      eggAnim: egg === 'closing' ? 'egg-shrink' : 'egg-grow',
+      modeName: modeKey === 'game' ? 'game · 게임 개발자' : 'backend · 백엔드 엔지니어',
+      eggLog: s.log || INTRO_LOG,
+      eggInput: s.input || '',
+      eggRef: function (el) { self._in = el; },
+      openEgg: function () {
+        clearTimeout(self._x);
+        self.setState({ egg: 'open' }, function () { try { self._in && self._in.focus({ preventScroll: true }); } catch (e) {} });
+      },
+      closeEgg: function () { self.closeConsole(); },
+      cmdTheme: function () { self.runCmd('theme'); },
+      cmdMode: function () { self.runCmd('mode'); },
+      cmdMailLog: function () { self.pushLog('mail', ['uplink → mailto:me@startergate.dev', '메일 앱을 여는 중… 응답을 기다리겠습니다.']); },
+      onEggInput: function (e) { self.setState({ input: e.target.value }); },
+      onEggKey: function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); self.runCmd((self.state || {}).input || ''); }
+        if (e.key === 'Escape') { e.preventDefault(); self.closeConsole(); }
+      },
+      onPanelKey: function (e) {
+        var tag = e.target && e.target.tagName;
+        if (e.key === 'Escape') { self.closeConsole(); return; }
+        if (tag === 'INPUT') return;
+      },
+      projects: PROJECTS.filter(function (p) { return p.highlight; }),
+      tlFilters: ['all', 'career', 'award', 'cert', 'group', 'edu'].map(function (k) {
+        var on = (s.tl || 'all') === k;
+        return { label: k === 'all' ? '전체' : TL_TYPES[k], count: k === 'all' ? TL_ITEMS.length : TL_ITEMS.filter(function (i) { return i.type === k; }).length,
+          cls: on ? 'is-on' : '', pressed: on ? 'true' : 'false', pick: function () { self.setState({ tl: k }); } };
+      }),
+      years: groupYears(s.tl || 'all'),
+      using: [{m:'TS',n:'TypeScript'},{m:'JS',n:'JavaScript'},{m:'N',n:'Node.js'},{m:'Ne',n:'NestJS'},{m:'Re',n:'React'},{m:'My',n:'MySQL'},{m:'Ma',n:'MariaDB'},{m:'Au',n:'AuroraDB'},{m:'Rd',n:'Redis'},{m:'Rb',n:'RabbitMQ'},{m:'Es',n:'Elasticsearch'},{m:'aws',n:'AWS'},{m:'Dk',n:'Docker'}],
+      learned: [{m:'Py',n:'Python'},{m:'C',n:'C'},{m:'C++',n:'C++'},{m:'C#',n:'C#'},{m:'Jv',n:'Java'},{m:'php',n:'PHP'},{m:'Ex',n:'Express.js'},{m:'Ko',n:'Koa.js'},{m:'Dj',n:'Django'},{m:'DRF',n:'Django REST Framework'},{m:'Qt',n:'Qt'},{m:'jQ',n:'jQuery'},{m:'Mg',n:'MongoDB'},{m:'Je',n:'Jest'}],
+      learning: [{m:'Go',n:'Go'},{m:'Ga',n:'Gatsby'},{m:'Sp',n:'Spring'}],
+      exps: EXPS.map(function (e) {
+        var open = s.openExp === e.id;
+        return Object.assign({}, e, {
+          cls: open ? 'is-open' : '',
+          open: open ? 'true' : 'false',
+          toggle: function () { self.setState({ openExp: open ? null : e.id }); }
+        });
+      }),
+      links: [
+        { m: '@', n: '메일', h: 'me@startergate.dev', href: 'mailto:me@startergate.dev' },
+        { m: 'in', n: 'LinkedIn', h: '최호승', href: 'https://www.linkedin.com/' },
+        { m: 'Rp', n: 'Rocketpunch', h: '@startergate', href: 'https://www.rocketpunch.com/@startergate' },
+        { m: 'GH', n: 'GitHub', h: 'startergate', href: 'https://github.com/startergate' },
+        { m: 'SS', n: 'StackShare', h: 'startergate', href: 'https://stackshare.io/startergate' },
+        { m: 'npm', n: 'npm', h: '~startergate', href: 'https://www.npmjs.com/~startergate' },
+        { m: 'DH', n: 'Docker Hub', h: 'startergate', href: 'https://hub.docker.com/u/startergate' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
