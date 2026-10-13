@@ -18,7 +18,7 @@ Claude Design 캔버스에서 만든 시안 원본이다. 원본 캔버스(소�
 
 주의할 점:
 
-- `ProjectModal`의 링크 복사 주소(`startergate.dev/projects/{id}`)는 옛 형식이다. 실제는 `/{lang}/projects/?p={id}` (spec §2.3).
+- `ProjectModal`의 링크 복사 주소는 시안 그대로 `startergate.dev/{lang}/projects/{id}/` 형식을 쓴다(spec §2.3, 2026-10-13 변경: 쿼리 파라미터 방식에서 실제 라우트로 바꿨다). 시안엔 `{lang}` 접두사만 빠져 있다.
 - 시안 속 위성 위치는 고정 샘플이다. 실제는 TLE + satellite.js 계산 (spec §7).
 - 폰트는 `/_blob/...` 캔버스 자산을 참조하는데, 구현에서는 spec/AGENTS의 폰트 설정을 따른다.
 - 시안의 한국어 문구 중 소개·경력 요약은 이력서 기반 초안이다. 최종 내용은 기존 사이트 데이터 기준.

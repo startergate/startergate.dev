@@ -30,22 +30,23 @@
 |---|---|---|
 | `/{lang}/` | 메인 | `Main.dc.html`(다크), `MainLight.dc.html`(라이트, 네비 펼침) |
 | `/{lang}/projects/` | 프로젝트 목록 | `Projects.dc.html` |
-| `/{lang}/projects/?p={id}` | 목록 + 해당 프로젝트 팝업 열린 상태 | `ProjectsDeep.dc.html` |
+| `/{lang}/projects/{id}/` | 목록 + 해당 프로젝트 팝업 열린 상태 | `ProjectsDeep.dc.html` |
 | `/{lang}/timeline/` | 타임라인 (학력·수상·자격·그룹 활동·경력) | `Timeline.dc.html` |
 
 - 목록·타임라인 페이지는 히어로 대신 좌측 상단에 **페이지 제목**(`Projects`, `Timeline`)만 둔다. 페이지 설명 문구는 넣지 않는다.
 
-### 2.3 쿼리 파라미터
+### 2.3 프로젝트 상세 경로와 쿼리 파라미터
 
-- `p` (목록 전용): 열린 프로젝트 id.
-  - 목록에서 카드를 열면 `history.pushState`로 `?p=id`를 추가한다. 뒤로가기(`popstate`)로 팝업이 닫힌다.
-  - 팝업 안에서 이전/다음 프로젝트로 넘길 때는 `replaceState`로 바꾼다(뒤로가기 한 번에 닫히도록).
-  - 닫기 버튼·Esc·오버레이 클릭으로 닫으면 히스토리를 되돌린다(`history.back()`, 직접 진입한 경우에는 `replaceState`로 `p` 제거).
-  - 존재하지 않는 id면 팝업 없이 목록만 보인다.
-- `mode` (메인 전용): `backend`(기본) | `game`. 메인에서 모드를 바꾸면 `replaceState`로 반영한다. 다른 페이지에서는 무시한다.
+- 프로젝트 상세 팝업은 **실제 정적 라우트** `/{lang}/projects/{id}/`다 (당초 쿼리 파라미터 `?p=` 방식에서 변경, 2026-10-13). `app/[lang]/projects/[id]/page.tsx`가 `generateStaticParams`로 모든 프로젝트 id를 빌드 타임에 정적 생성하고, 목록 페이지와 같은 컴포넌트로 팝업만 열린 상태를 그린다.
+  - 목록에서 카드를 열면 `router.push('/{lang}/projects/{id}/')`. 뒤로가기로 팝업이 닫힌다.
+  - 팝업 안에서 이전/다음 프로젝트로 넘길 때는 `router.replace(...)`로 바꾼다(뒤로가기 한 번에 닫히도록).
+  - 닫기 버튼·Esc·오버레이 클릭으로 닫으면 `router.back()`, 직접 진입한 경우(히스토리에 목록이 없음)에는 `router.replace('/{lang}/projects/')`.
+  - 존재하지 않는 id로 들어오면 정적 export 특성상 호스트가 404를 서빙한다. §2.4의 `global-not-found` 리다이렉트가 이 경우를 포함해 처리한다(목록만 보여줌).
+  - 이 방식 덕분에 프로젝트 목록 쪽에는 `useSearchParams`/`Suspense`가 필요 없다(메인의 `mode` 쿼리에만 남는다).
+- `mode` (메인 전용, 쿼리 파라미터 유지): `backend`(기본) | `game`. 메인에서 모드를 바꾸면 `replaceState`로 반영한다. 다른 페이지에서는 무시한다.
 - 필터 상태는 URL에 남기지 않는다.
 - 메인에서 여는 팝업은 URL을 바꾸지 않는다.
-- 팝업의 **링크 복사** 버튼은 `https://startergate.dev/{lang}/projects/?p={id}`를 복사한다. 시안에 보이는 `/projects/{id}` 형식은 쓰지 않는다.
+- 팝업의 **링크 복사** 버튼은 `https://startergate.dev/{lang}/projects/{id}/`를 복사한다.
 
 ### 2.4 이 앱 밖의 경로
 
@@ -55,7 +56,10 @@
   - `resume-ko.pdf` = 한국어 전체
   - `resume-en.pdf` = 영어 전체
   - 기존 사이트처럼 이 세 개를 고르는 다운로드 드롭다운을 둔다. **[제안]** 영어 페이지에서는 `resume-en.pdf`를 먼저 보여준다.
-- 기존 상세 URL `/project/{Name}/` 호환: **[제안]** `404` 페이지에서 이 패턴을 감지하면 `/{lang}/projects/?p={id}`로 리다이렉트한다.
+- **404 처리 (`global-not-found`)**: 정적 export에서 빌드되지 않은 경로는 전부 여기로 온다. 경로를 보고:
+  - `/{lang}/projects/{id}/` (신형, id가 존재하지 않는 경우) 또는 `/project/{Name}/` (구 사이트 형식) 패턴이면 `/{lang}/projects/`(목록만, 팝업 없음)로 클라이언트 리다이렉트한다.
+  - **[제안]** 구 `{Name}` → 신 `{id}` 매핑이 데이터 이전(§5) 이후 준비되면, 매핑에 있는 이름은 목록이 아니라 해당 `/{lang}/projects/{id}/`로 직접 보내 깊은 링크를 살린다. 매핑이 없거나 매칭되지 않으면 목록으로 보낸다.
+  - 그 외 경로는 일반 404 안내만 보여준다.
 
 ### 2.5 배포 **[미정]**
 
