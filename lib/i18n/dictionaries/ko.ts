@@ -120,6 +120,8 @@ const ko = {
     closeAria: "닫기",
     copyLink: "링크 복사",
     copyLinkDone: "링크 복사됨",
+    statusLabel: "진행 상황",
+    prevNextAria: "다른 프로젝트",
     teamProjectTemplate: "{team} 프로젝트",
     teamProject: "팀 프로젝트",
     personalProject: "개인 프로젝트",

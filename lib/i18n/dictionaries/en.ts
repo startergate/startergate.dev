@@ -122,6 +122,8 @@ const en: Dictionary = {
     closeAria: "Close",
     copyLink: "Copy link",
     copyLinkDone: "Link copied",
+    statusLabel: "Status",
+    prevNextAria: "Other projects",
     teamProjectTemplate: "{team} project",
     teamProject: "Team project",
     personalProject: "Personal project",
