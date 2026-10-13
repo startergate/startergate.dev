@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 
 import { BottomDock } from "@/components/layout/BottomDock";
 import { Ground } from "@/components/layout/Ground";
 import { NavPill } from "@/components/layout/NavPill";
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { LangProvider } from "@/lib/i18n/LangProvider";
@@ -75,6 +77,16 @@ export default async function LangLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body suppressHydrationWarning>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+        </Script>
         <ThemeProvider>
           <LangProvider lang={lang} dict={dict}>
             <NavPill />
