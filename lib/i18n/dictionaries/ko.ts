@@ -19,6 +19,8 @@ const ko = {
   },
   bottomDock: {
     scrollTop: "맨 위로",
+    modeBackend: "백엔드 개발자 모드",
+    modeGame: "게임 개발자 모드",
   },
   pageTitles: {
     projects: "Projects",
@@ -31,6 +33,110 @@ const ko = {
   },
   rootRedirect: {
     choose: "언어를 선택하세요",
+  },
+  status: {
+    planning: "계획 중",
+    active: "진행 중",
+    canceled: "취소",
+    done: "완료",
+  },
+  hero: {
+    slogan: "[새 표어]",
+    roleBackend: "백엔드 엔지니어",
+    roleGame: "게임 개발자 / 플레이어",
+    openToWork: "open to work",
+    scrollDown: "아래로 스크롤",
+    skySeoul: "서울 상공",
+    skyMine: "내 위치 상공",
+    locToMine: "내 위치로 보기",
+    locToSeoul: "서울 기준으로 보기",
+  },
+  about: {
+    backend: {
+      title1: "백엔드 엔지니어입니다.",
+      title2: "눈에 보이지 않는 걸 만듭니다.",
+      subtitle: "서버에서 돌아가는 프로그램과, 그와 연결되는 프로그램을 만듭니다.",
+      paragraphs: [
+        {
+          label: "기술 스택",
+          body: "**TypeScript 기반 Node.js**로 개발하며 서버 프레임워크는 **Nest.js**를 주로 씁니다. MySQL 계열 DB를 직접 쿼리와 TypeORM으로 다루고, **Aurora MySQL** 마이그레이션과 운영, Redis·DynamoDB 캐싱, **RabbitMQ와 SQS**를 조합한 태스크 분산을 프로덕션에서 운영했습니다.",
+        },
+        {
+          label: "경험",
+          body: "**MAU 75만** 백엔드 서버부터 **일 500만 건** 규모의 크롤링 시스템, 4대 규모의 데이터베이스 클러스터, 클라우드와 온프레미스에 걸친 인프라와 사내 네트워크까지 다뤘습니다. 약 9년의 개발 경험과 **5년 3개월의 현업 경력** 동안 백엔드와 연관된 프론트, 인프라, CI/CD를 개발했고 여러 프로젝트의 아키텍처를 설계했습니다.",
+        },
+        {
+          label: "클라우드 & 운영",
+          body: "**AWS**를 주력으로 GCP, 네이버 클라우드를 비용과 필요에 맞춰 혼합 운영했습니다. **GitHub Actions** CI/CD와 AWS SDK 배포 로직, Sentry·Grafana 기반 모니터링을 Slack과 연동해 운영했습니다.",
+        },
+        {
+          label: "협업",
+          body: "동료는 물론 베스핀글로벌 같은 MSP, 스마트로·포트원·네이버 쇼핑 같은 파트너사, 입점 고객사, 공공기관까지 **다양한 외부 협업과 API 연동**을 경험했습니다.",
+        },
+      ],
+    },
+    game: {
+      title1: "인디 게임 개발자입니다.",
+      title2: "경험을 만듭니다.",
+      subtitle: "다양한 장르의 게임을 만듭니다. 플랫포머 게임을 출시해봤고, 여러 프로젝트를 준비하고 있습니다.",
+      paragraphs: [
+        { body: "대부분의 10대 남학생이 그렇듯, 게임을 좋아합니다. 초등학생 때는 넥슨 게임을 해왔고, 중학교 이후로는 패키지 게임에 빠졌습니다." },
+        { body: "여러 게임을 해보다 보니 직접 만들어보고 싶다는 생각이 들었습니다. 그래서 고등학교 1학년에 유니티 방과후를 들었습니다." },
+        { body: "방과후에서 배운 지식을 바탕으로 고2 때에 Tiny Beluga라는 동아리를 만들고, 친구들과 함께 Lost라는 게임을 개발하고 출시했습니다." },
+        { body: "여러 장르를 시도합니다. 처음으로 출시해본 게임은 2D 플랫포머였고, 좋은 아이디어만 있다면 다양하게 만들어보고 있습니다." },
+      ],
+    },
+  },
+  highlights: {
+    heading: "Project Highlights",
+    seeMore: "전체 프로젝트 보기 →",
+    ghBadge: "startergate",
+  },
+  tech: {
+    heading: "Technologies",
+    ssBadge: "stackshare",
+    using: "Using",
+    learned: "Learned / Used",
+    learning: "Learning / Interested",
+  },
+  resume: {
+    heading: "Experiences",
+    downloadCv: "Download CV ↓",
+    downloadAria: "CV 다운로드",
+    detailAriaExpand: "자세히 보기",
+    timelineCardTitle: "학력 · 수상 · 활동",
+    timelineCardSub: "타임라인에서 모아 보기",
+    timelineCardCta: "Timeline →",
+    cvOptions: [
+      { label: "Korean (Short, 1 page)", file: "cv.pdf" },
+      { label: "Korean (Full)", file: "resume-ko.pdf" },
+      { label: "English (Full)", file: "resume-en.pdf" },
+    ],
+  },
+  links: {
+    heading: "Links",
+  },
+  modal: {
+    closeAria: "닫기",
+    copyLink: "링크 복사",
+    copyLinkDone: "링크 복사됨",
+    teamProjectTemplate: "{team} 프로젝트",
+    teamProject: "팀 프로젝트",
+    personalProject: "개인 프로젝트",
+    overview: "개요",
+    techStack: "기술 스택",
+    members: "참여 인원",
+    linksLabel: "링크",
+    prevProject: "이전 프로젝트",
+    nextProject: "다음 프로젝트",
+    start: "시작",
+    endDone: "종료",
+    endPlanned: "종료 예정",
+    endCanceled: "취소",
+    daysStatusTemplate: "{days}일 · {status}",
+    planningCaption: "계획 중",
+    noEndValue: "—",
+    detailAriaTemplate: "{name} 상세 보기",
   },
 };
 
