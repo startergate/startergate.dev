@@ -20,11 +20,13 @@ import styles from "./Resume.module.css";
 
 function ExperienceCard({ exp }: { exp: Experience }) {
   const { lang, dict } = useLang();
-  const { theme } = useTheme();
+  const { theme, mounted } = useTheme();
   const [open, setOpen] = useState(false);
 
+  // mounted 전엔 서버와 같은 기본(src) 변형만 쓴다 — 실제 테마로
+  // 바로 고르면 서버 추정(dark)과 달라 하이드레이션이 깨진다.
   const logoSrc =
-    theme === "light" && exp.companyLogo?.srcOnLight
+    mounted && theme === "light" && exp.companyLogo?.srcOnLight
       ? exp.companyLogo.srcOnLight
       : exp.companyLogo?.src;
 

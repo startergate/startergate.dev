@@ -8,9 +8,11 @@
 }
 
 .sky {
+  /* 상단 네비 pill과 같은 자리(top:24px)에 두면 겹친다 — 시안에서도
+     이 캡션·버튼은 지평선 바로 위, 스크롤 화살표 바로 위쪽에 있다. */
   position: absolute;
   right: 24px;
-  top: 24px;
+  bottom: 96px;
   z-index: 2;
   display: flex;
   flex-direction: column;

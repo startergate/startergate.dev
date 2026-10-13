@@ -19,7 +19,7 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
         const top = ZENITH_PCT + (1 - p.elevationDeg / 90) * (HORIZON_PCT - ZENITH_PCT);
         return (
           <div
-            key={p.name}
+            key={p.noradId}
             className={styles.dot}
             style={{ left: `${left}%`, top: `${top}%` }}
           >

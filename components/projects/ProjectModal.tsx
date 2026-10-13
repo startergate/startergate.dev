@@ -291,7 +291,9 @@ export function ProjectModal({
                           : undefined
                       }
                     >
-                      {m.avatar ? (
+                      {/* 본인은 사진이 있어도 강조색 아바타로 표시한다
+                          (spec §6.2) — 다른 참여자와 구분되게 한다. */}
+                      {m.avatar && !m.isMe ? (
                         <Image
                           src={`/images/${m.avatar}`}
                           alt=""

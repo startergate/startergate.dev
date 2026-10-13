@@ -12,6 +12,7 @@ export type SatellitesFile = {
 
 export type SatellitePosition = {
   name: string;
+  noradId: number;
   azimuthDeg: number;
   elevationDeg: number;
 };

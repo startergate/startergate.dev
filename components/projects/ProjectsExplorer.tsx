@@ -26,7 +26,6 @@ import styles from "./ProjectsExplorer.module.css";
 const STORAGE_KEY = "projectFilters";
 
 function loadStoredFilters(): ProjectFilters {
-  if (typeof window === "undefined") return EMPTY_FILTERS;
   try {
     const raw = window.sessionStorage.getItem(STORAGE_KEY);
     if (!raw) return EMPTY_FILTERS;
@@ -60,8 +59,21 @@ export function ProjectsExplorer({
 }) {
   const { dict } = useLang();
   const router = useRouter();
-  const [filters, setFilters] = useState<ProjectFilters>(loadStoredFilters);
+  // 서버는 sessionStorage를 모르니 항상 EMPTY_FILTERS로 시작해야
+  // 하이드레이션이 깨지지 않는다(여기서 바로 읽으면 이전 세션에
+  // 필터가 남아 있던 사용자만 서버/클라이언트 렌더가 달라져
+  // 깨진다 — 실제로 재현됨). 마운트 직후에만 동기화한다.
+  const [filters, setFilters] = useState<ProjectFilters>(EMPTY_FILTERS);
   const [openId, setOpenId] = useState<string | undefined>(initialOpenId);
+
+  useEffect(() => {
+    const stored = loadStoredFilters();
+    const isEmpty = Object.values(stored).every((v) => (v as unknown[]).length === 0);
+    if (!isEmpty) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFilters(stored);
+    }
+  }, []);
   // 브라우저 뒤로/앞으로가기처럼 이 컴포넌트가 리마운트 없이 다른
   // /projects/{id}/로 바뀌는 경우를 렌더 중에 동기화한다(React가
   // 권장하는 "렌더 중 상태 조정" 패턴 — effect에서 하면 한 프레임 늦는다).

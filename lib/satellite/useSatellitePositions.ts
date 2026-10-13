@@ -107,8 +107,9 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
       });
 
       setPositions(
-        computed.slice(0, MAX_SATELLITES).map(({ name, azimuthDeg, elevationDeg }) => ({
+        computed.slice(0, MAX_SATELLITES).map(({ name, noradId, azimuthDeg, elevationDeg }) => ({
           name,
+          noradId,
           azimuthDeg,
           elevationDeg,
         })),
