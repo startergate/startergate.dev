@@ -1,0 +1,235 @@
+.launcher {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 25;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 46px;
+  min-width: 46px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--fab-bg);
+  backdrop-filter: blur(10px);
+  color: var(--muted);
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+.launcher:hover,
+.launcher:focus-visible {
+  border-color: var(--accent);
+}
+
+.lxDot {
+  max-width: 0;
+  margin-right: 0;
+  opacity: 0;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.4s steps(1) infinite;
+  transition: max-width 0.25s ease, margin 0.25s ease, opacity 0.2s ease;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.lxPrompt {
+  font-weight: 700;
+}
+.lxLabel {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  font-size: 12.5px;
+  transition: max-width 0.25s ease, margin 0.25s ease, opacity 0.2s ease;
+}
+.launcher:hover .lxDot,
+.launcher:focus-visible .lxDot {
+  max-width: 7px;
+  margin-right: 10px;
+  opacity: 1;
+}
+.launcher:hover .lxLabel,
+.launcher:focus-visible .lxLabel {
+  max-width: 140px;
+  margin-left: 8px;
+  opacity: 1;
+}
+
+.egg {
+  font-family: var(--font-mono);
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 30;
+  width: 520px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  background: #000000;
+  color: #e8e8e8;
+  font-size: 13px;
+  line-height: 1.7;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.eggGrow {
+  animation: eggGrow 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.eggShrink {
+  animation: eggShrink 0.24s cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+@keyframes eggGrow {
+  from {
+    clip-path: inset(calc(100% - 46px) calc(100% - 46px) 0 0 round 23px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+@keyframes eggShrink {
+  from {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+  to {
+    clip-path: inset(calc(100% - 46px) calc(100% - 46px) 0 0 round 23px);
+  }
+}
+.eggBody {
+  padding: 22px 24px 18px;
+}
+.eggGrow .eggBody {
+  animation: eggFade 0.3s ease 0.14s both;
+}
+.eggShrink .eggBody {
+  animation: eggFadeOut 0.12s ease both;
+}
+@keyframes eggFade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes eggFadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.eggHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.eggIntro {
+  margin: 0;
+}
+.eggIntroSub {
+  color: #9a9a9a;
+}
+
+.eggOpt {
+  cursor: pointer;
+  color: #e8e8e8;
+  background: none;
+  border: none;
+  font: inherit;
+  padding: 6px 4px;
+  text-decoration: none;
+}
+.eggOpt:hover {
+  background: #e8e8e8;
+  color: #000;
+}
+.eggOpt:hover .eggVal {
+  color: #333;
+}
+
+.eggRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  min-height: 34px;
+}
+.eggVal {
+  color: #9a9a9a;
+}
+.eggCmd {
+  display: inline-block;
+  min-width: 44px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.eggDivider {
+  white-space: nowrap;
+  overflow: hidden;
+  color: #9a9a9a;
+}
+
+.eggCommands {
+  border-left: 1px solid #9a9a9a;
+  border-right: 1px solid #9a9a9a;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gotoRow {
+  padding: 6px 4px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 4px 10px;
+}
+
+.eggLog {
+  margin-top: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  color: #bdbdbd;
+}
+.eggLogLine {
+  white-space: pre-wrap;
+}
+
+.eggInputRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.eggInput {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8e8e8;
+  font: inherit;
+  caret-color: #e8e8e8;
+  padding: 0;
+}
+.eggInput::placeholder {
+  color: #5a5a5a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eggGrow,
+  .eggShrink,
+  .eggGrow .eggBody,
+  .eggShrink .eggBody,
+  .lxDot {
+    animation: none !important;
+  }
+}

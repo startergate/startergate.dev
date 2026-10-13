@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ChevronLeftIcon } from "@/components/icons";
 import { useLang } from "@/lib/i18n/LangProvider";
+import { useNavMenu } from "@/lib/layout/NavMenuContext";
 
 import { LangSwitcher } from "./LangSwitcher";
 import { ThemeToggleButton } from "./ThemeToggleButton";
@@ -18,7 +19,7 @@ const CONFERENCES_URL = "https://startergate.dev/Conferences";
 export function NavPill() {
   const { lang, dict } = useLang();
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { open: menuOpen, setOpen: setMenuOpen } = useNavMenu();
 
   const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
   const cvHref = isHome ? "#resume" : `/${lang}/#resume`;
@@ -30,7 +31,7 @@ export function NavPill() {
           <button
             type="button"
             className={`${styles.pillBtn} ${styles.navToggle}`}
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? dict.nav.menuClose : dict.nav.menuOpen}
             aria-expanded={menuOpen}
             aria-controls="nav-links"

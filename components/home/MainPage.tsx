@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { ProjectModal } from "@/components/projects/ProjectModal";
+import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
+import { findProjectByQuery } from "@/lib/data/find-project";
 import type { ProjectOverview } from "@/lib/data/overview";
 import type { Experience, LinkItem, Project, Tech } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
@@ -34,10 +36,33 @@ export function MainPage({
   links: LinkItem[];
 }) {
   const { lang, dict } = useLang();
-  const [mode] = useProfileMode();
+  const [mode, setMode] = useProfileMode();
   const [openId, setOpenId] = useState<string | null>(null);
 
   const projects = highlightsByMode[mode];
+
+  const openProject = useCallback(
+    (query: string) => {
+      const found = findProjectByQuery(projects, query);
+      if (found) setOpenId(found.id);
+      return found?.name ?? null;
+    },
+    [projects],
+  );
+
+  useRegisterConsoleCapabilities(
+    useMemo(
+      () => ({
+        mode: { current: () => mode, set: setMode },
+        projects: {
+          list: () => projects.map((p) => ({ id: p.id, name: p.name })),
+          open: openProject,
+          close: () => setOpenId(null),
+        },
+      }),
+      [mode, setMode, projects, openProject],
+    ),
+  );
 
   return (
     <>

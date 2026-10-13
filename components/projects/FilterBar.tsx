@@ -4,15 +4,17 @@ import { useState } from "react";
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from "@/components/icons";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
-import type { FilterKey, ProjectFilters } from "@/lib/data/project-filter";
-import type { Project, ProjectCategory, ProjectStatus } from "@/lib/data/types";
+import {
+  CAT_OPTIONS,
+  STATUS_OPTIONS,
+  type FilterKey,
+  type ProjectFilters,
+} from "@/lib/data/project-filter";
+import type { Project } from "@/lib/data/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
 import { fillTemplate } from "@/lib/i18n/template";
 
 import styles from "./FilterBar.module.css";
-
-const CAT_OPTIONS: ProjectCategory[] = ["work", "team", "personal"];
-const STATUS_OPTIONS: ProjectStatus[] = ["planning", "active", "done", "canceled"];
 
 type Group = {
   key: FilterKey;

@@ -2,6 +2,9 @@ import type { Project, ProjectCategory, ProjectStatus } from "./types";
 
 export type FilterKey = "cat" | "tech" | "type" | "status";
 
+export const CAT_OPTIONS: ProjectCategory[] = ["work", "team", "personal"];
+export const STATUS_OPTIONS: ProjectStatus[] = ["planning", "active", "done", "canceled"];
+
 export type ProjectFilters = {
   cat: ProjectCategory[];
   tech: string[];

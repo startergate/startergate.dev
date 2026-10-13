@@ -1,10 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { ProjectModal } from "@/components/projects/ProjectModal";
-import { EMPTY_FILTERS, matchesFilters, toggleIn, type ProjectFilters } from "@/lib/data/project-filter";
+import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
+import { findProjectByQuery } from "@/lib/data/find-project";
+import {
+  CAT_OPTIONS,
+  EMPTY_FILTERS,
+  STATUS_OPTIONS,
+  matchesFilters,
+  toggleIn,
+  type ProjectFilters,
+} from "@/lib/data/project-filter";
 import type { ProjectOverview } from "@/lib/data/overview";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
@@ -90,14 +99,77 @@ export function ProjectsExplorer({
     router.replace(`/${lang}/projects/${id}/`, { scroll: false });
   };
 
-  const close = () => {
+  const close = useCallback(() => {
     setOpenId(undefined);
     if (didComeFromList()) {
       router.back();
     } else {
       router.replace(`/${lang}/projects/`, { scroll: false });
     }
-  };
+  }, [router, lang]);
+
+  const consoleOpenProject = useCallback(
+    (query: string) => {
+      const found = findProjectByQuery(filtered, query);
+      if (found) openProject(found.id);
+      return found?.name ?? null;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filtered, lang],
+  );
+
+  const consoleApplyFilter = useCallback(
+    (args: string[]) => {
+      const [groupRaw, ...rest] = args;
+      const group = groupRaw?.toLowerCase();
+      const valueQuery = rest.join(" ").toLowerCase();
+      if (!valueQuery) return undefined;
+
+      let value: string | undefined;
+      let label: string | undefined;
+      if (group === "cat") {
+        value = CAT_OPTIONS.find(
+          (k) => k === valueQuery || dict.projectsPage.category[k].toLowerCase() === valueQuery,
+        );
+        label = value ? dict.projectsPage.category[value as (typeof CAT_OPTIONS)[number]] : undefined;
+      } else if (group === "status") {
+        value = STATUS_OPTIONS.find(
+          (k) => k === valueQuery || dict.status[k].toLowerCase() === valueQuery,
+        );
+        label = value ? dict.status[value as (typeof STATUS_OPTIONS)[number]] : undefined;
+      } else if (group === "tech") {
+        value = techOptions.find((t) => t.toLowerCase() === valueQuery);
+        label = value;
+      } else if (group === "type") {
+        value = typeOptions.find((t) => t.toLowerCase() === valueQuery);
+        label = value;
+      }
+      if (!group || !value || !label) return undefined;
+
+      const wasOn = (filters[group as keyof ProjectFilters] as string[]).includes(value);
+      toggleFilter(group as keyof ProjectFilters, value);
+      return { group, label, added: !wasOn };
+    },
+    [filters, techOptions, typeOptions, dict],
+  );
+
+  useRegisterConsoleCapabilities(
+    useMemo(
+      () => ({
+        projects: {
+          list: () => filtered.map((p) => ({ id: p.id, name: p.name })),
+          open: consoleOpenProject,
+          close,
+        },
+        filter: {
+          apply: consoleApplyFilter,
+          help: dict.console.filterHelp,
+        },
+        reset: () => setFilters(EMPTY_FILTERS),
+      }),
+      [filtered, consoleOpenProject, close, consoleApplyFilter, dict],
+    ),
+  );
 
   return (
     <>

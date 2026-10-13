@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
+import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
 import { formatTimelineHeading } from "@/lib/data/timeline-format";
 import type { TimelineItem, TimelineType } from "@/lib/data/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
@@ -10,6 +11,7 @@ import type { Locale } from "@/lib/i18n/locales";
 import styles from "./TimelineList.module.css";
 
 const TYPES: TimelineType[] = ["career", "award", "cert", "group", "edu"];
+const ALL_KEYS = ["all", ...TYPES] as const;
 
 function dotClass(type: TimelineType): string {
   if (type === "award") return styles.dotAward;
@@ -46,6 +48,28 @@ export function TimelineList({
 
   const filtered = active === "all" ? items : items.filter((i) => i.type === active);
   const years = groupByYear(filtered);
+
+  const consoleApplyFilter = useCallback(
+    (args: string[]) => {
+      const key = args[0]?.toLowerCase();
+      const match = ALL_KEYS.find((k) => k === key);
+      if (!match) return undefined;
+      setActive(match);
+      const label = match === "all" ? dict.timelinePage.all : dict.timelinePage.types[match];
+      return { group: "filter", label, added: true };
+    },
+    [dict],
+  );
+
+  useRegisterConsoleCapabilities(
+    useMemo(
+      () => ({
+        filter: { apply: consoleApplyFilter, help: dict.console.filterTimelineHelp },
+        reset: () => setActive("all"),
+      }),
+      [consoleApplyFilter, dict],
+    ),
+  );
 
   return (
     <>

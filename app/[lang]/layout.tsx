@@ -5,11 +5,14 @@ import { notFound } from "next/navigation";
 import { BottomDock } from "@/components/layout/BottomDock";
 import { Ground } from "@/components/layout/Ground";
 import { NavPill } from "@/components/layout/NavPill";
+import { GroundStationConsole } from "@/components/console/GroundStationConsole";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { ConsoleCapabilitiesProvider } from "@/lib/console/ConsoleCapabilities";
 import { inter, jetbrainsMono } from "@/lib/fonts";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { LangProvider } from "@/lib/i18n/LangProvider";
 import { DEFAULT_LOCALE, LOCALES, isLocale } from "@/lib/i18n/locales";
+import { NavMenuProvider } from "@/lib/layout/NavMenuContext";
 import { SITE_TITLE, SITE_URL, getSiteDescription } from "@/lib/site-meta";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme-init-script";
@@ -90,10 +93,15 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
         </Script>
         <ThemeProvider>
           <LangProvider lang={lang} dict={dict}>
-            <NavPill />
-            {children}
-            <Ground />
-            <BottomDock />
+            <NavMenuProvider>
+              <ConsoleCapabilitiesProvider>
+                <NavPill />
+                {children}
+                <Ground />
+                <BottomDock />
+                <GroundStationConsole />
+              </ConsoleCapabilitiesProvider>
+            </NavMenuProvider>
           </LangProvider>
         </ThemeProvider>
       </body>
