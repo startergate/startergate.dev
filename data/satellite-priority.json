@@ -1,0 +1,17 @@
+[
+  { "name": "ISS", "noradId": 25544 },
+  { "name": "Tiangong (CSS)", "noradId": 48274 },
+  { "name": "Hubble (HST)", "noradId": 20580 },
+  { "name": "KOMPSAT-2 (아리랑 2호)", "noradId": 29268 },
+  { "name": "KOMPSAT-3 (아리랑 3호)", "noradId": 38338 },
+  { "name": "KOMPSAT-3A (아리랑 3A호)", "noradId": 40536 },
+  { "name": "KOMPSAT-5 (아리랑 5호)", "noradId": 39227 },
+  { "name": "NOAA 20", "noradId": 43013 },
+  { "name": "NOAA 21", "noradId": 54234 },
+  { "name": "Metop-B", "noradId": 38771 },
+  { "name": "Metop-C", "noradId": 43689 },
+  { "name": "Terra", "noradId": 25994 },
+  { "name": "Aqua", "noradId": 27424 },
+  { "name": "Landsat 8", "noradId": 39084 },
+  { "name": "Landsat 9", "noradId": 49260 }
+]

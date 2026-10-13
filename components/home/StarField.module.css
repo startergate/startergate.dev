@@ -1,0 +1,53 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  opacity: var(--starop);
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--star);
+}
+
+.twinkle {
+  animation: twinkle 3.6s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.meteor {
+  position: absolute;
+  width: 120px;
+  height: 1.5px;
+  background: linear-gradient(to left, var(--star), transparent);
+  opacity: 0;
+  transform: rotate(-24deg);
+  animation: meteor 14s ease-in infinite;
+}
+@keyframes meteor {
+  0%,
+  86% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-24deg);
+  }
+  88% {
+    opacity: 0.8;
+  }
+  96% {
+    opacity: 0;
+    transform: translate(-340px, 150px) rotate(-24deg);
+  }
+  100% {
+    opacity: 0;
+  }
+}

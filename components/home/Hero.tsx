@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ChevronDownIcon, LocationPinIcon } from "@/components/icons";
 import { SITE_EMAIL, SITE_OPEN_TO_WORK } from "@/lib/site-meta";
 import { useLang } from "@/lib/i18n/LangProvider";
 import type { ProfileMode } from "@/lib/data/types";
+import { SEOUL_OBSERVER, type Observer } from "@/lib/satellite/types";
+import { useSatellitePositions } from "@/lib/satellite/useSatellitePositions";
 
+import { SkySatellites } from "./SkySatellites";
+import { StarField } from "./StarField";
 import styles from "./Hero.module.css";
 
 function useKstClock(): string {
@@ -30,13 +34,21 @@ function useKstClock(): string {
 }
 
 /**
- * 히어로. 위성 하늘(별·유성·위성 점)은 4단계에서 얹는다 — 지금은
- * 하늘 그라데이션(전역)과 KST 캡션·내 위치 토글만 둔다 (spec §4.1, §7).
+ * 히어로. 위성 하늘(별·유성·위성 점) + KST 캡션·내 위치 토글
+ * (spec §4.1, §7). 좌표는 내 위치로 보기를 눌렀을 때만 요청하고,
+ * 저장하거나 외부로 보내지 않는다 — 이 세션의 위성 계산에만 쓴다.
  */
 export function Hero({ mode }: { mode: ProfileMode }) {
   const { dict } = useLang();
   const clock = useKstClock();
   const [loc, setLoc] = useState<"seoul" | "mine">("seoul");
+  const [coords, setCoords] = useState<Observer | null>(null);
+
+  const observer = useMemo<Observer>(
+    () => (loc === "mine" && coords ? coords : SEOUL_OBSERVER),
+    [loc, coords],
+  );
+  const satellites = useSatellitePositions(observer);
 
   const toggleLoc = () => {
     if (loc === "mine") {
@@ -45,7 +57,10 @@ export function Hero({ mode }: { mode: ProfileMode }) {
     }
     try {
       navigator.geolocation?.getCurrentPosition(
-        () => setLoc("mine"),
+        (pos) => {
+          setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+          setLoc("mine");
+        },
         () => {
           /* 거부·실패 — 서울 유지 */
         },
@@ -58,6 +73,9 @@ export function Hero({ mode }: { mode: ProfileMode }) {
 
   return (
     <section id="top" aria-label={dict.hero.roleBackend} className={styles.hero}>
+      <StarField />
+      <SkySatellites positions={satellites} />
+
       <div className={styles.sky}>
         <span className={styles.skyCaption}>
           <span className={styles.skyBlink} aria-hidden="true" />

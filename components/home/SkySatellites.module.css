@@ -1,0 +1,45 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.dot {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transition: left 1.2s linear, top 1.2s linear;
+}
+
+.pt {
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.75;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.label {
+  position: absolute;
+  left: 11px;
+  top: -9px;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--sky);
+  transition: color 0.2s ease;
+}
+
+.dot:hover .label {
+  color: var(--muted);
+}
+.dot:hover .pt {
+  transform: scale(1.4);
+  opacity: 1;
+}
