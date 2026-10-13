@@ -1,0 +1,275 @@
+[
+  {
+    "name": "TypeScript",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/typescript.png",
+      "background": "#4178BA"
+    }
+  },
+  {
+    "name": "JavaScript",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/javascript.png",
+      "background": "#f4de50"
+    }
+  },
+  {
+    "name": "Node.js",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/nodejs.png"
+    }
+  },
+  {
+    "name": "Python",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/python.png"
+    }
+  },
+  {
+    "name": "C",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/c.webp"
+    }
+  },
+  {
+    "name": "C++",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/cpp.png"
+    }
+  },
+  {
+    "name": "C#",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/csharp.png"
+    }
+  },
+  {
+    "name": "Java",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/java.png"
+    }
+  },
+  {
+    "name": "PHP",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/php.png",
+      "background": "#6e6ea7"
+    }
+  },
+  {
+    "name": "Go",
+    "mode": "all",
+    "level": "learning",
+    "logo": {
+      "src": "langs/go.png",
+      "background": "#00ADD8"
+    }
+  },
+  {
+    "name": "NestJS",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/nestjs.svg",
+      "background": "#1A1A1A"
+    }
+  },
+  {
+    "name": "React",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/react.png",
+      "background": "#1F1F1F"
+    }
+  },
+  {
+    "name": "Express.js",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/expressjs.png"
+    }
+  },
+  {
+    "name": "Koa.js",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/koajs.png"
+    }
+  },
+  {
+    "name": "Django",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/django.png",
+      "background": "#092E20"
+    }
+  },
+  {
+    "name": "Django REST Framework",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/drf.png"
+    }
+  },
+  {
+    "name": "Unity",
+    "mode": "game",
+    "level": "using",
+    "logo": {
+      "src": "langs/unity.png",
+      "background": "black"
+    }
+  },
+  {
+    "name": "Unreal Engine",
+    "mode": "game",
+    "level": "learned",
+    "logo": {
+      "src": "langs/unrealengine.png",
+      "background": "black"
+    }
+  },
+  {
+    "name": "Qt",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/qt.png"
+    }
+  },
+  {
+    "name": "jQuery",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/jquery.png"
+    }
+  },
+  {
+    "name": "Gatsby",
+    "mode": "all",
+    "level": "learning",
+    "logo": {
+      "src": "langs/gatsby.png",
+      "background": "#663399"
+    }
+  },
+  {
+    "name": "Spring",
+    "mode": "backend",
+    "level": "learning",
+    "logo": {
+      "src": "langs/spring.png"
+    }
+  },
+  {
+    "name": "MySQL",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/mysql.png"
+    }
+  },
+  {
+    "name": "MariaDB",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/mariadb.png"
+    }
+  },
+  {
+    "name": "AuroraDB",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/auroradb.png",
+      "cover": true
+    }
+  },
+  {
+    "name": "Redis",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/redis.png"
+    }
+  },
+  {
+    "name": "RabbitMQ",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/rabbitmq.svg",
+      "background": "#FFFFFF"
+    }
+  },
+  {
+    "name": "Elasticsearch",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/elasticsearch.svg",
+      "background": "#FFFFFF"
+    }
+  },
+  {
+    "name": "AWS",
+    "mode": "backend",
+    "level": "using",
+    "logo": {
+      "src": "langs/aws.svg",
+      "background": "#FFFFFF"
+    }
+  },
+  {
+    "name": "MongoDB",
+    "mode": "backend",
+    "level": "learned",
+    "logo": {
+      "src": "langs/mongodb.png",
+      "background": "#21313C"
+    }
+  },
+  {
+    "name": "Docker",
+    "mode": "all",
+    "level": "using",
+    "logo": {
+      "src": "externals/docker.png",
+      "background": "#0db7ed"
+    }
+  },
+  {
+    "name": "Jest",
+    "mode": "all",
+    "level": "learned",
+    "logo": {
+      "src": "langs/jest.png",
+      "background": "#37383B"
+    }
+  }
+]
