@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { cardPeriod } from "@/lib/data/format";
 import { monogram } from "@/lib/data/monogram";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
@@ -8,6 +10,7 @@ import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { l10n } from "@/lib/i18n/l10n";
 import { fillTemplate } from "@/lib/i18n/template";
+import { useTheme } from "@/lib/theme/ThemeProvider";
 
 import styles from "./ProjectCard.module.css";
 
@@ -22,6 +25,7 @@ export function ProjectCard({
   onOpen: () => void;
 }) {
   const { lang, dict } = useLang();
+  const { theme, mounted } = useTheme();
 
   const primaryTech = project.techs[0];
   const tech = primaryTech ? getTechByName(primaryTech) : undefined;
@@ -33,6 +37,12 @@ export function ProjectCard({
   const statusColor = STATUS_COLOR_VAR[project.status];
   const ariaLabel = `${fillTemplate(dict.modal.detailAriaTemplate, { name: project.name })} · ${statusLabel}`;
 
+  // mounted 전엔 서버와 같은 기본(src) 변형만 쓴다 (components/home/Resume.tsx와 동일한 이유).
+  const logoSrc =
+    mounted && theme === "light" && project.logo?.srcOnLight
+      ? project.logo.srcOnLight
+      : project.logo?.src;
+
   return (
     <button
       type="button"
@@ -43,7 +53,17 @@ export function ProjectCard({
     >
       <span className={styles.head}>
         <span className={styles.mono} aria-hidden="true">
-          {monogram(project.name)}
+          {logoSrc ? (
+            <Image
+              src={`/images/${logoSrc}`}
+              alt=""
+              width={44}
+              height={44}
+              className={styles.monoImg}
+            />
+          ) : (
+            monogram(project.name)
+          )}
         </span>
         <span className={styles.titleCol}>
           <span className={styles.name}>{project.name}</span>
@@ -59,7 +79,17 @@ export function ProjectCard({
         {tech ? (
           <span className={styles.techBadge}>
             <span className={styles.techMono}>
-              {tech.abbr ?? monogram(tech.name)}
+              {tech.logo?.src ? (
+                <Image
+                  src={`/images/${tech.logo.src}`}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className={styles.techLogo}
+                />
+              ) : (
+                tech.abbr ?? monogram(tech.name)
+              )}
             </span>
             {tech.name}
           </span>
