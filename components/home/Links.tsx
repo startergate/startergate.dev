@@ -1,3 +1,4 @@
+import { getLinkIcon } from "@/lib/data/link-icons";
 import { monogram } from "@/lib/data/monogram";
 import type { LinkItem } from "@/lib/data/types";
 
@@ -19,6 +20,7 @@ export function Links({ links, heading }: { links: LinkItem[]; heading: string }
             key={l.type + l.link}
             href={l.link}
             mono={monogram(l.type)}
+            logoSrc={getLinkIcon(l.type)}
             className={styles.badge}
             logoClassName={styles.logo}
           >
