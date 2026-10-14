@@ -6,6 +6,7 @@ import Image from "next/image";
 import { CloseIcon, CopyLinkIcon } from "@/components/icons";
 import { sendEvent } from "@/lib/analytics";
 import { daysBetween, formatDate } from "@/lib/data/format";
+import { getLinkIcon } from "@/lib/data/link-icons";
 import { monogram } from "@/lib/data/monogram";
 import type { ProjectOverview } from "@/lib/data/overview";
 import { getPerson } from "@/lib/data/people";
@@ -16,6 +17,7 @@ import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { l10n } from "@/lib/i18n/l10n";
 import { fillTemplate } from "@/lib/i18n/template";
+import { useTheme } from "@/lib/theme/ThemeProvider";
 
 import { PeriodArc } from "./PeriodArc";
 import styles from "./ProjectModal.module.css";
@@ -40,6 +42,7 @@ export function ProjectModal({
   onNavigate: (id: string) => void;
 }) {
   const { lang, dict } = useLang();
+  const { theme, mounted } = useTheme();
   const overlayRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -102,6 +105,12 @@ export function ProjectModal({
       : dict.modal.teamProject;
 
   const shareUrl = `${SITE_URL}/${lang}/projects/${project.id}/`;
+
+  // mounted 전엔 서버와 같은 기본(src) 변형만 쓴다 (components/home/Resume.tsx와 동일한 이유).
+  const logoSrc =
+    mounted && theme === "light" && project.logo?.srcOnLight
+      ? project.logo.srcOnLight
+      : project.logo?.src;
 
   const stack = project.techs.map((name) => {
     const tech = getTechByName(name);
@@ -201,7 +210,17 @@ export function ProjectModal({
 
         <header className={styles.header}>
           <span className={styles.mono} aria-hidden="true">
-            {monogram(project.name)}
+            {logoSrc ? (
+              <Image
+                src={`/images/${logoSrc}`}
+                alt=""
+                width={60}
+                height={60}
+                className={styles.monoImg}
+              />
+            ) : (
+              monogram(project.name)
+            )}
           </span>
           <div style={{ minWidth: 0 }}>
             <div className={styles.kind}>{kindLabel}</div>
@@ -369,19 +388,34 @@ export function ProjectModal({
           {project.links && project.links.length > 0 ? (
             <div className={`${styles.tile} ${styles.span4} ${styles.linksWrap}`}>
               <span className={styles.tileLabel}>{dict.modal.linksLabel}</span>
-              {project.links.map((l) => (
-                <a
-                  key={l.link}
-                  href={l.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.linkBadge}
-                >
-                  <span className={styles.linkMono}>{monogram(l.type)}</span>
-                  {l.label}
-                  <span className={styles.linkArrow}>↗</span>
-                </a>
-              ))}
+              {project.links.map((l) => {
+                const icon = getLinkIcon(l.type);
+                return (
+                  <a
+                    key={l.link}
+                    href={l.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.linkBadge}
+                  >
+                    <span className={styles.linkMono}>
+                      {icon ? (
+                        <Image
+                          src={`/images/${icon}`}
+                          alt=""
+                          width={26}
+                          height={26}
+                          className={styles.linkLogo}
+                        />
+                      ) : (
+                        monogram(l.type)
+                      )}
+                    </span>
+                    {l.label}
+                    <span className={styles.linkArrow}>↗</span>
+                  </a>
+                );
+              })}
             </div>
           ) : null}
         </div>

@@ -93,6 +93,13 @@
   font-size: 15px;
   font-weight: 700;
   color: var(--muted);
+  overflow: hidden;
+}
+
+.monoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .kind {
@@ -444,6 +451,13 @@ a.member:hover {
   font-size: 9px;
   font-weight: 700;
   color: var(--muted);
+  overflow: hidden;
+}
+
+.linkLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .linkArrow {
   color: var(--dim);
