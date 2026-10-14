@@ -28,6 +28,7 @@ export function ProjectCard({
   // part(담당 영역)는 2단계 데이터 이전 때 비워둔 프로젝트가 많아
   // types[0]로 대신한다 (docs/spec.md §5.1).
   const part = project.part ?? project.types[0] ?? "";
+  const period = cardPeriod(project);
   const statusLabel = dict.status[project.status];
   const statusColor = STATUS_COLOR_VAR[project.status];
   const ariaLabel = `${fillTemplate(dict.modal.detailAriaTemplate, { name: project.name })} · ${statusLabel}`;
@@ -65,7 +66,7 @@ export function ProjectCard({
         ) : null}
         <span aria-hidden="true">·</span>
         <span className={styles.part}>{part}</span>
-        <span className={`mono ${styles.period}`}>{cardPeriod(project)}</span>
+        {period ? <span className={`mono ${styles.period}`}>{period}</span> : null}
       </span>
     </button>
   );

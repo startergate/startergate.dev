@@ -4,8 +4,14 @@ export function yearOf(dateStr: string): string {
   return dateStr.slice(0, 4);
 }
 
-/** 카드 마지막 줄에 쓰는 압축 기간 표시, 예: "2020 — 2026" / "2026 —" / "2020"(시작·종료 연도가 같으면 한 번만). */
+/**
+ * 카드 마지막 줄에 쓰는 압축 기간 표시, 예: "2020 — 2026" / "2026 —" /
+ * "2020"(시작·종료 연도가 같으면 한 번만). 계획 중(planning)인 프로젝트는
+ * 아직 시작조차 하지 않은 상태라 기간 자체가 의미가 없어 빈 문자열을
+ * 돌려준다.
+ */
 export function cardPeriod(project: Project): string {
+  if (project.status === "planning") return "";
   const start = yearOf(project.startedAt);
   if (!project.finishedAt) return `${start} —`;
   const end = yearOf(project.finishedAt);
