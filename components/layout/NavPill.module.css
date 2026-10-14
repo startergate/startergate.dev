@@ -143,9 +143,12 @@
   transform: translateX(-50%) rotate(45deg);
 }
 
+/* :focus(-within) 대신 :focus-visible을 쓴다 — 마우스 클릭으로도
+   포커스가 생겨서(이 span은 tabIndex=0) :focus였다면 클릭 후 다른 곳을
+   눌러도 말풍선이 계속 떠 있었다. :focus-visible은 키보드 탐색일 때만
+   매칭되어 Tab으로 올 때는 그대로 보이고, 클릭 후에는 안 남는다. */
 .navSoon:hover .navSoonBubble,
-.navSoon:focus .navSoonBubble,
-.navSoon:focus-within .navSoonBubble {
+.navSoon:focus-visible .navSoonBubble {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
