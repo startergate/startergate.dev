@@ -5,9 +5,9 @@
       "src": "teams/fetching_white.svg",
       "srcOnLight": "teams/fetching.svg"
     },
-    "title": { "ko": "백엔드 엔지니어" },
-    "period": { "ko": "2020.12 ~ 2026.03 (5년 3개월)" },
-    "location": { "ko": "서울특별시 성동구" },
+    "title": { "ko": "백엔드 엔지니어", "en": "Backend Engineer" },
+    "period": { "ko": "2020.12 ~ 2026.03 (5년 3개월)", "en": "2020.12 ~ 2026.03 (5y 3mo)" },
+    "location": { "ko": "서울특별시 성동구", "en": "Seongdong-gu, Seoul" },
     "link": "https://fetching.co.kr",
     "summary": {
       "ko": "MAU 75만명을 처리하는 백엔드 서버, 일 500만건 규모의 크롤링 시스템, 주문 및 커머스 컨텐츠 관리부터 회계 시스템을 포함한 다양한 기능의 어드민과 이를 운영하는 인프라와 사내 네트워크 관리까지 다양한 업무를 경험했습니다."
@@ -18,14 +18,17 @@
     "techs": ["TypeScript", "Node.js", "NestJS", "MySQL", "AuroraDB", "Redis", "RabbitMQ", "AWS"]
   },
   {
-    "company": { "ko": "피플펀드컴퍼니 (현. 피에프씨테크놀로지스)" },
+    "company": {
+      "ko": "피플펀드컴퍼니 (현. 피에프씨테크놀로지스)",
+      "en": "PeopleFund Company (now PFCT)"
+    },
     "companyLogo": {
       "src": "teams/peoplefund_white.png",
       "srcOnLight": "teams/peoplefund.png"
     },
-    "title": { "ko": "백엔드 엔지니어 (현장실습)" },
-    "period": { "ko": "2020.01 ~ 2020.02 (1개월)" },
-    "location": { "ko": "서울특별시 강남구" },
+    "title": { "ko": "백엔드 엔지니어 (현장실습)", "en": "Backend Engineer (Internship)" },
+    "period": { "ko": "2020.01 ~ 2020.02 (1개월)", "en": "2020.01 ~ 2020.02 (1mo)" },
+    "location": { "ko": "서울특별시 강남구", "en": "Gangnam-gu, Seoul" },
     "link": "https://www.pfct.co.kr/",
     "summary": {
       "ko": "고등학교 2학년 겨울방학에 현장실습으로 1개월간 근무했습니다. 계정 인증 미들웨어를 개선했고 일부 기능 리팩토링을 진행했습니다."
