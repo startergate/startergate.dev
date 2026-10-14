@@ -1,7 +1,10 @@
 [
   {
     "company": { "ko": "FETCHING" },
-    "companyLogo": { "src": "teams/fetching.svg" },
+    "companyLogo": {
+      "src": "teams/fetching_white.svg",
+      "srcOnLight": "teams/fetching.svg"
+    },
     "title": { "ko": "백엔드 엔지니어" },
     "period": { "ko": "2020.12 ~ 2026.03 (5년 3개월)" },
     "location": { "ko": "서울특별시 성동구" },
