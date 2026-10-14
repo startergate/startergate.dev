@@ -2,7 +2,8 @@
   "id": "cloudy",
   "name": "Cloudy",
   "description": {
-    "ko": "설치형 클라우드 드라이브 서비스"
+    "ko": "설치형 클라우드 드라이브 서비스",
+    "en": "Self-hosted cloud drive service"
   },
   "category": "team",
   "status": "done",
@@ -19,28 +20,49 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "서버 개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "조도울",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "차명준",
       "roles": [
-        "프론트 개발"
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     },
     {
       "name": "정지원",
       "roles": [
-        "디자인",
-        "프론트 개발"
+        {
+          "ko": "디자인",
+          "en": "Design"
+        },
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     }
   ],

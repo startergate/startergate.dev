@@ -2,7 +2,8 @@
   "id": "donote-v",
   "name": "DoNote V",
   "description": {
-    "ko": "TypeScript로 다시 만드는 DoNote"
+    "ko": "TypeScript로 다시 만드는 DoNote",
+    "en": "DoNote, rebuilt in TypeScript"
   },
   "category": "personal",
   "status": "canceled",
@@ -21,7 +22,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

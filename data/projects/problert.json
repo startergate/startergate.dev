@@ -2,7 +2,8 @@
   "id": "problert",
   "name": "Problert",
   "description": {
-    "ko": "위치 기반 민원 접수 시스템"
+    "ko": "위치 기반 민원 접수 시스템",
+    "en": "Location-based civil complaint reporting system"
   },
   "category": "team",
   "status": "done",
@@ -22,37 +23,55 @@
     {
       "name": "최호승",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "정한결",
       "roles": [
-        "모바일 앱 개발"
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     },
     {
       "name": "서지우",
       "roles": [
-        "모바일 앱 개발"
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     },
     {
       "name": "홍준석",
       "roles": [
-        "모바일 앱 개발"
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     },
     {
       "name": "이성범",
       "roles": [
-        "모바일 앱 개발"
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     },
     {
       "name": "양현승",
       "roles": [
-        "모바일 앱 개발"
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     }
   ],

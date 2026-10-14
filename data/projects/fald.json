@@ -2,7 +2,8 @@
   "id": "fald",
   "name": "FaLD",
   "description": {
-    "ko": "일베 콘텐츠 검출 딥러닝 모델"
+    "ko": "일베 콘텐츠 검출 딥러닝 모델",
+    "en": "Deep learning model that detects Ilbe (hate-speech community) content"
   },
   "category": "team",
   "status": "canceled",
@@ -20,27 +21,45 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "조도울",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "차명준",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "정지원",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ],

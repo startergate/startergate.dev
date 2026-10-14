@@ -2,7 +2,8 @@
   "id": "dotori",
   "name": "DOTORI",
   "description": {
-    "ko": "GSM 기숙사 관리 시스템"
+    "ko": "GSM 기숙사 관리 시스템",
+    "en": "GSM dormitory management system"
   },
   "category": "team",
   "team": {
@@ -26,50 +27,77 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "서버 개발 리드"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "서버 개발 리드",
+          "en": "Backend Development Lead"
+        }
       ]
     },
     {
       "name": "박준영",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "최연진",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "정현문",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "권희준",
       "roles": [
-        "프론트 개발 리드"
+        {
+          "ko": "프론트 개발 리드",
+          "en": "Frontend Development Lead"
+        }
       ]
     },
     {
       "name": "김아련",
       "roles": [
-        "프론트 개발"
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     },
     {
       "name": "안채웅",
       "roles": [
-        "프론트 개발"
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     },
     {
       "name": "이진혁",
       "roles": [
-        "프론트 개발"
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     }
   ],

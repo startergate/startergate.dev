@@ -2,7 +2,8 @@
   "id": "eliverd",
   "name": "Eliverd",
   "description": {
-    "ko": "Deliver Your Life, Eliverd. 모두를 위한 배달 서비스"
+    "ko": "Deliver Your Life, Eliverd. 모두를 위한 배달 서비스",
+    "en": "Deliver Your Life, Eliverd. A delivery service for everyone"
   },
   "category": "team",
   "status": "done",
@@ -23,22 +24,40 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "서버 개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "박준영",
       "roles": [
-        "디자인",
-        "모바일 앱 개발"
+        {
+          "ko": "디자인",
+          "en": "Design"
+        },
+        {
+          "ko": "모바일 앱 개발",
+          "en": "Mobile App Development"
+        }
       ]
     },
     {
       "name": "박종효",
       "roles": [
-        "데스크탑 앱 개발"
+        {
+          "ko": "데스크탑 앱 개발",
+          "en": "Desktop App Development"
+        }
       ]
     }
   ],

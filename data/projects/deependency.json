@@ -2,7 +2,8 @@
   "id": "deependency",
   "name": "DEEPendency",
   "description": {
-    "ko": "스팀 창작마당 아이템 의존성 자동 설치기"
+    "ko": "스팀 창작마당 아이템 의존성 자동 설치기",
+    "en": "Automatic dependency installer for Steam Workshop items"
   },
   "category": "personal",
   "status": "planning",
@@ -17,7 +18,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

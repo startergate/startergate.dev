@@ -2,7 +2,8 @@
   "id": "fetching-commerce",
   "name": "FETCHING Commerce",
   "description": {
-    "ko": "페칭 커머스 서비스"
+    "ko": "페칭 커머스 서비스",
+    "en": "FETCHING commerce service"
   },
   "category": "work",
   "team": {
@@ -28,7 +29,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ],

@@ -2,7 +2,8 @@
   "id": "hive",
   "name": "HIVE",
   "description": {
-    "ko": "영화 정보 크롤링 사이트"
+    "ko": "영화 정보 크롤링 사이트",
+    "en": "Movie info crawling site"
   },
   "category": "team",
   "status": "done",
@@ -22,16 +23,31 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "서버 개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "정민우",
       "roles": [
-        "디자인",
-        "프론트 개발"
+        {
+          "ko": "디자인",
+          "en": "Design"
+        },
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     }
   ],

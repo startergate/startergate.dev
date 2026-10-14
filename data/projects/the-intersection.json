@@ -2,7 +2,8 @@
   "id": "the-intersection",
   "name": "The Intersection",
   "description": {
-    "ko": "PC 플랫폼 게임 통합 런처"
+    "ko": "PC 플랫폼 게임 통합 런처",
+    "en": "Unified launcher for PC platform games"
   },
   "category": "personal",
   "status": "done",
@@ -23,7 +24,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

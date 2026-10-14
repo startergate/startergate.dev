@@ -2,7 +2,8 @@
   "id": "glack",
   "name": "Glack",
   "description": {
-    "ko": "GitHub 챗봇"
+    "ko": "GitHub 챗봇",
+    "en": "GitHub chatbot"
   },
   "category": "personal",
   "status": "planning",
@@ -17,7 +18,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

@@ -2,7 +2,8 @@
   "id": "fetching-shared-util",
   "name": "FETCHING Shared Util",
   "description": {
-    "ko": "페칭 프로젝트 공유 라이브러리"
+    "ko": "페칭 프로젝트 공유 라이브러리",
+    "en": "Shared library for FETCHING projects"
   },
   "category": "work",
   "team": {
@@ -24,7 +25,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ]

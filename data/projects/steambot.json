@@ -2,7 +2,8 @@
   "id": "steambot",
   "name": "SteamBot",
   "description": {
-    "ko": "디스코드 스팀 크롤링 봇"
+    "ko": "디스코드 스팀 크롤링 봇",
+    "en": "Discord bot that crawls Steam"
   },
   "category": "personal",
   "status": "done",
@@ -21,7 +22,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

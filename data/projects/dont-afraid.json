@@ -2,7 +2,8 @@
   "id": "dont-afraid",
   "name": "Don't Afraid",
   "description": {
-    "ko": "트라우마 치료 게임"
+    "ko": "트라우마 치료 게임",
+    "en": "Trauma therapy game"
   },
   "category": "team",
   "status": "done",
@@ -23,26 +24,41 @@
     {
       "name": "최호승",
       "roles": [
-        "게임 개발",
-        "게임 런처 개발"
+        {
+          "ko": "게임 개발",
+          "en": "Game Development"
+        },
+        {
+          "ko": "게임 런처 개발",
+          "en": "Game Launcher Development"
+        }
       ]
     },
     {
       "name": "김건",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "김혜연",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "nightgrow",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ],

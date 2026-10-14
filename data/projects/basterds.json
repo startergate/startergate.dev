@@ -2,7 +2,8 @@
   "id": "basterds",
   "name": "Basterds: Hair Naked",
   "description": {
-    "ko": "타워 디펜스 게임"
+    "ko": "타워 디펜스 게임",
+    "en": "Tower defense game"
   },
   "category": "team",
   "status": "done",
@@ -27,23 +28,44 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "서버 개발",
-        "게임 네트워킹"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        },
+        {
+          "ko": "게임 네트워킹",
+          "en": "Game Networking"
+        }
       ]
     },
     {
       "name": "정민우",
       "roles": [
-        "디자인",
-        "프론트 개발"
+        {
+          "ko": "디자인",
+          "en": "Design"
+        },
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     },
     {
       "name": "최준혁",
       "roles": [
-        "게임 개발"
+        {
+          "ko": "게임 개발",
+          "en": "Game Development"
+        }
       ]
     }
   ],

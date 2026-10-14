@@ -2,7 +2,8 @@
   "id": "sid",
   "name": "SID",
   "description": {
-    "ko": "STARTERGATE IDENTITY: 통합 계정 서비스"
+    "ko": "STARTERGATE IDENTITY: 통합 계정 서비스",
+    "en": "STARTERGATE IDENTITY: unified account service"
   },
   "category": "personal",
   "status": "done",
@@ -22,7 +23,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

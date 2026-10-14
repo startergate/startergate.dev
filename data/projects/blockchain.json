@@ -2,7 +2,8 @@
   "id": "blockchain",
   "name": "Untitled Blockchain Project",
   "description": {
-    "ko": "실버 택배 블록체인 보상 체계"
+    "ko": "실버 택배 블록체인 보상 체계",
+    "en": "Blockchain reward system for a senior-citizen parcel delivery service"
   },
   "category": "team",
   "status": "canceled",
@@ -20,13 +21,19 @@
     {
       "name": "최호승",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "모훈",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ],

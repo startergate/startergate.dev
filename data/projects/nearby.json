@@ -2,7 +2,8 @@
   "id": "nearby",
   "name": "Nearby",
   "description": {
-    "ko": "주변 정보 검색 페이지"
+    "ko": "주변 정보 검색 페이지",
+    "en": "Nearby info search page"
   },
   "category": "team",
   "status": "done",
@@ -20,14 +21,23 @@
     {
       "name": "최호승",
       "roles": [
-        "디자인",
-        "개발"
+        {
+          "ko": "디자인",
+          "en": "Design"
+        },
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     },
     {
       "name": "장지수",
       "roles": [
-        "기획"
+        {
+          "ko": "기획",
+          "en": "Planning"
+        }
       ]
     }
   ],

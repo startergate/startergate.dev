@@ -2,7 +2,8 @@
   "id": "fetching-admin",
   "name": "FETCHING Admin",
   "description": {
-    "ko": "페칭 서비스 어드민"
+    "ko": "페칭 서비스 어드민",
+    "en": "FETCHING service admin"
   },
   "category": "work",
   "team": {
@@ -29,7 +30,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ],

@@ -2,7 +2,8 @@
   "id": "fetching-crawler",
   "name": "FETCHING Crawler",
   "description": {
-    "ko": "페칭 크롤링 시스템"
+    "ko": "페칭 크롤링 시스템",
+    "en": "FETCHING crawling system"
   },
   "category": "work",
   "team": {
@@ -29,7 +30,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개발"
+        {
+          "ko": "개발",
+          "en": "Development"
+        }
       ]
     }
   ]

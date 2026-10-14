@@ -2,7 +2,8 @@
   "id": "bkng",
   "name": "BKNG",
   "description": {
-    "ko": "학원 포인트 적립 시스템"
+    "ko": "학원 포인트 적립 시스템",
+    "en": "Point accumulation system for a private academy"
   },
   "category": "personal",
   "status": "done",
@@ -19,7 +20,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],

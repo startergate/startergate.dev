@@ -2,7 +2,8 @@
   "id": "lost",
   "name": "Lost",
   "description": {
-    "ko": "2D 플랫포머 게임"
+    "ko": "2D 플랫포머 게임",
+    "en": "2D platformer game"
   },
   "category": "team",
   "team": {
@@ -24,33 +25,54 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "게임 개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "게임 개발",
+          "en": "Game Development"
+        }
       ]
     },
     {
       "name": "박종효",
       "roles": [
-        "게임 개발"
+        {
+          "ko": "게임 개발",
+          "en": "Game Development"
+        }
       ]
     },
     {
       "name": "정상현",
       "roles": [
-        "게임 개발"
+        {
+          "ko": "게임 개발",
+          "en": "Game Development"
+        }
       ]
     },
     {
       "name": "박재홍",
       "roles": [
-        "QA"
+        {
+          "ko": "QA",
+          "en": "QA"
+        }
       ]
     },
     {
       "name": "오영빈",
       "roles": [
-        "작곡"
+        {
+          "ko": "작곡",
+          "en": "Composition"
+        }
       ]
     }
   ],

@@ -2,7 +2,8 @@
   "id": "gsm-pay",
   "name": "GSM Pay",
   "description": {
-    "ko": "학교 축제 부스 간편 결제 시스템"
+    "ko": "학교 축제 부스 간편 결제 시스템",
+    "en": "Simple payment system for school festival booths"
   },
   "category": "team",
   "status": "done",
@@ -23,33 +24,54 @@
     {
       "name": "최호승",
       "roles": [
-        "팀장",
-        "기획",
-        "서버 개발"
+        {
+          "ko": "팀장",
+          "en": "Team Lead"
+        },
+        {
+          "ko": "기획",
+          "en": "Planning"
+        },
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "박준영",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "최연진",
       "roles": [
-        "서버 개발"
+        {
+          "ko": "서버 개발",
+          "en": "Backend Development"
+        }
       ]
     },
     {
       "name": "노아련",
       "roles": [
-        "프론트 개발"
+        {
+          "ko": "프론트 개발",
+          "en": "Frontend Development"
+        }
       ]
     },
     {
       "name": "이진혁",
       "roles": [
-        "기획 기여"
+        {
+          "ko": "기획 기여",
+          "en": "Planning Contribution"
+        }
       ]
     }
   ],

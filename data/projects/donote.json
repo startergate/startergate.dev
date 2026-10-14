@@ -2,7 +2,8 @@
   "id": "donote",
   "name": "DoNote",
   "description": {
-    "ko": "간단한 메모 웹앱"
+    "ko": "간단한 메모 웹앱",
+    "en": "Simple note-taking web app"
   },
   "category": "personal",
   "status": "done",
@@ -20,7 +21,10 @@
     {
       "name": "최호승",
       "roles": [
-        "개인 개발"
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
       ]
     }
   ],
