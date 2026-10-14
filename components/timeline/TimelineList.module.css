@@ -104,6 +104,13 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+/* .item:hover의 translateX(3px)는 자식인 .dot도 함께 밀어서 세로선
+   위에서 벗어났다. 점은 선 위에 고정돼 있어야 하므로 반대 방향으로
+   같은 양만큼 되돌려 화면상 위치를 그대로 유지한다. */
+.item:hover .dot {
+  transform: translateX(-3px);
 }
 .dotAward {
   background: var(--accent);
