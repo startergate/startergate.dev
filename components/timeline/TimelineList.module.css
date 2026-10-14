@@ -95,8 +95,11 @@
 }
 
 .dot {
+  /* .axis는 left:125px인데, .item은 .row의 그리드(110px + gap 44px)만큼
+     오른쪽에서 시작해서 -25px로는 점 중심이 선 중심보다 ~10px 오른쪽에
+     찍혔다. 점 중심이 선 위에 오도록 -34px로 맞춘다. */
   position: absolute;
-  left: -25px;
+  left: -34px;
   top: 26px;
   width: 11px;
   height: 11px;
