@@ -10,13 +10,13 @@ export type Tech = {
   name: string;
   mode: ProfileMode | "all";
   level: "using" | "learned" | "learning";
-  logo?: { src: string; background?: string; cover?: boolean };
+  logo?: { src: string; background?: string; cover?: boolean; padding?: number };
   abbr?: string;
 };
 
 export type Experience = {
   company: L10n;
-  companyLogo?: { src: string; srcOnLight?: string };
+  companyLogo?: { src: string; srcOnLight?: string; background?: string; padding?: number };
   title: L10n;
   period: L10n;
   location?: L10n;
@@ -53,7 +53,7 @@ export type Project = {
   techs: string[];
   part?: string;
   collaborators: { name: string; roles: L10n[] | string[] }[];
-  logo?: { src: string; srcOnLight?: string; isTitle?: boolean };
+  logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string; padding?: number };
   images?: { src: string; description?: L10n }[];
   links?: { type: string; link: string; label: string }[];
   contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];

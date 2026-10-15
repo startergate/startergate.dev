@@ -30,7 +30,8 @@
     }
   ],
   "logo": {
-    "src": "projects/donote.png"
+    "src": "projects/donote.png",
+    "background": "#2b3040"
   },
   "links": [
     {

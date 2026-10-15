@@ -49,6 +49,8 @@ export function Technologies({
                     key={t.name}
                     mono={t.abbr ?? monogram(t.name)}
                     logoSrc={t.logo?.src}
+                    logoBackground={t.logo?.background}
+                    logoPadding={t.logo?.padding}
                     className={g.className}
                   >
                     {t.name}

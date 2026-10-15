@@ -66,6 +66,8 @@ function ExperienceCard({ exp }: { exp: Experience }) {
                   key={name}
                   mono={tech?.abbr ?? monogram(name)}
                   logoSrc={tech?.logo?.src}
+                  logoBackground={tech?.logo?.background}
+                  logoPadding={tech?.logo?.padding}
                   className={styles.stackBadge}
                 >
                   {name}

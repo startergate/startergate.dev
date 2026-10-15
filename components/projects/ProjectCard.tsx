@@ -52,7 +52,11 @@ export function ProjectCard({
       aria-label={ariaLabel}
     >
       <span className={styles.head}>
-        <span className={styles.mono} aria-hidden="true">
+        <span
+          className={styles.mono}
+          aria-hidden="true"
+          style={project.logo?.background ? { background: project.logo.background } : undefined}
+        >
           {logoSrc ? (
             <Image
               src={`/images/${logoSrc}`}
@@ -78,7 +82,17 @@ export function ProjectCard({
       <span className={styles.metaRow}>
         {tech ? (
           <span className={styles.techBadge}>
-            <span className={styles.techMono}>
+            <span
+              className={styles.techMono}
+              style={
+                tech.logo?.background || tech.logo?.padding
+                  ? {
+                      ...(tech.logo?.background ? { background: tech.logo.background } : null),
+                      ...(tech.logo?.padding ? { padding: tech.logo.padding } : null),
+                    }
+                  : undefined
+              }
+            >
               {tech.logo?.src ? (
                 <Image
                   src={`/images/${tech.logo.src}`}

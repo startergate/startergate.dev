@@ -118,6 +118,8 @@ export function ProjectModal({
       name,
       mono: tech?.abbr ?? monogram(name),
       logoSrc: tech?.logo?.src,
+      logoBackground: tech?.logo?.background,
+      logoPadding: tech?.logo?.padding,
     };
   });
 
@@ -209,7 +211,11 @@ export function ProjectModal({
         </button>
 
         <header className={styles.header}>
-          <span className={styles.mono} aria-hidden="true">
+          <span
+            className={styles.mono}
+            aria-hidden="true"
+            style={project.logo?.background ? { background: project.logo.background } : undefined}
+          >
             {logoSrc ? (
               <Image
                 src={`/images/${logoSrc}`}
@@ -344,7 +350,17 @@ export function ProjectModal({
             <div className={styles.badgeRow}>
               {stack.map((t) => (
                 <span key={t.name} className={styles.stackBadge}>
-                  <span className={styles.stackMono}>
+                  <span
+                    className={styles.stackMono}
+                    style={
+                      t.logoBackground || t.logoPadding
+                        ? {
+                            ...(t.logoBackground ? { background: t.logoBackground } : null),
+                            ...(t.logoPadding ? { padding: t.logoPadding } : null),
+                          }
+                        : undefined
+                    }
+                  >
                     {t.logoSrc ? (
                       <Image
                         src={`/images/${t.logoSrc}`}
@@ -398,10 +414,20 @@ export function ProjectModal({
                     rel="noreferrer"
                     className={styles.linkBadge}
                   >
-                    <span className={styles.linkMono}>
+                    <span
+                      className={styles.linkMono}
+                      style={
+                        icon?.background || icon?.padding
+                          ? {
+                              ...(icon?.background ? { background: icon.background } : null),
+                              ...(icon?.padding ? { padding: icon.padding } : null),
+                            }
+                          : undefined
+                      }
+                    >
                       {icon ? (
                         <Image
-                          src={`/images/${icon}`}
+                          src={`/images/${icon.src}`}
                           alt=""
                           width={26}
                           height={26}

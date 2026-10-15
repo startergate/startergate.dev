@@ -106,7 +106,8 @@
     "mode": "backend",
     "level": "learned",
     "logo": {
-      "src": "langs/expressjs.png"
+      "src": "langs/expressjs.png",
+      "background": "#FFFFFF"
     }
   },
   {
@@ -114,7 +115,8 @@
     "mode": "backend",
     "level": "learned",
     "logo": {
-      "src": "langs/koajs.png"
+      "src": "langs/koajs.png",
+      "background": "#FFFFFF"
     }
   },
   {
