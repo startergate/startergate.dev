@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ChevronDownIcon } from "@/components/icons";
+import { formatExperiencePeriod } from "@/lib/data/experience-format";
 import { monogram } from "@/lib/data/monogram";
 import { getTechByName } from "@/lib/data/techs";
 import type { Experience } from "@/lib/data/types";
@@ -52,7 +53,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
               {l10n(exp.company, lang)}{" "}
               <span className={styles.companyTitle}>{l10n(exp.title, lang)}</span>
             </h3>
-            <span className={`num ${styles.period}`}>{l10n(exp.period, lang)}</span>
+            <span className={`num ${styles.period}`}>{formatExperiencePeriod(exp, lang)}</span>
           </div>
           {exp.location ? (
             <div className={styles.place}>{l10n(exp.location, lang)}</div>
@@ -150,8 +151,8 @@ export function Resume({
   experiences: Experience[];
 }) {
   return (
-    <section id="resume" className={styles.section}>
-      <SectionLabel num="04" label="Résumé" />
+    <section className={styles.section}>
+      <SectionLabel id="resume" num="04" label="Résumé" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.resume.heading}</h2>
         <CvDownloadDropdown />

@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 
 import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
-import { formatTimelineHeading } from "@/lib/data/timeline-format";
+import { formatTimelineHeading, formatTimelinePeriod } from "@/lib/data/timeline-format";
 import type { TimelineItem, TimelineType } from "@/lib/data/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
 import type { Locale } from "@/lib/i18n/locales";
@@ -22,9 +22,10 @@ function dotClass(type: TimelineType): string {
 function groupByYear(items: TimelineItem[]) {
   const map = new Map<string, TimelineItem[]>();
   for (const item of items) {
-    const list = map.get(item.year) ?? [];
+    const year = item.startedAt.slice(0, 4);
+    const list = map.get(year) ?? [];
     list.push(item);
-    map.set(item.year, list);
+    map.set(year, list);
   }
   return Array.from(map.entries())
     .sort((a, b) => b[0].localeCompare(a[0]))
@@ -121,7 +122,7 @@ export function TimelineList({
                     <span aria-hidden="true" className={`${styles.dot} ${dotClass(item.type)}`} />
                     <div className={styles.itemTop}>
                       <span className={styles.typeTag}>{dict.timelinePage.types[item.type]}</span>
-                      <span className={`mono ${styles.date}`}>{item.date}</span>
+                      <span className={`mono ${styles.date}`}>{formatTimelinePeriod(item)}</span>
                     </div>
                     <h2 className={styles.heading}>{heading}</h2>
                     {sub ? <p className={styles.sub}>{sub}</p> : null}

@@ -18,7 +18,11 @@ export type Experience = {
   company: L10n;
   companyLogo?: { src: string; srcOnLight?: string; background?: string; padding?: number };
   title: L10n;
-  period: L10n;
+  /** "YYYY-MM" (일 단위는 안 씀). 화면에 보이는 "2020.12 ~ 2026.03
+   * (5년 3개월)" 같은 표시 문자열은 lib/data/experience-format.ts가
+   * 이 두 값에서 계산한다 — 데이터에 텍스트로 미리 넣지 않는다. */
+  startedAt: string;
+  finishedAt?: string;
   location?: L10n;
   link?: string;
   summary: L10n;
@@ -32,8 +36,13 @@ export type TimelineType = "career" | "award" | "cert" | "group" | "edu";
 
 export type TimelineItem = {
   type: TimelineType;
-  year: string;
-  date: string;
+  /** "YYYY" | "YYYY-MM" | "YYYY-MM-DD" — 원래 자료의 정밀도를 그대로
+   * 쓴다(수상일은 보통 월까지만, 자격증은 날짜 없이 연도만인 경우도
+   * 있음). 화면 표시는 lib/data/timeline-format.ts에서 계산한다. */
+  startedAt: string;
+  finishedAt?: string;
+  /** 종료일 없이 지금까지 계속되는 중(예: 현재 활동 중인 동아리). */
+  ongoing?: boolean;
   title: L10n;
   org?: L10n;
   description?: L10n;

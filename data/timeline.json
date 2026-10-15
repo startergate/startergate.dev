@@ -1,32 +1,8 @@
 [
   {
-    "type": "career",
-    "year": "2020",
-    "date": "2020.12 ~ 2026.03",
-    "title": { "ko": "백엔드 엔지니어", "en": "Back-end Engineer" },
-    "org": { "ko": "FETCHING" },
-    "description": {
-      "ko": "MAU 75만명을 처리하는 백엔드 서버, 일 500만건 규모의 크롤링 시스템, 주문 및 커머스 컨텐츠 관리부터 회계 시스템을 포함한 다양한 기능의 어드민과 이를 운영하는 인프라와 사내 네트워크 관리까지 다양한 업무를 경험했습니다.",
-      "en": "I've worked across a wide range of systems — from building and operating a backend server supporting 750K MAU, to a crawling system handling 5 million records a day, to an admin covering everything from orders and commerce content management to accounting, as well as the infrastructure and internal network that run it all."
-    },
-    "link": "https://fetching.co.kr"
-  },
-  {
-    "type": "career",
-    "year": "2020",
-    "date": "2020.01 ~ 2020.02",
-    "title": { "ko": "백엔드 엔지니어 (현장실습)", "en": "Back-end Engineer (Internship)" },
-    "org": { "ko": "피플펀드컴퍼니", "en": "PeopleFund Company" },
-    "description": {
-      "ko": "고등학교 2학년 겨울방학에 현장실습으로 1개월간 근무했습니다. 계정 인증 미들웨어를 개선했고 일부 기능 리팩토링을 진행했습니다.",
-      "en": "Worked as a field trainee for one month during winter break of my second year of high school. Improved the account authentication middleware and refactored related features."
-    },
-    "link": "https://www.pfct.co.kr/"
-  },
-  {
     "type": "edu",
-    "year": "2018",
-    "date": "2018.03 ~ 2021.01",
+    "startedAt": "2018-03",
+    "finishedAt": "2021-01",
     "title": { "ko": "소프트웨어개발과", "en": "Software Development" },
     "org": { "ko": "광주소프트웨어마이스터고등학교", "en": "Gwangju Software Meister High School" },
     "description": { "ko": "광주광역시", "en": "Gwangju" },
@@ -34,62 +10,55 @@
   },
   {
     "type": "award",
-    "year": "2018",
-    "date": "2018.06",
+    "startedAt": "2018-06",
     "title": { "ko": "글로벌 비즈쿨 CO-TDM 창업경진대회", "en": "Global BizCool CO-TDM Startup Competition" },
     "org": { "ko": "최우수상", "en": "Excellence Award" },
     "description": { "ko": "E-Faucet: 스마트 수도꼭지", "en": "E-Faucet: Smart Faucet" }
   },
   {
     "type": "award",
-    "year": "2018",
-    "date": "2018.04",
+    "startedAt": "2018-04",
     "title": { "ko": "GSM 창의알고리즘 콘테스트", "en": "GSM Creative Algorithm Contest" },
     "org": { "ko": "장려상", "en": "Honorable Mention" },
     "description": { "ko": "M2C: Modular Multi Camera" }
   },
   {
     "type": "award",
-    "year": "2019",
-    "date": "2019",
+    "startedAt": "2019",
     "title": { "ko": "GSM 소프트웨어 개발 경진 콘테스트", "en": "GSM Software Development Contest" },
     "org": { "ko": "장려상", "en": "Honorable Mention" },
     "description": { "ko": "The Intersection" }
   },
   {
     "type": "award",
-    "year": "2020",
-    "date": "2020.09",
+    "startedAt": "2020-09",
     "title": { "ko": "GSM 팀프로젝트발표회", "en": "GSM Team Project Showcase" },
     "org": { "ko": "장려상", "en": "Honorable Mention" },
     "description": { "ko": "Eliverd" }
   },
   {
     "type": "award",
-    "year": "2020",
-    "date": "2020.09",
+    "startedAt": "2020-09",
     "title": { "ko": "GSM 전공 동아리 해커톤 대회", "en": "GSM Major Club Hackathon" },
     "org": { "ko": "장려상", "en": "Honorable Mention" },
     "description": { "ko": "GSM Pay" }
   },
   {
     "type": "cert",
-    "year": "2019",
-    "date": "2019.03",
+    "startedAt": "2019-03",
     "title": { "ko": "정보처리기능사", "en": "Craftsman Information Processing" },
     "org": { "ko": "한국산업인력공단", "en": "Human Resources Development Service of Korea (HRD Korea)" }
   },
   {
     "type": "cert",
-    "year": "2018",
-    "date": "2018.08",
+    "startedAt": "2018-08",
     "title": { "ko": "TOEIC" },
     "org": { "ko": "865점", "en": "865" }
   },
   {
     "type": "group",
-    "year": "2018",
-    "date": "2018.03 ~ 2020.08",
+    "startedAt": "2018-03",
+    "finishedAt": "2020-08",
     "title": { "ko": "동아리원", "en": "Club Member" },
     "org": { "ko": "빈실" },
     "description": { "ko": "광주소프트웨어마이스터고등학교 웹 개발 동아리", "en": "Gwangju Software Meister High School web development club" },
@@ -97,8 +66,8 @@
   },
   {
     "type": "group",
-    "year": "2020",
-    "date": "2020.01 ~ 2020.08",
+    "startedAt": "2020-01",
+    "finishedAt": "2020-08",
     "title": { "ko": "부장", "en": "Club President" },
     "org": { "ko": "빈실" },
     "description": { "ko": "광주소프트웨어마이스터고등학교 웹 개발 동아리 · 프로젝트: DOTORI, GSM Pay", "en": "Gwangju Software Meister High School web development club · Projects: DOTORI, GSM Pay" },
@@ -106,8 +75,8 @@
   },
   {
     "type": "group",
-    "year": "2019",
-    "date": "2019.03 ~",
+    "startedAt": "2019-03",
+    "ongoing": true,
     "title": { "ko": "동아리원 · 부장", "en": "Club Member · President" },
     "org": { "ko": "Tiny Beluga" },
     "description": { "ko": "광주소프트웨어마이스터고등학교 게임 개발 동아리 · 프로젝트: Lost", "en": "Gwangju Software Meister High School game development club · Projects: Lost" },
