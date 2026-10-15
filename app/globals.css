@@ -8,6 +8,10 @@
  * 시스템 설정을 따르게 한다 (spec §3.4).
  */
 :root {
+  /* color-scheme을 안 알려주면 스크롤바·폼 컨트롤 같은 브라우저 기본
+     UI와, 특히 최상단/최하단을 넘겨 당겼을 때 보이는 오버스크롤
+     영역이 테마와 상관없이 항상 흰색으로 그려진다. */
+  color-scheme: light;
   --bg: #f4f6fa;
   --surface: #ffffff;
   --surface2: #e9edf4;
@@ -50,6 +54,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #080b12;
     --surface: #0f1420;
     --surface2: #182033;
@@ -93,6 +98,7 @@
 }
 
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --bg: #080b12;
   --surface: #0f1420;
   --surface2: #182033;
