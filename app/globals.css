@@ -168,6 +168,10 @@
 
 html {
   min-height: 100%;
+  /* 히어로 아래 화살표(#about로 이동) 같은 앵커 링크가 애니메이션
+     없이 바로 점프하던 것을 부드럽게 스크롤되게 한다. 모션을 줄이길
+     원하는 사용자를 위한 예외는 아래 prefers-reduced-motion에 있다. */
+  scroll-behavior: smooth;
 }
 
 body {
