@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 
@@ -21,6 +21,17 @@ import "../globals.css";
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
 }
+
+/**
+ * <meta name="color-scheme">를 찍어, 테마 인라인 스크립트가 실행되기도
+ * 전인 아주 초반(또는 언어 전환으로 전체 새로 로드될 때 그 사이)에도
+ * 브라우저가 흰색이 아니라 시스템 선호에 맞는 캔버스 배경을 바로
+ * 그리게 한다 — 언어 전환(하드 네비게이션) 때 흰 사각형이 잠깐
+ * 비쳤다 사라지던 플래시를 줄인다.
+ */
+export const viewport: Viewport = {
+  colorScheme: "dark light",
+};
 
 export async function generateMetadata({
   params,
