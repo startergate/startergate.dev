@@ -84,6 +84,12 @@
 }
 
 .title {
+  /* .content가 flex-direction:column이라 align-items 기본값(stretch)
+     때문에 글자 폭과 상관없이 컨테이너 전체 너비로 늘어나 있었다.
+     pointer-events:auto가 이 박스 전체에 걸려 있어서(위 .content 주석
+     참고), 글자 오른쪽 빈 공간까지 뒤에 있는 위성의 호버를 가로챘다.
+     .email/.openToWork처럼 내용 너비만큼만 차지하게 한다. */
+  align-self: flex-start;
   margin: 0;
   font-size: 64px;
   font-weight: 700;
@@ -99,6 +105,7 @@
 }
 
 .name {
+  align-self: flex-start;
   margin: 28px 0 0;
   font-size: 18px;
   font-weight: 700;
@@ -109,6 +116,7 @@
 }
 
 .role {
+  align-self: flex-start;
   margin: 4px 0 0;
   font-size: 15px;
   color: var(--muted);
