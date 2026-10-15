@@ -4,6 +4,9 @@
   gap: 12px;
   font-size: 13px;
   color: var(--dim);
+  /* 네비 pill(top:24px, 높이 64px)과 거의 같은 높이로 스크롤이
+     멈추게 한다 — 앵커 점프·goto 명령 둘 다 해당. */
+  scroll-margin-top: 45px;
 }
 .cue::after {
   content: "";

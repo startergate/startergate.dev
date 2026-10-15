@@ -28,8 +28,8 @@ export function Technologies({
   ];
 
   return (
-    <section id="tech" className={styles.section}>
-      <SectionLabel num="03" label="Technologies" />
+    <section className={styles.section}>
+      <SectionLabel id="tech" num="03" label="Technologies" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.tech.heading}</h2>
         <Badge href="https://stackshare.io/startergate" mono="SS">

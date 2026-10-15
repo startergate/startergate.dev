@@ -22,8 +22,8 @@ export function Highlights({
   onOpen: (id: string) => void;
 }) {
   return (
-    <section id="projects" className={styles.section}>
-      <SectionLabel num="02" label="Project Highlights" />
+    <section className={styles.section}>
+      <SectionLabel id="projects" num="02" label="Project Highlights" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.highlights.heading}</h2>
         <Badge href="https://github.com/startergate" mono="GH">

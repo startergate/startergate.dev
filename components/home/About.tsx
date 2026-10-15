@@ -19,8 +19,8 @@ export function About({
   const content = dict.about[mode];
 
   return (
-    <section id="about" className={styles.section}>
-      <SectionLabel num="01" label="About" />
+    <section className={styles.section}>
+      <SectionLabel id="about" num="01" label="About" />
       <h2 className={styles.heading}>
         {content.title1}
         <br />
