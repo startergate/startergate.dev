@@ -77,7 +77,14 @@ export default async function LangLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* 첫 페인트 전 data-theme 설정 (spec §3.4) */}
+        {/* 첫 페인트 전 data-theme 설정 (spec §3.4). <script> 태그(또는
+            next/script의 beforeInteractive)는 최초 서버 렌더에서만
+            안전하다 — 이 레이아웃이 클라이언트에서 다시 렌더되면(예:
+            [lang] 파라미터가 바뀌는 언어 전환) React가 "Encountered a
+            script tag while rendering" 오류를 던진다. 그래서 언어 전환은
+            components/layout/LangSwitcher.tsx에서 router.push 대신
+            location.href로 완전히 새로 로드하게 했다 — 그러면 이
+            루트 레이아웃이 클라이언트에서 재렌더되는 일 자체가 없다. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body suppressHydrationWarning>
