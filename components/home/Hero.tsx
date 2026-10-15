@@ -77,14 +77,14 @@ export function Hero({ mode }: { mode: ProfileMode }) {
       <SkySatellites positions={satellites} />
 
       <div className={styles.sky}>
-        <span className={styles.skyCaption}>
-          <span className={styles.skyBlink} aria-hidden="true" />
-          {loc === "mine" ? dict.hero.skyMine : dict.hero.skySeoul} · {clock}
-        </span>
         <button type="button" className={styles.locBtn} onClick={toggleLoc}>
           <LocationPinIcon />
           {loc === "mine" ? dict.hero.locToSeoul : dict.hero.locToMine}
         </button>
+        <span className={styles.skyCaption}>
+          <span className={styles.skyBlink} aria-hidden="true" />
+          {loc === "mine" ? dict.hero.skyMine : dict.hero.skySeoul} · {clock}
+        </span>
       </div>
 
       <div className={`wrap ${styles.content}`}>
