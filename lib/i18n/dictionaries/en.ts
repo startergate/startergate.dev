@@ -44,7 +44,7 @@ const en: Dictionary = {
   },
   hero: {
     slogan: "[새 표어]",
-    roleBackend: "Backend Engineer",
+    roleBackend: "Back-end Engineer",
     roleGame: "Game Developer / Player",
     openToWork: "open to work",
     scrollDown: "Scroll down",
@@ -154,7 +154,7 @@ const en: Dictionary = {
     themeChangedTemplate: "theme → {value}",
     modeChangedTemplate: "mode → {value}",
     modeOnlyMain: "profile mode can only be changed on the home page",
-    modeBackendLabel: "Backend Engineer",
+    modeBackendLabel: "Back-end Engineer",
     modeGameLabel: "Game Developer",
     langChangedTemplate: "lang → {value}",
     gotoToTemplate: "→ #{id}",
