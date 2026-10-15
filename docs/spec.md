@@ -180,7 +180,7 @@ type Project = {
   techs: string[];             // 사용 기술 (기존 tags)
   part?: string;               // 카드에 쓰는 담당 영역: "Back-end" | "Front-end" | "Full-stack" | ...
   collaborators: { name: string; roles: L10n[] | string[] }[];
-  logo?: { src: string; srcOnLight?: string; isTitle?: boolean };
+  logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string }; // background: 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보일 때 고정 배경색 (2026-10-15 추가)
   images?: { src: string; description?: L10n }[];   // 여러 장 가능, 없어도 됨
   links?: { type: string; link: string; label: string }[];
   contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];  // 본문 섹션, 없어도 됨
@@ -238,13 +238,14 @@ type Project = {
     abbr?: string;
   };
   ```
-- `data/experiences.json`: 기존 `index.tsx`의 경력 문단 중 첫 문단을 `summary`(카드에 항상 보임), 나머지를 `detail`(펼쳤을 때)로 나눴다. `techs`는 기존 데이터에 없던 필드라 경력 설명에 등장하는 기술 위주로 새로 채웠다.
+- `data/experiences.json`: 기존 `index.tsx`의 경력 문단 중 첫 문단을 `summary`(카드에 항상 보임), 나머지를 `detail`(펼쳤을 때)로 나눴다. `techs`는 기존 데이터에 없던 필드라 경력 설명에 등장하는 기술 위주로 새로 채웠다. **(2026-10-15 변경)** `period`(미리 포맷한 문자열)를 `startedAt`/`finishedAt`(YYYY-MM)로 바꿨다 — "5년 3개월" 같은 기간 표시는 `lib/data/experience-format.ts`가 그때그때 계산한다(데이터에 텍스트로 중복해서 적어두지 않는다). `companyLogo`에도 `background`를 추가해, 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보이는 경우 고정 배경색을 줄 수 있다.
   ```ts
   type Experience = {
     company: L10n;
-    companyLogo?: { src: string; srcOnLight?: string };
+    companyLogo?: { src: string; srcOnLight?: string; background?: string };
     title: L10n;          // 직함
-    period: L10n;         // "2020.12 ~ 2026.03 (5년 3개월)" 같은 기간 표시
+    startedAt: string;     // "YYYY-MM"
+    finishedAt?: string;
     location?: L10n;
     link?: string;
     summary: L10n;
@@ -252,12 +253,13 @@ type Project = {
     techs: string[];      // techs.json의 name 참조
   };
   ```
-- `data/timeline.json`: 경력·학력·수상·자격·그룹 활동을 모두 같은 모양으로 담는다. `org`는 항목 종류에 따라 회사명/학과/수상 등급/발급 기관/동아리 설명처럼 의미가 달라지는 보조 라벨이다. `year`는 연도별로 묶기 위한 그룹 키(기간이 여러 해에 걸쳐도 시작 연도 하나)이고, `date`는 화면에 보이는 전체 기간 문자열이다(4단계에서 `date` 하나로는 연도 그룹을 묶을 수 없어서 `year`를 추가했다). 빈실처럼 같은 소속에서 역할이 바뀐 경우, 역할·기간이 다르면 항목을 나눈다(기존 빈실 "동아리원"과 "부장"을 분리, 시안 TL_ITEMS와 동일).
+- `data/timeline.json`: 학력·수상·자격·그룹 활동을 담는다. `org`는 항목 종류에 따라 학과/수상 등급/발급 기관/동아리 설명처럼 의미가 달라지는 보조 라벨이다. 빈실처럼 같은 소속에서 역할이 바뀐 경우, 역할·기간이 다르면 항목을 나눈다(기존 빈실 "동아리원"과 "부장"을 분리, 시안 TL_ITEMS와 동일). **(2026-10-15 변경)** `career` 항목은 더 이상 이 파일에 두지 않는다 — `data/experiences.json`과 제목·소속·설명·링크가 그대로 겹쳤다는 피드백으로, `lib/data/timeline.ts`의 `getTimelineItems()`가 `getExperiences()`에서 그때그때 합성해 나머지 항목과 합친다(최신순 정렬). `year`/`date`(미리 포맷한 문자열)도 `startedAt`/`finishedAt`/`ongoing`으로 바꿨다 — 연도 그룹 키는 `startedAt`의 앞 4자리에서, 화면 표시 문자열은 `lib/data/timeline-format.ts`의 `formatTimelinePeriod()`가 계산한다.
   ```ts
   type TimelineItem = {
     type: 'career' | 'award' | 'cert' | 'group' | 'edu';
-    year: string;           // 그룹 키, 예: "2020"
-    date: string;           // 표시용 문자열, 예: "2020.12 ~ 2026.03"
+    startedAt: string;       // "YYYY" | "YYYY-MM" | "YYYY-MM-DD" — 원 자료 정밀도 그대로
+    finishedAt?: string;
+    ongoing?: boolean;       // 종료일 없이 지금까지 계속되는 중
     title: L10n;
     org?: L10n;
     description?: L10n;
@@ -326,6 +328,7 @@ type Project = {
   5. NOAA / Metop 기상위성
   6. Landsat / Terra / Aqua
   7. 남는 자리는 CelesTrak `visual`(밝은 위성) 목록에서 앙각이 높은 순으로 채운다.
+  8. **(2026-10-15 추가)** 스타링크 표본 40기(궤도면을 고르게 훑도록 샘플링). 후보가 165개여도 앙각 10° 이상인 게 거의 없어 실제로 뜨는 위성이 적다는 피드백으로 추가했다.
 - **데이터 파이프라인**
   - GitHub Action이 매일 1회 CelesTrak GP 데이터를 받는다. 형식은 JSON(OMM)이고 그룹은 `stations`, `visual`, `weather`, `resource`다.
   - 받은 데이터에서 후보 위성만 추려 `public/data/satellites.json`으로 커밋하고, 그 커밋이 배포를 트리거한다.
