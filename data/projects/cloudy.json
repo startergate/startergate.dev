@@ -30,7 +30,7 @@
         },
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -39,7 +39,7 @@
       "roles": [
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -48,7 +48,7 @@
       "roles": [
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     },
@@ -61,7 +61,7 @@
         },
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     }

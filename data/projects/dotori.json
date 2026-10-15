@@ -33,7 +33,7 @@
         },
         {
           "ko": "서버 개발 리드",
-          "en": "Backend Development Lead"
+          "en": "Back-end Development Lead"
         }
       ]
     },
@@ -42,7 +42,7 @@
       "roles": [
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -51,7 +51,7 @@
       "roles": [
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -60,7 +60,7 @@
       "roles": [
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -69,7 +69,7 @@
       "roles": [
         {
           "ko": "프론트 개발 리드",
-          "en": "Frontend Development Lead"
+          "en": "Front-end Development Lead"
         }
       ]
     },
@@ -78,7 +78,7 @@
       "roles": [
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     },
@@ -87,7 +87,7 @@
       "roles": [
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     },
@@ -96,7 +96,7 @@
       "roles": [
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     }
@@ -109,7 +109,8 @@
     {
       "src": "projects/dotori/1.png",
       "description": {
-        "ko": "DOTORI 메인 화면"
+        "ko": "DOTORI 메인 화면",
+        "en": "DOTORI main screen"
       }
     }
   ],

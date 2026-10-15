@@ -38,7 +38,7 @@
         },
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         },
         {
           "ko": "게임 네트워킹",
@@ -55,7 +55,7 @@
         },
         {
           "ko": "프론트 개발",
-          "en": "Frontend Development"
+          "en": "Front-end Development"
         }
       ]
     },

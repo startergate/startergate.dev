@@ -34,7 +34,7 @@
         },
         {
           "ko": "서버 개발",
-          "en": "Backend Development"
+          "en": "Back-end Development"
         }
       ]
     },
@@ -68,85 +68,99 @@
     {
       "src": "projects/eliverd/customer/1.gif",
       "description": {
-        "ko": "소비자 앱 상품 조회"
+        "ko": "소비자 앱 상품 조회",
+        "en": "Consumer app: product listing"
       }
     },
     {
       "src": "projects/eliverd/customer/2.gif",
       "description": {
-        "ko": "소비자 앱 주문"
+        "ko": "소비자 앱 주문",
+        "en": "Consumer app: ordering"
       }
     },
     {
       "src": "projects/eliverd/customer/3.gif",
       "description": {
-        "ko": "소비자 앱 결제"
+        "ko": "소비자 앱 결제",
+        "en": "Consumer app: payment"
       }
     },
     {
       "src": "projects/eliverd/customer/4.gif",
       "description": {
-        "ko": "소비자 앱 주문 내역 조회"
+        "ko": "소비자 앱 주문 내역 조회",
+        "en": "Consumer app: order history"
       }
     },
     {
       "src": "projects/eliverd/customer/5.gif",
       "description": {
-        "ko": "소비자 앱 상품 추천"
+        "ko": "소비자 앱 상품 추천",
+        "en": "Consumer app: product recommendations"
       }
     },
     {
       "src": "projects/eliverd/customer/6.gif",
       "description": {
-        "ko": "소비자 앱 검색"
+        "ko": "소비자 앱 검색",
+        "en": "Consumer app: search"
       }
     },
     {
       "src": "projects/eliverd/customer/7.gif",
       "description": {
-        "ko": "소비자 앱 카테고리 분류"
+        "ko": "소비자 앱 카테고리 분류",
+        "en": "Consumer app: category browsing"
       }
     },
     {
       "src": "projects/eliverd/customer/8.gif",
       "description": {
-        "ko": "소비자 앱 마이페이지"
+        "ko": "소비자 앱 마이페이지",
+        "en": "Consumer app: my page"
       }
     },
     {
       "src": "projects/eliverd/store/1.gif",
       "description": {
-        "ko": "상점 앱 상품 조회"
+        "ko": "상점 앱 상품 조회",
+        "en": "Merchant app: product listing"
       }
     },
     {
       "src": "projects/eliverd/store/2.gif",
       "description": {
-        "ko": "상점 앱 주문"
+        "ko": "상점 앱 주문",
+        "en": "Merchant app: ordering"
       }
     },
     {
       "src": "projects/eliverd/store/3.gif",
       "description": {
-        "ko": "상점 앱 결제"
+        "ko": "상점 앱 결제",
+        "en": "Merchant app: payment"
       }
     },
     {
       "src": "projects/eliverd/store/4.gif",
       "description": {
-        "ko": "상점 앱 주문 내역 조회"
+        "ko": "상점 앱 주문 내역 조회",
+        "en": "Merchant app: order history"
       }
     },
     {
       "src": "projects/eliverd/store/5.gif",
       "description": {
-        "ko": "상점 앱 상품 추천"
+        "ko": "상점 앱 상품 추천",
+        "en": "Merchant app: product recommendations"
       }
     },
     {
       "src": "projects/eliverd/store/6.gif",
       "description": {
-        "ko": "상점 앱 검색"
+        "ko": "상점 앱 검색",
+        "en": "Merchant app: search"
       }
     }
   ],
