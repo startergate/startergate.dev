@@ -2,12 +2,27 @@
 
 import { useLang } from "@/lib/i18n/LangProvider";
 import { fillTemplate } from "@/lib/i18n/template";
-import type { SatellitePosition } from "@/lib/satellite/types";
+import type { OrbitClass, SatellitePosition } from "@/lib/satellite/types";
 
 import styles from "./SkySatellites.module.css";
 
 const ZENITH_PCT = 8;
 const HORIZON_PCT = 90;
+
+/**
+ * 궤도마다 지상 관측자 기준 각속도(하늘을 가로지르는 속도)가 많이
+ * 다르다 — 저궤도(ISS 등)는 몇 분 만에 하늘을 가로지르지만, 정지
+ * 궤도는 지구 자전과 같이 돌아서 사실상 하늘에 고정돼 보인다. 꼬리
+ * 길이를 궤도별로 다르게 둬서 이 차이를 시각적으로 드러낸다.
+ * 정지궤도는 꼬리를 아예 안 그린다(실제로 거의 움직이지 않는데
+ * 움직이는 것처럼 보이면 오히려 틀린 정보라서).
+ */
+const TRAIL_LENGTH_PX: Record<OrbitClass, number> = {
+  leo: 46,
+  meo: 20,
+  geo: 0,
+};
+const DEFAULT_TRAIL_LENGTH_PX = 46;
 
 function toScreen(azimuthDeg: number, elevationDeg: number) {
   return {
@@ -37,9 +52,12 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
     <div aria-hidden="true" className={styles.layer}>
       {positions.map((p) => {
         const { left, top } = toScreen(p.azimuthDeg, p.elevationDeg);
+        const trailLengthPx = p.orbitClass
+          ? TRAIL_LENGTH_PX[p.orbitClass]
+          : DEFAULT_TRAIL_LENGTH_PX;
 
         let trailDeg: number | null = null;
-        if (p.prevAzimuthDeg != null && p.prevElevationDeg != null) {
+        if (trailLengthPx > 0 && p.prevAzimuthDeg != null && p.prevElevationDeg != null) {
           const prev = toScreen(p.prevAzimuthDeg, p.prevElevationDeg);
           const dAz = angleDelta(p.azimuthDeg, p.prevAzimuthDeg);
           const dx = (dAz / 360) * 100;
@@ -56,16 +74,26 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
             style={{ left: `${left}%`, top: `${top}%` }}
           >
             {trailDeg != null ? (
-              <span className={styles.trail} style={{ transform: `rotate(${trailDeg}deg)` }} />
+              <span
+                className={styles.trail}
+                style={{ transform: `rotate(${trailDeg}deg)`, width: trailLengthPx }}
+              />
             ) : null}
             <span className={styles.pt} />
             <span className={`mono ${styles.label}`}>
               {p.name}
               <span className={styles.meta}>
-                {fillTemplate(dict.hero.satMetaTemplate, {
-                  az: Math.round(p.azimuthDeg),
-                  el: Math.round(p.elevationDeg),
-                })}
+                {p.orbitClass && p.altitudeKm != null
+                  ? fillTemplate(dict.hero.satMetaWithOrbitTemplate, {
+                      az: Math.round(p.azimuthDeg),
+                      el: Math.round(p.elevationDeg),
+                      orbit: dict.hero.satOrbitClass[p.orbitClass],
+                      alt: p.altitudeKm,
+                    })
+                  : fillTemplate(dict.hero.satMetaTemplate, {
+                      az: Math.round(p.azimuthDeg),
+                      el: Math.round(p.elevationDeg),
+                    })}
               </span>
             </span>
           </div>

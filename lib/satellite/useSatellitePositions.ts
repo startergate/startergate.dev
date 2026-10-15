@@ -23,6 +23,8 @@ type LoadedSatellite = {
   name: string;
   noradId: number;
   satrec: ReturnType<typeof twoline2satrec>;
+  altitudeKm?: number;
+  orbitClass?: SatellitePosition["orbitClass"];
 };
 
 /**
@@ -55,6 +57,8 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
               name: s.name,
               noradId: s.noradId,
               satrec: twoline2satrec(s.tle1, s.tle2),
+              altitudeKm: s.altitudeKm,
+              orbitClass: s.orbitClass,
             });
           } catch {
             // 이 위성의 TLE만 건너뛴다.
@@ -97,7 +101,14 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
           const elevationDeg = radiansToDegrees(look.elevation);
           if (elevationDeg < MIN_ELEVATION_DEG) continue;
           const azimuthDeg = (radiansToDegrees(look.azimuth) + 360) % 360;
-          computed.push({ name: sat.name, noradId: sat.noradId, azimuthDeg, elevationDeg });
+          computed.push({
+            name: sat.name,
+            noradId: sat.noradId,
+            azimuthDeg,
+            elevationDeg,
+            altitudeKm: sat.altitudeKm,
+            orbitClass: sat.orbitClass,
+          });
         } catch {
           // 이 위성만 건너뛴다(쇠퇴한 TLE 등으로 전파가 실패할 수 있다).
         }
@@ -112,13 +123,15 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
 
       const next = computed
         .slice(0, MAX_SATELLITES)
-        .map(({ name, noradId, azimuthDeg, elevationDeg }) => {
+        .map(({ name, noradId, azimuthDeg, elevationDeg, altitudeKm, orbitClass }) => {
           const prev = lastSeenRef.current.get(noradId);
           return {
             name,
             noradId,
             azimuthDeg,
             elevationDeg,
+            altitudeKm,
+            orbitClass,
             prevAzimuthDeg: prev?.azimuthDeg,
             prevElevationDeg: prev?.elevationDeg,
           };

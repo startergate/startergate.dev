@@ -15,6 +15,13 @@
  * 실제로 뜨는 위성이 적다는 피드백으로, 저궤도에 수천 기가 퍼져
  * 있는 스타링크에서 궤도면을 고르게 훑는 표본을 추가했다(spec §7
  * 선정 기준의 8번째 자리).
+ *
+ * 2026-10-15 추가: "맨눈으로 보이는 하늘"이라는 원래 컨셉과 달리
+ * 고도와 상관없이 다 보여줘도 된다는 피드백으로, 중궤도(GPS)와
+ * 정지궤도(GEO) 그룹도 후보에 더했다. TLE의 평균 운동(mean motion)
+ * 에서 고도·궤도 종류를 미리 계산해 각 위성 데이터에 같이 담아서,
+ * 클라이언트가 다시 계산할 필요 없이 호버 정보에 바로 쓸 수 있게
+ * 한다.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -25,6 +32,11 @@ const ROOT = path.join(__dirname, "..");
 const PRIORITY_FILE = path.join(ROOT, "data/satellite-priority.json");
 const OUT_FILE = path.join(ROOT, "public/data/satellites.json");
 const CELESTRAK = "https://celestrak.org/NORAD/elements/gp.php";
+
+const GM_KM3_S2 = 398600.4418; // 지구 중력상수
+const EARTH_RADIUS_KM = 6378.137;
+const GEO_ALTITUDE_THRESHOLD_KM = 34000; // 정지궤도(~35,786km) 근방부터 GEO로 본다
+const LEO_ALTITUDE_THRESHOLD_KM = 2000;
 
 async function fetchTle(query) {
   const res = await fetch(`${CELESTRAK}?${query}&FORMAT=TLE`);
@@ -58,6 +70,32 @@ function parseNoradFromTle(tle1) {
   return Number.parseInt(tle1.slice(2, 7), 10);
 }
 
+/** TLE 2행의 평균 운동(revs/day, 52~63번째 열)에서 궤도 긴반지름 → 고도(km)를 구한다. */
+function altitudeKmFromTle(tle2) {
+  const meanMotion = Number.parseFloat(tle2.slice(52, 63));
+  const n = (meanMotion * 2 * Math.PI) / 86400; // rad/s
+  const semiMajorAxisKm = Math.cbrt(GM_KM3_S2 / (n * n));
+  return semiMajorAxisKm - EARTH_RADIUS_KM;
+}
+
+function orbitClassFromAltitude(altitudeKm) {
+  if (altitudeKm < LEO_ALTITUDE_THRESHOLD_KM) return "leo";
+  if (altitudeKm >= GEO_ALTITUDE_THRESHOLD_KM) return "geo";
+  return "meo";
+}
+
+function makeEntry(name, noradId, tle1, tle2) {
+  const entry = { name, noradId, tle1, tle2 };
+  try {
+    const altitudeKm = Math.round(altitudeKmFromTle(tle2));
+    entry.altitudeKm = altitudeKm;
+    entry.orbitClass = orbitClassFromAltitude(altitudeKm);
+  } catch {
+    // 평균 운동 파싱 실패 — 고도 정보 없이 둔다(클라이언트가 없으면 숨긴다).
+  }
+  return entry;
+}
+
 async function main() {
   const priority = JSON.parse(fs.readFileSync(PRIORITY_FILE, "utf8"));
 
@@ -68,7 +106,7 @@ async function main() {
     try {
       const found = await fetchByCatnr(p.noradId);
       if (found) {
-        satellites.push({ name: p.name, noradId: p.noradId, tle1: found.tle1, tle2: found.tle2 });
+        satellites.push(makeEntry(p.name, p.noradId, found.tle1, found.tle2));
         seen.add(p.noradId);
       } else {
         console.warn(`[fetch-satellites] not found in CelesTrak: ${p.name} (${p.noradId})`);
@@ -84,7 +122,7 @@ async function main() {
     for (const v of visual) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push({ name: v.name, noradId, tle1: v.tle1, tle2: v.tle2 });
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
       seen.add(noradId);
     }
   } catch (err) {
@@ -103,11 +141,42 @@ async function main() {
       const v = starlink[i];
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push({ name: v.name, noradId, tle1: v.tle1, tle2: v.tle2 });
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
       seen.add(noradId);
     }
   } catch (err) {
     console.warn(`[fetch-satellites] starlink group fetch failed: ${err.message}`);
+  }
+
+  // GPS(중궤도) — 그룹 자체가 30여 기뿐이라 전부 받는다.
+  try {
+    const gps = await fetchGroup("gps-ops");
+    for (const v of gps) {
+      const noradId = parseNoradFromTle(v.tle1);
+      if (seen.has(noradId)) continue;
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      seen.add(noradId);
+    }
+  } catch (err) {
+    console.warn(`[fetch-satellites] gps-ops group fetch failed: ${err.message}`);
+  }
+
+  // 정지궤도 — 경도별로 수백 기가 있어 스타링크와 같은 방식으로
+  // 고르게 샘플링한다(관측자 위치에 따라 지평선 위에 오는 경도대가
+  // 다르므로 한쪽에 몰아 받지 않는다).
+  const GEO_SAMPLE_SIZE = 60;
+  try {
+    const geo = await fetchGroup("geo");
+    const step = Math.max(1, Math.floor(geo.length / GEO_SAMPLE_SIZE));
+    for (let i = 0; i < geo.length; i += step) {
+      const v = geo[i];
+      const noradId = parseNoradFromTle(v.tle1);
+      if (seen.has(noradId)) continue;
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      seen.add(noradId);
+    }
+  } catch (err) {
+    console.warn(`[fetch-satellites] geo group fetch failed: ${err.message}`);
   }
 
   const payload = {

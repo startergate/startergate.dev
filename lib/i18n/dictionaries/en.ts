@@ -53,6 +53,8 @@ const en: Dictionary = {
     locToMine: "View from my location",
     locToSeoul: "Reset to Seoul",
     satMetaTemplate: "Az {az}° · El {el}°",
+    satMetaWithOrbitTemplate: "Az {az}° · El {el}° · {orbit} {alt}km",
+    satOrbitClass: { leo: "LEO", meo: "MEO", geo: "GEO" },
   },
   about: {
     backend: {

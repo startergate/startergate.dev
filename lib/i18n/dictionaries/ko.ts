@@ -51,6 +51,8 @@ const ko = {
     locToMine: "내 위치로 보기",
     locToSeoul: "서울 기준으로 보기",
     satMetaTemplate: "방위 {az}° · 앙각 {el}°",
+    satMetaWithOrbitTemplate: "방위 {az}° · 앙각 {el}° · {orbit} {alt}km",
+    satOrbitClass: { leo: "저궤도", meo: "중궤도", geo: "정지궤도" },
   },
   about: {
     backend: {
