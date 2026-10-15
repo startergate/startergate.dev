@@ -10,6 +10,11 @@
  *
  * CelesTrak 요청은 이 스크립트가 하루 1회만 돌아서 정책을 지킨다
  * (요청 수 자체는 우선 위성 개수만큼이지만, 실행 빈도가 하루 1회다).
+ *
+ * 2026-10-15 추가: 후보가 165개 있어도 앙각 10° 이상인 게 거의 없어
+ * 실제로 뜨는 위성이 적다는 피드백으로, 저궤도에 수천 기가 퍼져
+ * 있는 스타링크에서 궤도면을 고르게 훑는 표본을 추가했다(spec §7
+ * 선정 기준의 8번째 자리).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -84,6 +89,25 @@ async function main() {
     }
   } catch (err) {
     console.warn(`[fetch-satellites] visual group fetch failed: ${err.message}`);
+  }
+
+  // 스타링크는 저궤도에 수천 기가 퍼져 있어, 연속으로 N개를 받으면
+  // 같은 궤도면(발사 배치)에 몰려 특정 시간대엔 다 같이 지평선
+  // 아래에 있기 쉽다. 전체를 고른 간격으로 샘플링해 여러 궤도면을
+  // 섞는다.
+  const STARLINK_SAMPLE_SIZE = 40;
+  try {
+    const starlink = await fetchGroup("starlink");
+    const step = Math.max(1, Math.floor(starlink.length / STARLINK_SAMPLE_SIZE));
+    for (let i = 0; i < starlink.length; i += step) {
+      const v = starlink[i];
+      const noradId = parseNoradFromTle(v.tle1);
+      if (seen.has(noradId)) continue;
+      satellites.push({ name: v.name, noradId, tle1: v.tle1, tle2: v.tle2 });
+      seen.add(noradId);
+    }
+  } catch (err) {
+    console.warn(`[fetch-satellites] starlink group fetch failed: ${err.message}`);
   }
 
   const payload = {
