@@ -22,6 +22,13 @@
  * 에서 고도·궤도 종류를 미리 계산해 각 위성 데이터에 같이 담아서,
  * 클라이언트가 다시 계산할 필요 없이 호버 정보에 바로 쓸 수 있게
  * 한다.
+ *
+ * 2026-10-15 추가: `visual` 그룹엔 실제로 임무를 수행한 적 없는
+ * 로켓 동체(R/B)가 섞여 있다는 피드백으로(157개 중 90개가 R/B),
+ * CelesTrak의 SATCAT(satcat/records.php)에서 OBJECT_TYPE을 같이
+ * 받아 PAYLOAD(PAY)만 후보로 남긴다. 이름 문자열로 "R/B" 패턴을
+ * 추측하는 대신 CelesTrak이 분류한 공식 값을 쓴다(이름에 R/B가
+ * 안 붙은 예외도 있다 — 예: ATLAS CENTAUR 2는 사실 PAY로 분류됨).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -31,7 +38,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const PRIORITY_FILE = path.join(ROOT, "data/satellite-priority.json");
 const OUT_FILE = path.join(ROOT, "public/data/satellites.json");
-const CELESTRAK = "https://celestrak.org/NORAD/elements/gp.php";
+const GP_URL = "https://celestrak.org/NORAD/elements/gp.php";
+const SATCAT_URL = "https://celestrak.org/satcat/records.php";
 
 const GM_KM3_S2 = 398600.4418; // 지구 중력상수
 const EARTH_RADIUS_KM = 6378.137;
@@ -39,9 +47,9 @@ const GEO_ALTITUDE_THRESHOLD_KM = 34000; // 정지궤도(~35,786km) 근방부터
 const LEO_ALTITUDE_THRESHOLD_KM = 2000;
 
 async function fetchTle(query) {
-  const res = await fetch(`${CELESTRAK}?${query}&FORMAT=TLE`);
+  const res = await fetch(`${GP_URL}?${query}&FORMAT=TLE`);
   if (!res.ok) {
-    throw new Error(`CelesTrak request failed (${res.status}): ${query}`);
+    throw new Error(`CelesTrak GP request failed (${res.status}): ${query}`);
   }
   const text = (await res.text()).trim();
   if (!text || text.startsWith("No GP data") || text.startsWith("Invalid query")) {
@@ -64,6 +72,20 @@ async function fetchByCatnr(noradId) {
 
 async function fetchGroup(group) {
   return fetchTle(`GROUP=${group}`);
+}
+
+/** 그룹의 SATCAT 레코드에서 실제 임무를 수행(했)는 PAYLOAD의 NORAD ID만 모은다. */
+async function fetchPayloadNoradIds(group) {
+  const res = await fetch(`${SATCAT_URL}?GROUP=${group}&FORMAT=json`);
+  if (!res.ok) {
+    throw new Error(`CelesTrak SATCAT request failed (${res.status}): GROUP=${group}`);
+  }
+  const records = await res.json();
+  const ids = new Set();
+  for (const r of records) {
+    if (r.OBJECT_TYPE === "PAY") ids.add(r.NORAD_CAT_ID);
+  }
+  return ids;
 }
 
 function parseNoradFromTle(tle1) {
@@ -96,6 +118,17 @@ function makeEntry(name, noradId, tle1, tle2) {
   return entry;
 }
 
+/** group의 TLE 후보를 받아, 실제 PAYLOAD만 남기고 선택적으로 고르게 샘플링한다. */
+async function fetchPayloadCandidates(group, sampleSize) {
+  const [tle, payloadIds] = await Promise.all([fetchGroup(group), fetchPayloadNoradIds(group)]);
+  const payloads = tle.filter((v) => payloadIds.has(parseNoradFromTle(v.tle1)));
+  if (!sampleSize || payloads.length <= sampleSize) return payloads;
+  const step = Math.max(1, Math.floor(payloads.length / sampleSize));
+  const sampled = [];
+  for (let i = 0; i < payloads.length; i += step) sampled.push(payloads[i]);
+  return sampled;
+}
+
 async function main() {
   const priority = JSON.parse(fs.readFileSync(PRIORITY_FILE, "utf8"));
 
@@ -118,7 +151,7 @@ async function main() {
 
   // 남는 자리를 채울 밝은 위성 후보 (앙각 기준 선정은 클라이언트가 한다).
   try {
-    const visual = await fetchGroup("visual");
+    const visual = await fetchPayloadCandidates("visual");
     for (const v of visual) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
@@ -133,12 +166,9 @@ async function main() {
   // 같은 궤도면(발사 배치)에 몰려 특정 시간대엔 다 같이 지평선
   // 아래에 있기 쉽다. 전체를 고른 간격으로 샘플링해 여러 궤도면을
   // 섞는다.
-  const STARLINK_SAMPLE_SIZE = 40;
   try {
-    const starlink = await fetchGroup("starlink");
-    const step = Math.max(1, Math.floor(starlink.length / STARLINK_SAMPLE_SIZE));
-    for (let i = 0; i < starlink.length; i += step) {
-      const v = starlink[i];
+    const starlink = await fetchPayloadCandidates("starlink", 40);
+    for (const v of starlink) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
       satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
@@ -150,7 +180,7 @@ async function main() {
 
   // GPS(중궤도) — 그룹 자체가 30여 기뿐이라 전부 받는다.
   try {
-    const gps = await fetchGroup("gps-ops");
+    const gps = await fetchPayloadCandidates("gps-ops");
     for (const v of gps) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
@@ -164,12 +194,9 @@ async function main() {
   // 정지궤도 — 경도별로 수백 기가 있어 스타링크와 같은 방식으로
   // 고르게 샘플링한다(관측자 위치에 따라 지평선 위에 오는 경도대가
   // 다르므로 한쪽에 몰아 받지 않는다).
-  const GEO_SAMPLE_SIZE = 60;
   try {
-    const geo = await fetchGroup("geo");
-    const step = Math.max(1, Math.floor(geo.length / GEO_SAMPLE_SIZE));
-    for (let i = 0; i < geo.length; i += step) {
-      const v = geo[i];
+    const geo = await fetchPayloadCandidates("geo", 60);
+    for (const v of geo) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
       satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
