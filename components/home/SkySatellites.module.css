@@ -9,7 +9,11 @@
   position: absolute;
   width: 0;
   height: 0;
-  transition: left 1.2s linear, top 1.2s linear;
+  /* lib/satellite/useSatellitePositions.ts가 3초(UPDATE_INTERVAL_MS)
+     마다 위치를 갱신하는데 전환 시간이 1.2s뿐이라, 1.2초 움직이고
+     1.8초는 가만히 있다가 다음 갱신 때 또 움직이는 식으로 끊겨
+     보였다. 갱신 주기에 맞춰서 쭉 움직이게 한다. */
+  transition: left 2.9s linear, top 2.9s linear;
 }
 
 .pt {
