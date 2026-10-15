@@ -60,6 +60,28 @@
   transition: color 0.2s ease;
 }
 
+/* 이름 바로 뒤에 붙는 화살표 — 호버(키보드 포커스 포함)했을 때만
+   보여준다. .meta처럼 absolute로 둬서(여기선 .label 오른쪽 끝에)
+   평소엔 투명해도 .label의 shrink-to-fit 너비 계산에 끼어 호버
+   영역을 넓히지 않게 한다. */
+.infoLink {
+  position: absolute;
+  left: 100%;
+  top: -1px;
+  margin-left: 4px;
+  color: var(--sky);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.15s ease;
+}
+.infoLink:hover {
+  color: var(--muted);
+}
+.dot:hover .infoLink,
+.infoLink:focus {
+  opacity: 1;
+}
+
 /* 방위·앙각은 평소엔 숨기고, 호버했을 때만 보여준다. */
 .meta {
   /* .label 기준으로 이름 바로 아래에 겹쳐 그린다 — 일반 흐름에 두면

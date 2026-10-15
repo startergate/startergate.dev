@@ -53,6 +53,7 @@ const ko = {
     satMetaTemplate: "방위 {az}° · 앙각 {el}°",
     satMetaWithOrbitTemplate: "방위 {az}° · 앙각 {el}° · {orbit} {alt}km",
     satOrbitClass: { leo: "저궤도", meo: "중궤도", geo: "정지궤도" },
+    satInfoLinkAriaTemplate: "{name} 상세 정보 보기 (새 탭)",
   },
   about: {
     backend: {

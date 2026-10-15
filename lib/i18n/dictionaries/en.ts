@@ -55,6 +55,7 @@ const en: Dictionary = {
     satMetaTemplate: "Az {az}° · El {el}°",
     satMetaWithOrbitTemplate: "Az {az}° · El {el}° · {orbit} {alt}km",
     satOrbitClass: { leo: "LEO", meo: "MEO", geo: "GEO" },
+    satInfoLinkAriaTemplate: "View details for {name} (opens in new tab)",
   },
   about: {
     backend: {

@@ -8,6 +8,7 @@ import styles from "./SkySatellites.module.css";
 
 const ZENITH_PCT = 8;
 const HORIZON_PCT = 90;
+const SATELLITE_INFO_URL = "https://www.n2yo.com/satellite/?s=";
 
 /**
  * 궤도마다 지상 관측자 기준 각속도(하늘을 가로지르는 속도)가 많이
@@ -82,6 +83,16 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
             <span className={styles.pt} />
             <span className={`mono ${styles.label}`}>
               {p.name}
+              <a
+                className={styles.infoLink}
+                href={`${SATELLITE_INFO_URL}${p.noradId}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-hidden="false"
+                aria-label={fillTemplate(dict.hero.satInfoLinkAriaTemplate, { name: p.name })}
+              >
+                ↗
+              </a>
               <span className={styles.meta}>
                 {p.orbitClass && p.altitudeKm != null
                   ? fillTemplate(dict.hero.satMetaWithOrbitTemplate, {
