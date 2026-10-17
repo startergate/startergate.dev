@@ -16,6 +16,8 @@ export type Tech = {
 
 export type Experience = {
   company: L10n;
+  /** 회사명 옆에 각주 형태 툴팁으로 보여줄 보충 설명(예: 사명 변경 이력). */
+  companyNote?: L10n;
   companyLogo?: { src: string; srcOnLight?: string; background?: string; padding?: number };
   title: L10n;
   /** "YYYY-MM" (일 단위는 안 씀). 화면에 보이는 "2020.12 ~ 2026.03

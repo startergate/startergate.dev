@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ChevronLeftIcon } from "@/components/icons";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
 
@@ -67,16 +68,9 @@ export function NavPill() {
             >
               {dict.nav.conferences}
             </a>
-            <span
-              className={`${styles.navlink} ${styles.navSoon}`}
-              tabIndex={0}
-              aria-label={`${dict.nav.blog}, ${dict.nav.blogSoon}`}
-            >
+            <Tooltip content={dict.nav.blogSoon} className={styles.navlink}>
               {dict.nav.blog}
-              <span className={styles.navSoonBubble} aria-hidden="true">
-                {dict.nav.blogSoon}
-              </span>
-            </span>
+            </Tooltip>
             <a className={styles.navlink} href={cvHref}>
               {dict.nav.cv}
             </a>

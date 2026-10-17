@@ -23,8 +23,12 @@
   },
   {
     "company": {
-      "ko": "피플펀드컴퍼니 (현. 피에프씨테크놀로지스)",
-      "en": "PeopleFund Company (now PFC Technologies)"
+      "ko": "피플펀드컴퍼니",
+      "en": "PeopleFund Company"
+    },
+    "companyNote": {
+      "ko": "현. 피에프씨테크놀로지스",
+      "en": "Now PFC Technologies"
     },
     "companyLogo": {
       "src": "teams/peoplefund_white.png",

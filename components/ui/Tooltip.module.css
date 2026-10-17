@@ -1,0 +1,60 @@
+.trigger {
+  position: relative;
+  cursor: default;
+}
+
+.bubble {
+  position: absolute;
+  top: calc(100% + 11px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  z-index: 5;
+  width: max-content;
+  max-width: 260px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0s linear 0.15s;
+}
+
+.bubble::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--glass);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* :focus(-within) 대신 :focus-visible을 쓴다 — 마우스 클릭으로도
+   포커스가 생겨서(트리거가 tabIndex=0) :focus였다면 클릭 후 다른 곳을
+   눌러도 말풍선이 계속 떠 있었다. :focus-visible은 키보드 탐색일 때만
+   매칭되어 Tab으로 올 때는 그대로 보이고, 클릭 후에는 안 남는다. */
+.trigger:hover .bubble,
+.trigger:focus-visible .bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0s;
+}

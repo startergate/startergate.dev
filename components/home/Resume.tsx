@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { ChevronDownIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/Badge";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { formatExperiencePeriod } from "@/lib/data/experience-format";
 import { monogram } from "@/lib/data/monogram";
 import { getTechByName } from "@/lib/data/techs";
@@ -60,7 +61,12 @@ function ExperienceCard({ exp }: { exp: Experience }) {
         <div className={styles.main}>
           <div className={styles.titleRow}>
             <h3 className={styles.company}>
-              {l10n(exp.company, lang)}{" "}
+              {l10n(exp.company, lang)}
+              {exp.companyNote ? (
+                <Tooltip content={l10n(exp.companyNote, lang)} className={styles.companyNote}>
+                  *
+                </Tooltip>
+              ) : null}{" "}
               <span className={styles.companyTitle}>{l10n(exp.title, lang)}</span>
             </h3>
             <span className={`num ${styles.period}`}>{formatExperiencePeriod(exp, lang)}</span>

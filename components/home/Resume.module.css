@@ -141,6 +141,14 @@
   font-weight: 600;
 }
 
+.companyNote {
+  margin-left: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dim);
+  vertical-align: super;
+}
+
 .period {
   font-size: 14px;
   color: var(--dim);
