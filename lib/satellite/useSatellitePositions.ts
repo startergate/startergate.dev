@@ -15,15 +15,16 @@ import priorityList from "@/data/satellite-priority.json";
 
 import type { Observer, SatellitePosition, SatellitesFile } from "./types";
 
-const MAX_SATELLITES = 10;
+const MAX_SATELLITES = 15;
 const MIN_ELEVATION_DEG = 10;
 const UPDATE_INTERVAL_MS = 3000;
 /**
- * 정지궤도는 거의 안 움직여서 10개 중 여러 자리를 차지하면 하늘이
- * 정적으로 보인다 — 한 번에 보여줄 정지궤도 수를 제한해 저·중궤도
- * 위성이 들어올 자리를 남겨 둔다.
+ * 정지궤도·중궤도는 지구 자전 대비 각속도가 느려서 전체 중 여러
+ * 자리를 차지하면 하늘이 정적으로 보인다 — 궤도별로 한 번에 보여줄
+ * 수를 제한해 저궤도 위성이 들어올 자리를 남겨 둔다.
  */
-const MAX_GEO_SATELLITES = 4;
+const MAX_GEO_SATELLITES = 5;
+const MAX_MEO_SATELLITES = 5;
 
 type LoadedSatellite = {
   name: string;
@@ -35,10 +36,11 @@ type LoadedSatellite = {
 };
 
 /**
- * 앙각 10° 이상인 위성 중 최대 10개를 우선순위·앙각 순으로 뽑는다
- * (spec §7). 정지궤도는 최대 MAX_GEO_SATELLITES개까지만 포함하고
- * 넘치는 자리는 저·중궤도 위성으로 채운다 — 정지궤도는 거의 안
- * 움직여서 비중이 크면 하늘이 정적으로 보인다.
+ * 앙각 10° 이상인 위성 중 최대 15개를 우선순위·앙각 순으로 뽑는다
+ * (spec §7). 정지궤도·중궤도는 각각 MAX_GEO_SATELLITES·
+ * MAX_MEO_SATELLITES개까지만 포함하고 넘치는 자리는 저궤도 위성으로
+ * 채운다 — 정지궤도·중궤도는 각속도가 느려서 비중이 크면 하늘이
+ * 정적으로 보인다.
  * 화면상 겹쳐 보이는 정지궤도 후보는 매 틱이 아니라 수집 시점
  * (scripts/fetch-satellites.mjs의 dedupeGeoBySeoulScreenPosition)
  * 에서 이미 걸러져 있으므로 여기서는 다시 거르지 않는다 — 매 틱
@@ -141,11 +143,15 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
 
       const selected: typeof computed = [];
       let geoCount = 0;
+      let meoCount = 0;
       for (const candidate of computed) {
         if (selected.length >= MAX_SATELLITES) break;
         if (candidate.orbitClass === "geo") {
           if (geoCount >= MAX_GEO_SATELLITES) continue;
           geoCount += 1;
+        } else if (candidate.orbitClass === "meo") {
+          if (meoCount >= MAX_MEO_SATELLITES) continue;
+          meoCount += 1;
         }
         selected.push(candidate);
       }
