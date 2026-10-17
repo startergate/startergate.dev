@@ -67,6 +67,11 @@
 
 .desc {
   font-size: 13.5px;
+  line-height: 1.4;
+  /* description이 빈 문자열이면 텍스트 노드 자체가 없어 줄 높이를
+   * 확보 못 하고 찌그러진다 — 카드 높이가 설명 유무에 따라 들쭉날쭉
+   * 해지는 걸 막기 위해 한 줄 높이를 항상 예약해 둔다. */
+  min-height: calc(13.5px * 1.4);
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
