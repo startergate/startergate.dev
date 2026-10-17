@@ -88,8 +88,8 @@ export function NavPill() {
             <Image
               src="/images/startergate.png"
               alt=""
-              width={64}
-              height={64}
+              width={54}
+              height={54}
               className={styles.logoImg}
             />
           </span>
