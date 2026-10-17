@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { ChevronDownIcon, LocationPinIcon } from "@/components/icons";
-import { SITE_EMAIL, SITE_OPEN_TO_WORK } from "@/lib/site-meta";
+import { SITE_EMAIL, SITE_OPEN_TO_WORK, getSiteName } from "@/lib/site-meta";
 import { useLang } from "@/lib/i18n/LangProvider";
 import type { ProfileMode } from "@/lib/data/types";
 import { SEOUL_OBSERVER, type Observer } from "@/lib/satellite/types";
@@ -39,7 +39,7 @@ function useKstClock(): string {
  * 저장하거나 외부로 보내지 않는다 — 이 세션의 위성 계산에만 쓴다.
  */
 export function Hero({ mode }: { mode: ProfileMode }) {
-  const { dict } = useLang();
+  const { lang, dict } = useLang();
   const clock = useKstClock();
   const [loc, setLoc] = useState<"seoul" | "mine">("seoul");
   const [coords, setCoords] = useState<Observer | null>(null);
@@ -92,7 +92,7 @@ export function Hero({ mode }: { mode: ProfileMode }) {
           <span className={styles.slogan}>{dict.hero.slogan}</span>
         </h1>
         <p className={`mono ${styles.name}`}>
-          STARTERGATE <span className={styles.nameSlash}>/</span> 최호승
+          STARTERGATE <span className={styles.nameSlash}>/</span> {getSiteName(lang)}
         </p>
         <p className={styles.role}>
           {mode === "backend" ? dict.hero.roleBackend : dict.hero.roleGame}

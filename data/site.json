@@ -3,6 +3,10 @@
   "email": "me@startergate.dev",
   "openToWork": true,
   "gaMeasurementId": "G-99G6KZQV5K",
+  "name": {
+    "ko": "최호승",
+    "en": "Hoseung Choi"
+  },
   "description": {
     "ko": "최호승(STARTERGATE), Backend Developer.",
     "en": "I'm STARTERGATE. Backend Developer."

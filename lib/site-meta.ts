@@ -11,3 +11,7 @@ export const SITE_CONFERENCES_URL = `${SITE_URL}/Conferences`;
 export function getSiteDescription(locale: Locale): string {
   return l10n(siteData.description, locale);
 }
+
+export function getSiteName(locale: Locale): string {
+  return l10n(siteData.name, locale);
+}

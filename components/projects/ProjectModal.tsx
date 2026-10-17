@@ -10,7 +10,7 @@ import { daysBetween, formatDate } from "@/lib/data/format";
 import { monogram } from "@/lib/data/monogram";
 import type { ProjectOverview } from "@/lib/data/overview";
 import { getPerson } from "@/lib/data/people";
-import { SITE_URL } from "@/lib/site-meta";
+import { getSiteName, SITE_URL } from "@/lib/site-meta";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
 import { getTechByName } from "@/lib/data/techs";
 import type { Project } from "@/lib/data/types";
@@ -129,7 +129,7 @@ export function ProjectModal({
     const person = getPerson(c.name);
     const roles = c.roles.map((r) => (typeof r === "string" ? r : l10n(r, lang)));
     return {
-      name: c.name,
+      name: c.name === SELF_NAME ? getSiteName(lang) : c.name,
       role: roles.join(" · "),
       href: person?.link,
       avatar: person?.avatar,
