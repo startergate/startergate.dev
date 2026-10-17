@@ -1,38 +1,38 @@
 #!/usr/bin/env node
 /**
- * GitHub Action이 하루 1회 돌리는 스크립트 (spec §7).
+ * GitHub Action이 하루 1회 돌려 public/data/satellites.json을 만드는
+ * 스크립트 (spec §7). CelesTrak에서 후보 위성의 TLE를 모아 고도·
+ * 궤도 종류(LEO/MEO/GEO)를 미리 계산해 둔다. 실제 방위각/앙각 계산과
+ * "앙각 10도 이상 중 최대 10개" 선정은 클라이언트(satellite.js,
+ * useSatellitePositions.ts)가 그때그때 한다.
  *
  * data/satellite-priority.json의 NORAD ID를 CATNR로 하나씩 조회하고,
- * 남는 자리를 채울 CelesTrak `visual`(밝은 위성) 그룹을 통째로 받아
- * public/data/satellites.json에 커밋한다. 실제 방위각/앙각 계산과
- * "앙각 10도 이상 중 최대 10개" 선정은 클라이언트(satellite.js)가
- * 그때그때 한다 — 이 스크립트는 후보 TLE만 모아 둔다.
+ * 남는 자리는 CelesTrak `visual`(밝은 위성)·`starlink`(저궤도 표본
+ * 40기)·`gps-ops`·`glo-ops`(중궤도 위성항법)·`geo`(정지궤도 표본)
+ * 그룹에서 채운다. 각 그룹은 SATCAT에서 OBJECT_TYPE을 같이 받아
+ * 실제 임무를 수행한 PAYLOAD만 남긴다(로켓 동체 R/B 제외).
  *
- * CelesTrak 요청은 이 스크립트가 하루 1회만 돌아서 정책을 지킨다
- * (요청 수 자체는 우선 위성 개수만큼이지만, 실행 빈도가 하루 1회다).
+ * 정지궤도는 서울 상공 기준 경도대가 겹치는 것들이 많아, 수집
+ * 시점에 dedupeGeoBySeoulScreenPosition으로 한 번만 걸러 둔다(화면상
+ * 거리가 lib/satellite/screen.ts/useSatellitePositions.ts의
+ * MIN_SEPARATION_PCT 안쪽이면 앙각 낮은 쪽을 버림). 매 틱 클라이언트
+ * 에서 다시 거르면 앙각이 근소하게 뒤바뀔 때마다 결과가 바뀌어
+ * 깜빡이므로, 겹침 제거는 여기(수집 시점)에서만 한다.
  *
- * 2026-10-15 추가: 후보가 165개 있어도 앙각 10° 이상인 게 거의 없어
- * 실제로 뜨는 위성이 적다는 피드백으로, 저궤도에 수천 기가 퍼져
- * 있는 스타링크에서 궤도면을 고르게 훑는 표본을 추가했다(spec §7
- * 선정 기준의 8번째 자리).
- *
- * 2026-10-15 추가: "맨눈으로 보이는 하늘"이라는 원래 컨셉과 달리
- * 고도와 상관없이 다 보여줘도 된다는 피드백으로, 중궤도(GPS)와
- * 정지궤도(GEO) 그룹도 후보에 더했다. TLE의 평균 운동(mean motion)
- * 에서 고도·궤도 종류를 미리 계산해 각 위성 데이터에 같이 담아서,
- * 클라이언트가 다시 계산할 필요 없이 호버 정보에 바로 쓸 수 있게
- * 한다.
- *
- * 2026-10-15 추가: `visual` 그룹엔 실제로 임무를 수행한 적 없는
- * 로켓 동체(R/B)가 섞여 있다는 피드백으로(157개 중 90개가 R/B),
- * CelesTrak의 SATCAT(satcat/records.php)에서 OBJECT_TYPE을 같이
- * 받아 PAYLOAD(PAY)만 후보로 남긴다. 이름 문자열로 "R/B" 패턴을
- * 추측하는 대신 CelesTrak이 분류한 공식 값을 쓴다(이름에 R/B가
- * 안 붙은 예외도 있다 — 예: ATLAS CENTAUR 2는 사실 PAY로 분류됨).
+ * CelesTrak 요청은 이 스크립트가 하루 1회만 돌아서 사용 정책을 지킨다.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  degreesToRadians,
+  ecfToLookAngles,
+  eciToEcf,
+  gstime,
+  propagate,
+  radiansToDegrees,
+  twoline2satrec,
+} from "satellite.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -45,6 +45,32 @@ const GM_KM3_S2 = 398600.4418; // 지구 중력상수
 const EARTH_RADIUS_KM = 6378.137;
 const GEO_ALTITUDE_THRESHOLD_KM = 34000; // 정지궤도(~35,786km) 근방부터 GEO로 본다
 const LEO_ALTITUDE_THRESHOLD_KM = 2000;
+
+// lib/satellite/types.ts의 SEOUL_OBSERVER와 같은 값.
+const SEOUL_OBSERVER = { lat: 37.5665, lon: 126.978 };
+// lib/satellite/screen.ts의 toScreen/ZENITH_PCT/HORIZON_PCT, 그리고
+// lib/satellite/useSatellitePositions.ts의 MIN_SEPARATION_PCT와 같은
+// 값 — 여기서 겹친다고 판단한 기준이 클라이언트가 그릴 때와
+// 어긋나면 안 되므로 셋이 같이 맞물려 있다.
+const ZENITH_PCT = 8;
+const HORIZON_PCT = 90;
+const MIN_SEPARATION_PCT = 8;
+
+function toScreen(azimuthDeg, elevationDeg) {
+  return {
+    left: (azimuthDeg / 360) * 100,
+    top: ZENITH_PCT + (1 - elevationDeg / 90) * (HORIZON_PCT - ZENITH_PCT),
+  };
+}
+
+function screenDistance(a, b) {
+  const pa = toScreen(a.azimuthDeg, a.elevationDeg);
+  const pb = toScreen(b.azimuthDeg, b.elevationDeg);
+  let dLeft = Math.abs(pa.left - pb.left);
+  if (dLeft > 50) dLeft = 100 - dLeft;
+  const dTop = pa.top - pb.top;
+  return Math.hypot(dLeft, dTop);
+}
 
 async function fetchTle(query) {
   const res = await fetch(`${GP_URL}?${query}&FORMAT=TLE`);
@@ -75,17 +101,17 @@ async function fetchGroup(group) {
 }
 
 /** 그룹의 SATCAT 레코드에서 실제 임무를 수행(했)는 PAYLOAD의 NORAD ID만 모은다. */
-async function fetchPayloadNoradIds(group) {
+async function fetchSatcatInfo(group) {
   const res = await fetch(`${SATCAT_URL}?GROUP=${group}&FORMAT=json`);
   if (!res.ok) {
     throw new Error(`CelesTrak SATCAT request failed (${res.status}): GROUP=${group}`);
   }
   const records = await res.json();
-  const ids = new Set();
+  const payloadIds = new Set();
   for (const r of records) {
-    if (r.OBJECT_TYPE === "PAY") ids.add(r.NORAD_CAT_ID);
+    if (r.OBJECT_TYPE === "PAY") payloadIds.add(r.NORAD_CAT_ID);
   }
-  return ids;
+  return payloadIds;
 }
 
 function parseNoradFromTle(tle1) {
@@ -120,13 +146,58 @@ function makeEntry(name, noradId, tle1, tle2) {
 
 /** group의 TLE 후보를 받아, 실제 PAYLOAD만 남기고 선택적으로 고르게 샘플링한다. */
 async function fetchPayloadCandidates(group, sampleSize) {
-  const [tle, payloadIds] = await Promise.all([fetchGroup(group), fetchPayloadNoradIds(group)]);
+  const [tle, payloadIds] = await Promise.all([fetchGroup(group), fetchSatcatInfo(group)]);
   const payloads = tle.filter((v) => payloadIds.has(parseNoradFromTle(v.tle1)));
   if (!sampleSize || payloads.length <= sampleSize) return payloads;
   const step = Math.max(1, Math.floor(payloads.length / sampleSize));
   const sampled = [];
   for (let i = 0; i < payloads.length; i += step) sampled.push(payloads[i]);
   return sampled;
+}
+
+/**
+ * 정지궤도 후보를 서울 기준 방위각·앙각으로 한 번 계산해서, 화면상
+ * 너무 가까운(MIN_SEPARATION_PCT 이내) 것끼리는 하나만 남긴다.
+ * 정지궤도는 고정 관측자 기준으로는 사실상 움직이지 않으므로, 이
+ * 선별을 매 틱 클라이언트에서 다시 하지 않고 여기서 한 번만 해
+ * 둔다 — 그래야 앙각이 근소하게 뒤바뀌어도 어느 게 걸러질지 계속
+ * 바뀌며 깜빡이는 일이 없다. 지평선 아래(앙각<0)는 아예 제외한다.
+ */
+function dedupeGeoBySeoulScreenPosition(candidates) {
+  const now = new Date();
+  const gmst = gstime(now);
+  const observerGd = {
+    longitude: degreesToRadians(SEOUL_OBSERVER.lon),
+    latitude: degreesToRadians(SEOUL_OBSERVER.lat),
+    height: 0.1,
+  };
+
+  const withLookAngles = [];
+  for (const v of candidates) {
+    try {
+      const satrec = twoline2satrec(v.tle1, v.tle2);
+      const pv = propagate(satrec, now);
+      if (!pv || !pv.position) continue;
+      const ecf = eciToEcf(pv.position, gmst);
+      const look = ecfToLookAngles(observerGd, ecf);
+      const elevationDeg = radiansToDegrees(look.elevation);
+      if (elevationDeg < 0) continue;
+      const azimuthDeg = (radiansToDegrees(look.azimuth) + 360) % 360;
+      withLookAngles.push({ v, azimuthDeg, elevationDeg });
+    } catch {
+      // 이 후보만 건너뛴다(전파 실패 등).
+    }
+  }
+
+  withLookAngles.sort((a, b) => b.elevationDeg - a.elevationDeg);
+
+  const kept = [];
+  for (const candidate of withLookAngles) {
+    const overlaps = kept.some((k) => screenDistance(candidate, k) < MIN_SEPARATION_PCT);
+    if (overlaps) continue;
+    kept.push(candidate);
+  }
+  return kept.map((k) => k.v);
 }
 
 async function main() {
@@ -191,11 +262,28 @@ async function main() {
     console.warn(`[fetch-satellites] gps-ops group fetch failed: ${err.message}`);
   }
 
-  // 정지궤도 — 경도별로 수백 기가 있어 스타링크와 같은 방식으로
-  // 고르게 샘플링한다(관측자 위치에 따라 지평선 위에 오는 경도대가
-  // 다르므로 한쪽에 몰아 받지 않는다).
+  // 글로나스(러시아 위성항법, 중궤도) — GPS와 같은 중궤도지만 궤도면
+  // 배치가 달라 GPS만 있을 때보다 하늘에 퍼지는 폭이 넓어진다.
+  // 그룹 자체가 30여 기뿐이라 전부 받는다.
   try {
-    const geo = await fetchPayloadCandidates("geo", 60);
+    const glonass = await fetchPayloadCandidates("glo-ops");
+    for (const v of glonass) {
+      const noradId = parseNoradFromTle(v.tle1);
+      if (seen.has(noradId)) continue;
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      seen.add(noradId);
+    }
+  } catch (err) {
+    console.warn(`[fetch-satellites] glo-ops group fetch failed: ${err.message}`);
+  }
+
+  // 정지궤도 — 경도별로 수백 기가 있어서 전부 후보로 쓰는 대신,
+  // 서울 기준 화면 좌표로 겹치는 것들을 미리 한 번만 걸러 둔다
+  // (dedupeGeoBySeoulScreenPosition 주석 참고).
+  try {
+    const geoAll = await fetchPayloadCandidates("geo");
+    const geo = dedupeGeoBySeoulScreenPosition(geoAll);
+    console.log(`[fetch-satellites] geo: ${geoAll.length} candidates -> ${geo.length} after dedup`);
     for (const v of geo) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;

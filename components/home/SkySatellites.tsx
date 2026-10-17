@@ -2,12 +2,11 @@
 
 import { useLang } from "@/lib/i18n/LangProvider";
 import { fillTemplate } from "@/lib/i18n/template";
+import { toScreen } from "@/lib/satellite/screen";
 import type { OrbitClass, SatellitePosition } from "@/lib/satellite/types";
 
 import styles from "./SkySatellites.module.css";
 
-const ZENITH_PCT = 8;
-const HORIZON_PCT = 90;
 const SATELLITE_INFO_URL = "https://www.n2yo.com/satellite/?s=";
 
 /**
@@ -24,13 +23,6 @@ const TRAIL_LENGTH_PX: Record<OrbitClass, number> = {
   geo: 0,
 };
 const DEFAULT_TRAIL_LENGTH_PX = 46;
-
-function toScreen(azimuthDeg: number, elevationDeg: number) {
-  return {
-    left: (azimuthDeg / 360) * 100,
-    top: ZENITH_PCT + (1 - elevationDeg / 90) * (HORIZON_PCT - ZENITH_PCT),
-  };
-}
 
 /** 방위각이 0/360을 넘나드는 경우를 보정한 차이(-180~180). */
 function angleDelta(a: number, b: number): number {
