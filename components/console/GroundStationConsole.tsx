@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
@@ -40,9 +40,23 @@ export function GroundStationConsole() {
 
   const [status, setStatus] = useState<Status>("closed");
   const [input, setInput] = useState("");
+  const [caret, setCaret] = useState(0);
   const [log, setLog] = useState<string[]>([dict.console.intro1, dict.console.intro2]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const displayRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  // 입력이 길어져 넘치면 실제 터미널처럼 뒤쪽(커서 쪽)이 보이게 스크롤한다.
+  useEffect(() => {
+    const el = displayRef.current;
+    if (el) el.scrollLeft = el.scrollWidth;
+  }, [input, caret]);
+
+  // 실제 <input>의 캐럿 위치(클릭, 화살표/Home/End 이동 포함)를 읽어와
+  // 화면에 그리는 가짜 커서가 같은 자리를 따라가게 한다.
+  const syncCaret = (el: HTMLInputElement | null) => {
+    if (el) setCaret(el.selectionStart ?? el.value.length);
+  };
 
   const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
 
@@ -56,6 +70,7 @@ export function GroundStationConsole() {
     if (status !== "open") return;
     setStatus("closing");
     setInput("");
+    setCaret(0);
     clearTimeout(closeTimer.current);
     closeTimer.current = setTimeout(() => setStatus("closed"), 240);
   };
@@ -63,6 +78,7 @@ export function GroundStationConsole() {
   const pushLog = (cmd: string, out: string[]) => {
     setLog((prev) => [...prev, `${dict.console.prompt} ${cmd}`, ...out].slice(-10));
     setInput("");
+    setCaret(0);
   };
 
   const scrollToId = (id: string): boolean => {
@@ -284,6 +300,7 @@ export function GroundStationConsole() {
       case "clear":
         setLog([]);
         setInput("");
+        setCaret(0);
         return;
 
       case "exit":
@@ -307,6 +324,12 @@ export function GroundStationConsole() {
     }
   };
 
+  // 화살표/Home/End 등으로 캐럿만 움직인 경우(값 변경 없음)는 keyup
+  // 시점에야 브라우저가 selectionStart를 갱신해두므로 여기서 동기화한다.
+  const onInputKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+    syncCaret(e.currentTarget);
+  };
+
   const onPanelKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Escape") {
       closeEgg();
@@ -320,6 +343,30 @@ export function GroundStationConsole() {
       : dict.console.modeBackendLabel
     : "—";
   const langValue = `${lang} · ${lang === "ko" ? dict.nav.langKo : dict.nav.langEn}`;
+
+  // 실제 터미널처럼 블록 커서가 캐럿 위치의 글자 위에 얹힌다. 입력이
+  // 비어 있으면 플레이스홀더의 첫 글자를 커서 밑에 두고 나머지를
+  // 이어 보여준다 — 커서가 있어야 할 자리에 안내 문구도 같이 보이도록.
+  const caretPos = Math.max(0, Math.min(caret, input.length));
+  const before = input.slice(0, caretPos);
+  const charAtCaret = input.slice(caretPos, caretPos + 1);
+  let cursorNode: ReactNode;
+  let tailNode: ReactNode;
+  if (!input) {
+    const ph = dict.console.placeholder;
+    cursorNode = ph ? (
+      <span className={`${styles.eggCursor} ${styles.eggCursorGhost}`}>{ph[0]}</span>
+    ) : (
+      <span className={`${styles.eggCursor} ${styles.eggCursorEmpty}`} />
+    );
+    tailNode = ph ? <span className={styles.eggPlaceholder}>{ph.slice(1)}</span> : null;
+  } else if (charAtCaret) {
+    cursorNode = <span className={`${styles.eggCursor} ${styles.eggCursorChar}`}>{charAtCaret}</span>;
+    tailNode = input.slice(caretPos + 1);
+  } else {
+    cursorNode = <span className={`${styles.eggCursor} ${styles.eggCursorEmpty}`} />;
+    tailNode = null;
+  }
 
   if (status === "closed") {
     return (
@@ -467,18 +514,30 @@ export function GroundStationConsole() {
 
         <label className={styles.eggInputRow}>
           <span>{dict.console.prompt}</span>
-          <input
-            ref={inputRef}
-            className={styles.eggInput}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={onInputKeyDown}
-            aria-label={dict.console.inputAria}
-            autoComplete="off"
-            spellCheck={false}
-            placeholder={dict.console.placeholder}
-          />
+          <span className={styles.eggInputWrap}>
+            <span ref={displayRef} aria-hidden="true" className={styles.eggInputDisplay}>
+              {before}
+              {cursorNode}
+              {tailNode}
+            </span>
+            <input
+              ref={inputRef}
+              className={styles.eggInput}
+              type="text"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+                syncCaret(e.target);
+              }}
+              onKeyDown={onInputKeyDown}
+              onKeyUp={onInputKeyUp}
+              onClick={(e) => syncCaret(e.currentTarget)}
+              onSelect={(e) => syncCaret(e.currentTarget)}
+              aria-label={dict.console.inputAria}
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </span>
         </label>
       </div>
     </aside>

@@ -208,20 +208,81 @@
   gap: 8px;
   margin-top: 8px;
 }
-.eggInput {
+.eggInputWrap {
+  position: relative;
   flex: 1;
   min-width: 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+.eggInputDisplay {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: pre;
+  color: #e8e8e8;
+}
+.eggPlaceholder {
+  color: #5a5a5a;
+}
+.eggCursor {
+  display: inline-block;
+  height: 1.15em;
+  line-height: 1.15em;
+  text-align: center;
+}
+/* 캐럿 뒤에 글자가 없을 때(입력 끝) — 속이 빈 블록만 깜빡인다. */
+.eggCursorEmpty {
+  width: 0.55em;
+  margin-left: 1px;
+  background: #e8e8e8;
+  animation: eggCaretBlink 1s steps(1) infinite;
+}
+/* 캐럿이 입력된 글자 위에 있을 때 — 글자를 담은 채로 배경/글자색만
+   번갈아 바뀐다(실제 터미널의 반전 블록 커서처럼, 끄는 동안에도
+   글자 자체는 계속 읽힌다). */
+.eggCursorChar {
+  background: #e8e8e8;
+  color: #000000;
+  animation: eggCaretBlinkChar 1s steps(1) infinite;
+}
+/* 아직 아무것도 입력하지 않았을 때 — 플레이스홀더의 첫 글자를 커서
+   아래 두어, 커서가 있어야 할 자리에도 안내 문구가 비치게 한다. */
+.eggCursorGhost {
+  background: #e8e8e8;
+  color: #000000;
+  animation: eggCaretBlinkGhost 1s steps(1) infinite;
+}
+@keyframes eggCaretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes eggCaretBlinkChar {
+  50% {
+    background: transparent;
+    color: #e8e8e8;
+  }
+}
+@keyframes eggCaretBlinkGhost {
+  50% {
+    background: transparent;
+    color: #5a5a5a;
+  }
+}
+.eggInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   min-height: 32px;
   background: transparent;
   border: none;
   outline: none;
-  color: #e8e8e8;
+  color: transparent;
+  caret-color: transparent;
   font: inherit;
-  caret-color: #e8e8e8;
   padding: 0;
-}
-.eggInput::placeholder {
-  color: #5a5a5a;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -229,7 +290,10 @@
   .eggShrink,
   .eggGrow .eggBody,
   .eggShrink .eggBody,
-  .lxDot {
+  .lxDot,
+  .eggCursorEmpty,
+  .eggCursorChar,
+  .eggCursorGhost {
     animation: none !important;
   }
 }
