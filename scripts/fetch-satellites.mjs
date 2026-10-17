@@ -3,7 +3,7 @@
  * GitHub Action이 하루 1회 돌려 public/data/satellites.json을 만드는
  * 스크립트 (spec §7). CelesTrak에서 후보 위성의 TLE를 모아 고도·
  * 궤도 종류(LEO/MEO/GEO)를 미리 계산해 둔다. 실제 방위각/앙각 계산과
- * "앙각 10도 이상 중 최대 10개" 선정은 클라이언트(satellite.js,
+ * "앙각 10도 이상 중 최대 15개" 선정은 클라이언트(satellite.js,
  * useSatellitePositions.ts)가 그때그때 한다.
  *
  * 후보 구성:
@@ -13,7 +13,7 @@
  *   PAYLOAD인 것만 걸러 자동으로 가져온다(fetchKoreanPayloads) — 기업·
  *   대학 큐브샛까지 포함해 새 위성이 뜨거나 수명이 다해도 이 스크립트가
  *   다음 실행 때 저절로 반영한다.
- * - CelesTrak `visual`(밝은 위성)·`starlink`(저궤도 표본 40기)·
+ * - CelesTrak `visual`(밝은 위성)·`starlink`(저궤도 표본 150기)·
  *   `gps-ops`·`glo-ops`(중궤도 위성항법)·`geo`(정지궤도 표본) 그룹.
  *   각 그룹은 SATCAT에서 OBJECT_TYPE을 같이 받아 실제 임무를 수행한
  *   PAYLOAD만 남긴다(로켓 동체 R/B 제외).
@@ -321,12 +321,14 @@ async function main() {
     console.warn(`[fetch-satellites] visual group fetch failed: ${err.message}`);
   }
 
-  // 스타링크는 저궤도에 수천 기가 퍼져 있어, 연속으로 N개를 받으면
+  // 스타링크는 저궤도에 1만 기 넘게 퍼져 있어, 연속으로 N개를 받으면
   // 같은 궤도면(발사 배치)에 몰려 특정 시간대엔 다 같이 지평선
   // 아래에 있기 쉽다. 전체를 고른 간격으로 샘플링해 여러 궤도면을
-  // 섞는다.
+  // 섞는다. 표본이 클수록 특정 순간에 앙각 10° 이상인 저궤도 후보가
+  // 있을 확률이 올라간다(전체 대비 표본 비율이 낮아 순간 가시율이
+  // 낮다 — 선정 상한을 늘렸다면 표본도 같이 늘려야 체감이 된다).
   try {
-    const starlink = await fetchPayloadCandidates("starlink", 40);
+    const starlink = await fetchPayloadCandidates("starlink", 150);
     for (const v of starlink) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;

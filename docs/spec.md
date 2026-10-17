@@ -329,7 +329,7 @@ type Project = {
   3. 허블(HST)
   4. NOAA / Metop 기상위성
   5. Landsat / Terra / Aqua
-  6. 남는 자리는 CelesTrak `visual`(밝은 위성) 목록·스타링크 표본 40기(궤도면을 고르게 훑음)·GPS·글로나스(중궤도)·정지궤도(`geo`, 경도대가 고르게 섞이도록 표본) 중 앙각이 높은 순으로 채운다. 어느 그룹이든 SATCAT의 공식 `OBJECT_TYPE`을 받아 실제 임무를 수행(했)는 PAYLOAD만 후보로 쓴다(로켓 동체 R/B 제외).
+  6. 남는 자리는 CelesTrak `visual`(밝은 위성) 목록·스타링크 표본 150기(궤도면을 고르게 훑음)·GPS·글로나스(중궤도)·정지궤도(`geo`, 경도대가 고르게 섞이도록 표본) 중 앙각이 높은 순으로 채운다. 어느 그룹이든 SATCAT의 공식 `OBJECT_TYPE`을 받아 실제 임무를 수행(했)는 PAYLOAD만 후보로 쓴다(로켓 동체 R/B 제외).
   - **한국 위성**은 우선 목록에 이름을 박아 두지 않는다 — `fetchKoreanPayloads`가 CelesTrak SATCAT의 `active` 그룹 전체에서 `OWNER === "SKOR"`·`OBJECT_TYPE === "PAY"`인 것만 걸러 자동으로 가져온다(기업·대학 큐브샛 포함). 새 위성이 뜨거나 수명이 다해도 다음 실행 때 저절로 반영된다. 다누리(달 궤도)처럼 SGP4로 전파할 수 없는 위성은 자동으로 빠진다.
 - **위성 이름 옆에 호버하면 화살표(↗) 링크가 뜬다** — NORAD ID로 `https://www.n2yo.com/satellite/?s={noradId}` 상세 정보 페이지를 새 탭으로 연다. 위성 레이어 전체는 `aria-hidden`인 배경 장식이라, 이 링크만 `aria-hidden="false"`로 다시 노출해 스크린리더·키보드로도 닿게 한다.
 - **데이터 파이프라인**
