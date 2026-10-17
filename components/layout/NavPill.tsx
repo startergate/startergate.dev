@@ -45,7 +45,12 @@ export function NavPill() {
             id="nav-links"
             className={`${styles.navLinks} ${menuOpen ? styles.navLinksOpen : ""}`}
           >
-            <a className={styles.navlink} href={GITHUB_URL}>
+            <a
+              className={styles.navlink}
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
               {dict.nav.github}
             </a>
             <Link className={styles.navlink} href={`/${lang}/projects/`}>
