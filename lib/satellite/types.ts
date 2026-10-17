@@ -8,6 +8,8 @@ export type SatelliteRecord = {
   /** scripts/fetch-satellites.mjs가 TLE 평균 운동에서 미리 계산해 둔다. */
   altitudeKm?: number;
   orbitClass?: OrbitClass;
+  /** CelesTrak SATCAT의 OWNER === "SKOR"(대한민국) 여부. */
+  isKorean?: boolean;
 };
 
 export type SatellitesFile = {
@@ -22,6 +24,7 @@ export type SatellitePosition = {
   elevationDeg: number;
   altitudeKm?: number;
   orbitClass?: OrbitClass;
+  isKorean?: boolean;
   /** 직전 갱신 때의 위치 — 점 옆 트레일 방향을 계산하는 데 쓴다.
    * 이번이 그 위성의 첫 갱신이면 없다. */
   prevAzimuthDeg?: number;

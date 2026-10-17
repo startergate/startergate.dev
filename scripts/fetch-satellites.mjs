@@ -15,9 +15,14 @@
  * 정지궤도는 서울 상공 기준 경도대가 겹치는 것들이 많아, 수집
  * 시점에 dedupeGeoBySeoulScreenPosition으로 한 번만 걸러 둔다(화면상
  * 거리가 lib/satellite/screen.ts/useSatellitePositions.ts의
- * MIN_SEPARATION_PCT 안쪽이면 앙각 낮은 쪽을 버림). 매 틱 클라이언트
- * 에서 다시 거르면 앙각이 근소하게 뒤바뀔 때마다 결과가 바뀌어
- * 깜빡이므로, 겹침 제거는 여기(수집 시점)에서만 한다.
+ * MIN_SEPARATION_PCT 안쪽이면 앙각 낮은 쪽을 버림, 단 한국 위성은
+ * 우선). 매 틱 클라이언트에서 다시 거르면 앙각이 근소하게 뒤바뀔
+ * 때마다 결과가 바뀌어 깜빡이므로, 겹침 제거는 여기(수집 시점)
+ * 에서만 한다.
+ *
+ * CelesTrak SATCAT의 OWNER === "SKOR"(대한민국)인 후보는 isKorean으로
+ * 표시해 둔다 — 우선순위 목록 밖에서는 궤도와 상관없이 한국 위성을
+ * 먼저 보여준다(useSatellitePositions.ts).
  *
  * CelesTrak 요청은 이 스크립트가 하루 1회만 돌아서 사용 정책을 지킨다.
  */
@@ -100,7 +105,10 @@ async function fetchGroup(group) {
   return fetchTle(`GROUP=${group}`);
 }
 
-/** 그룹의 SATCAT 레코드에서 실제 임무를 수행(했)는 PAYLOAD의 NORAD ID만 모은다. */
+/**
+ * 그룹의 SATCAT 레코드에서 실제 임무를 수행(했)는 PAYLOAD의 NORAD ID와,
+ * 그중 한국 소유(OWNER === "SKOR") NORAD ID를 함께 모은다.
+ */
 async function fetchSatcatInfo(group) {
   const res = await fetch(`${SATCAT_URL}?GROUP=${group}&FORMAT=json`);
   if (!res.ok) {
@@ -108,10 +116,13 @@ async function fetchSatcatInfo(group) {
   }
   const records = await res.json();
   const payloadIds = new Set();
+  const koreanIds = new Set();
   for (const r of records) {
-    if (r.OBJECT_TYPE === "PAY") payloadIds.add(r.NORAD_CAT_ID);
+    if (r.OBJECT_TYPE !== "PAY") continue;
+    payloadIds.add(r.NORAD_CAT_ID);
+    if (r.OWNER === "SKOR") koreanIds.add(r.NORAD_CAT_ID);
   }
-  return payloadIds;
+  return { payloadIds, koreanIds };
 }
 
 function parseNoradFromTle(tle1) {
@@ -132,8 +143,9 @@ function orbitClassFromAltitude(altitudeKm) {
   return "meo";
 }
 
-function makeEntry(name, noradId, tle1, tle2) {
+function makeEntry(name, noradId, tle1, tle2, isKorean) {
   const entry = { name, noradId, tle1, tle2 };
+  if (isKorean) entry.isKorean = true;
   try {
     const altitudeKm = Math.round(altitudeKmFromTle(tle2));
     entry.altitudeKm = altitudeKm;
@@ -144,10 +156,18 @@ function makeEntry(name, noradId, tle1, tle2) {
   return entry;
 }
 
-/** group의 TLE 후보를 받아, 실제 PAYLOAD만 남기고 선택적으로 고르게 샘플링한다. */
+/**
+ * group의 TLE 후보를 받아, 실제 PAYLOAD만 남기고(각 항목에 isKorean
+ * 표시) 선택적으로 고르게 샘플링한다.
+ */
 async function fetchPayloadCandidates(group, sampleSize) {
-  const [tle, payloadIds] = await Promise.all([fetchGroup(group), fetchSatcatInfo(group)]);
-  const payloads = tle.filter((v) => payloadIds.has(parseNoradFromTle(v.tle1)));
+  const [tle, { payloadIds, koreanIds }] = await Promise.all([
+    fetchGroup(group),
+    fetchSatcatInfo(group),
+  ]);
+  const payloads = tle
+    .filter((v) => payloadIds.has(parseNoradFromTle(v.tle1)))
+    .map((v) => ({ ...v, isKorean: koreanIds.has(parseNoradFromTle(v.tle1)) }));
   if (!sampleSize || payloads.length <= sampleSize) return payloads;
   const step = Math.max(1, Math.floor(payloads.length / sampleSize));
   const sampled = [];
@@ -189,7 +209,12 @@ function dedupeGeoBySeoulScreenPosition(candidates) {
     }
   }
 
-  withLookAngles.sort((a, b) => b.elevationDeg - a.elevationDeg);
+  // 한국 위성을 먼저 두면, 겹치는 묶음 안에 한국 위성이 있을 때
+  // 그 묶음을 대표해서 살아남는다.
+  withLookAngles.sort((a, b) => {
+    if (a.v.isKorean !== b.v.isKorean) return a.v.isKorean ? -1 : 1;
+    return b.elevationDeg - a.elevationDeg;
+  });
 
   const kept = [];
   for (const candidate of withLookAngles) {
@@ -226,7 +251,7 @@ async function main() {
     for (const v of visual) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, v.isKorean));
       seen.add(noradId);
     }
   } catch (err) {
@@ -242,7 +267,7 @@ async function main() {
     for (const v of starlink) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, v.isKorean));
       seen.add(noradId);
     }
   } catch (err) {
@@ -255,7 +280,7 @@ async function main() {
     for (const v of gps) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, v.isKorean));
       seen.add(noradId);
     }
   } catch (err) {
@@ -270,7 +295,7 @@ async function main() {
     for (const v of glonass) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, v.isKorean));
       seen.add(noradId);
     }
   } catch (err) {
@@ -287,7 +312,7 @@ async function main() {
     for (const v of geo) {
       const noradId = parseNoradFromTle(v.tle1);
       if (seen.has(noradId)) continue;
-      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2));
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, v.isKorean));
       seen.add(noradId);
     }
   } catch (err) {

@@ -25,10 +25,15 @@ type LoadedSatellite = {
   satrec: ReturnType<typeof twoline2satrec>;
   altitudeKm?: number;
   orbitClass?: SatellitePosition["orbitClass"];
+  isKorean?: boolean;
 };
 
 /**
- * 앙각 10° 이상인 위성 중 최대 10개를 우선순위대로 뽑는다 (spec §7).
+ * 앙각 10° 이상인 위성 중 최대 10개를 우선순위·앙각 순으로 뽑는다
+ * (spec §7). 화면상 겹쳐 보이는 정지궤도 후보는 매 틱이 아니라
+ * 수집 시점(scripts/fetch-satellites.mjs의 dedupeGeoBySeoulScreenPosition)
+ * 에서 이미 걸러져 있으므로 여기서는 다시 거르지 않는다 — 매 틱
+ * 다시 걸러내면 앙각이 근소하게 뒤바뀔 때마다 결과가 깜빡인다.
  * public/data/satellites.json 로드나 전파 계산이 실패하면 빈 배열을
  * 반환한다 — 오류 문구 없이 위성 없는 별 하늘만 보이게 한다.
  */
@@ -59,6 +64,7 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
               satrec: twoline2satrec(s.tle1, s.tle2),
               altitudeKm: s.altitudeKm,
               orbitClass: s.orbitClass,
+              isKorean: s.isKorean,
             });
           } catch {
             // 이 위성의 TLE만 건너뛴다.
@@ -108,6 +114,7 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
             elevationDeg,
             altitudeKm: sat.altitudeKm,
             orbitClass: sat.orbitClass,
+            isKorean: sat.isKorean,
           });
         } catch {
           // 이 위성만 건너뛴다(쇠퇴한 TLE 등으로 전파가 실패할 수 있다).
@@ -118,12 +125,15 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
         const pa = priorityIndex.get(a.noradId) ?? Number.POSITIVE_INFINITY;
         const pb = priorityIndex.get(b.noradId) ?? Number.POSITIVE_INFINITY;
         if (pa !== pb) return pa - pb;
+        // 우선순위 목록 밖에서는 한국 위성(궤도 무관)을 먼저 둔다.
+        if (a.isKorean !== b.isKorean) return a.isKorean ? -1 : 1;
         return b.elevationDeg - a.elevationDeg;
       });
 
-      const next = computed
-        .slice(0, MAX_SATELLITES)
-        .map(({ name, noradId, azimuthDeg, elevationDeg, altitudeKm, orbitClass }) => {
+      const selected = computed.slice(0, MAX_SATELLITES);
+
+      const next = selected.map(
+        ({ name, noradId, azimuthDeg, elevationDeg, altitudeKm, orbitClass, isKorean }) => {
           const prev = lastSeenRef.current.get(noradId);
           return {
             name,
@@ -132,6 +142,7 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
             elevationDeg,
             altitudeKm,
             orbitClass,
+            isKorean,
             prevAzimuthDeg: prev?.azimuthDeg,
             prevElevationDeg: prev?.elevationDeg,
           };
