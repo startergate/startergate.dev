@@ -2,5 +2,9 @@
   "FETCHING": {
     "link": "https://github.com/Fetching-Korea",
     "avatar": "profiles/fetching.png"
+  },
+  "Claude Code": {
+    "link": "https://claude.com/claude-code",
+    "avatar": "externals/claude.png"
   }
 }

@@ -23,6 +23,8 @@ import { PeriodArc } from "./PeriodArc";
 import styles from "./ProjectModal.module.css";
 
 const SELF_NAME = "최호승";
+/** 참여 인원 중 AI 도구를 이렇게 표시한다 — 이름 옆에 작은 "AI" 배지가 붙는다. */
+const AI_NAME = "Claude Code";
 
 /**
  * 프로젝트 상세 팝업. 메인·목록 공용 (spec §6.2, 시안 ProjectModal.dc.html).
@@ -133,6 +135,7 @@ export function ProjectModal({
       avatar: person?.avatar,
       initial: c.name.charAt(0).toUpperCase(),
       isMe: c.name === SELF_NAME,
+      isAI: c.name === AI_NAME,
     };
   });
 
@@ -331,7 +334,10 @@ export function ProjectModal({
                       )}
                     </span>
                     <span className={styles.memberInfo}>
-                      <span className={styles.memberName}>{m.name}</span>
+                      <span className={styles.memberNameRow}>
+                        <span className={styles.memberName}>{m.name}</span>
+                        {m.isAI ? <span className={styles.aiBadge}>AI</span> : null}
+                      </span>
                       <span className={styles.memberRole}>{m.role}</span>
                     </span>
                   </Tag>

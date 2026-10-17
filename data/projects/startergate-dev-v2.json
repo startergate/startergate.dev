@@ -28,6 +28,15 @@
           "en": "Solo Development"
         }
       ]
+    },
+    {
+      "name": "Claude Code",
+      "roles": [
+        {
+          "ko": "전체 구현",
+          "en": "Full Implementation"
+        }
+      ]
     }
   ],
   "logo": {
