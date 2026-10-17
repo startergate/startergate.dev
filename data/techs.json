@@ -5,7 +5,8 @@
     "level": "using",
     "logo": {
       "src": "langs/typescript.png",
-      "background": "#4178BA"
+      "background": "#4178BA",
+      "padding": 2
     }
   },
   {
@@ -14,7 +15,8 @@
     "level": "using",
     "logo": {
       "src": "langs/javascript.png",
-      "background": "#f4de50"
+      "background": "#f4de50",
+      "padding": 2
     }
   },
   {
@@ -22,7 +24,9 @@
     "mode": "backend",
     "level": "using",
     "logo": {
-      "src": "langs/nodejs.png"
+      "src": "langs/nodejs.svg",
+      "background": "#FFFFFF",
+      "padding": 2
     }
   },
   {
@@ -80,7 +84,8 @@
     "level": "learning",
     "logo": {
       "src": "langs/go.png",
-      "background": "#00ADD8"
+      "background": "#00ADD8",
+      "padding": 4
     }
   },
   {
@@ -98,7 +103,8 @@
     "level": "using",
     "logo": {
       "src": "langs/react.png",
-      "background": "#1F1F1F"
+      "background": "#1F1F1F",
+      "padding": 2
     }
   },
   {
@@ -159,7 +165,8 @@
     "mode": "all",
     "level": "learned",
     "logo": {
-      "src": "langs/qt.png"
+      "src": "langs/qt.png",
+      "padding": 2
     }
   },
   {
@@ -192,7 +199,8 @@
     "mode": "backend",
     "level": "using",
     "logo": {
-      "src": "langs/mysql.png"
+      "src": "langs/mysql.png",
+      "padding": 3
     }
   },
   {
@@ -200,7 +208,8 @@
     "mode": "backend",
     "level": "using",
     "logo": {
-      "src": "langs/mariadb.png"
+      "src": "langs/mariadb.png",
+      "padding": 4
     }
   },
   {
@@ -217,7 +226,8 @@
     "mode": "backend",
     "level": "using",
     "logo": {
-      "src": "langs/redis.png"
+      "src": "langs/redis.png",
+      "padding": 3
     }
   },
   {
@@ -226,7 +236,8 @@
     "level": "using",
     "logo": {
       "src": "langs/rabbitmq.svg",
-      "background": "#FFFFFF"
+      "background": "#FFFFFF",
+      "padding": 5
     }
   },
   {
@@ -235,7 +246,8 @@
     "level": "using",
     "logo": {
       "src": "langs/elasticsearch.svg",
-      "background": "#FFFFFF"
+      "background": "#FFFFFF",
+      "padding": 3
     }
   },
   {
@@ -244,7 +256,8 @@
     "level": "using",
     "logo": {
       "src": "langs/aws.svg",
-      "background": "#FFFFFF"
+      "background": "#FFFFFF",
+      "padding": 3
     }
   },
   {
@@ -253,7 +266,8 @@
     "level": "learned",
     "logo": {
       "src": "langs/mongodb.png",
-      "background": "#21313C"
+      "background": "#21313C",
+      "padding": 5
     }
   },
   {
@@ -262,7 +276,8 @@
     "level": "using",
     "logo": {
       "src": "externals/docker.png",
-      "background": "#0db7ed"
+      "background": "#0db7ed",
+      "padding": 5
     }
   },
   {
