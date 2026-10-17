@@ -130,6 +130,31 @@ export function GroundStationConsole() {
           pushLog(text, [dict.console.gotoNeedsTarget]);
           return;
         }
+        if (arg.includes(".")) {
+          const [scope, target] = arg.split(".");
+          // main.<섹션>: 메인 페이지의 섹션으로, 다른 페이지에 있어도 이동한다.
+          if (scope === "main" && target) {
+            const id = SECTION_IDS[target] ?? target;
+            if (isHome) {
+              if (scrollToId(id)) {
+                pushLog(text, [fillTemplate(dict.console.gotoToTemplate, { id })]);
+                return;
+              }
+            } else {
+              router.push(`/${lang}/#${id}`);
+              pushLog(text, [fillTemplate(dict.console.gotoToTemplate, { id })]);
+              return;
+            }
+          }
+          // projects.<id>: 프로젝트 상세 라우트로 바로 이동한다(다른 페이지에 있어도 동작).
+          if (scope === "projects" && target) {
+            router.push(`/${lang}/projects/${target}/`);
+            pushLog(text, [fillTemplate(dict.console.gotoToTemplate, { id: target })]);
+            return;
+          }
+          pushLog(text, [dict.console.gotoNeedsTarget]);
+          return;
+        }
         if (arg === "conferences") {
           pushLog(text, [dict.console.gotoConferencesLog]);
           return;
@@ -139,16 +164,8 @@ export function GroundStationConsole() {
           pushLog(text, [dict.console.gotoTimelineLog]);
           return;
         }
-        const id = SECTION_IDS[arg];
-        if (!id) {
-          pushLog(text, [dict.console.gotoNeedsTarget]);
-          return;
-        }
-        if (isHome && scrollToId(id)) {
-          pushLog(text, [fillTemplate(dict.console.gotoToTemplate, { id })]);
-        } else {
-          pushLog(text, [dict.console.unavailable]);
-        }
+        // 메인 섹션은 goto main.<섹션>으로만 간다 — 맨 섹션 이름만 쓰는 건 지원하지 않는다.
+        pushLog(text, [dict.console.gotoNeedsTarget]);
         return;
       }
 
@@ -397,17 +414,20 @@ export function GroundStationConsole() {
                 ["timeline", dict.console.gotoTimeline],
                 ["conferences", dict.console.gotoConferences],
               ] as const
-            ).map(([key, label]) => (
-              <button
-                key={key}
-                type="button"
-                className={styles.eggOpt}
-                style={{ padding: "0 4px" }}
-                onClick={() => runCmd(`goto ${key}`)}
-              >
-                {label}
-              </button>
-            ))}
+            ).map(([key, label]) => {
+              const isMainSection = key !== "timeline" && key !== "conferences";
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  className={styles.eggOpt}
+                  style={{ padding: "0 4px" }}
+                  onClick={() => runCmd(`goto ${isMainSection ? `main.${key}` : key}`)}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
           <button
             type="button"
