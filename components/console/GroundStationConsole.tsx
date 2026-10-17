@@ -44,6 +44,7 @@ export function GroundStationConsole() {
   const [log, setLog] = useState<string[]>([dict.console.intro1, dict.console.intro2]);
   const inputRef = useRef<HTMLInputElement>(null);
   const displayRef = useRef<HTMLSpanElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // 입력이 길어져 넘치면 실제 터미널처럼 뒤쪽(커서 쪽)이 보이게 스크롤한다.
@@ -51,6 +52,13 @@ export function GroundStationConsole() {
     const el = displayRef.current;
     if (el) el.scrollLeft = el.scrollWidth;
   }, [input, caret]);
+
+  // 로그가 스크롤 영역보다 길어지면(예: help) 가장 최근 줄이 가려지지
+  // 않도록 새 줄이 추가될 때마다 맨 아래로 따라간다.
+  useEffect(() => {
+    const el = logRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [log]);
 
   // 실제 <input>의 캐럿 위치(클릭, 화살표/Home/End 이동 포함)를 읽어와
   // 화면에 그리는 가짜 커서가 같은 자리를 따라가게 한다.
@@ -504,7 +512,7 @@ export function GroundStationConsole() {
           {"=-".repeat(38)}
         </div>
 
-        <div aria-live="polite" className={styles.eggLog}>
+        <div ref={logRef} aria-live="polite" className={styles.eggLog}>
           {log.map((line, i) => (
             <div key={i} className={styles.eggLogLine}>
               {line}
