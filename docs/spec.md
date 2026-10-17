@@ -353,8 +353,8 @@ type Project = {
 | `theme [dark\|light]` | 테마 전환. 인자가 없으면 토글 |
 | `mode [backend\|game]` | 프로필 모드. **메인에서만 동작** |
 | `lang [ko\|en]` | 언어 전환(URL 접두사 변경) |
-| `goto <timeline\|conferences>` | 해당 페이지로 이동 |
-| `goto main.<섹션>` | 메인 페이지의 섹션으로 이동. 다른 페이지에 있어도 메인으로 이동한 뒤 스크롤한다. 섹션 이름만 단독으로는(`goto tech`) 동작하지 않는다 |
+| `goto <main\|projects\|timeline\|conferences>` | 해당 페이지로 이동(각각 메인 `/{lang}/`, 프로젝트 목록 `/{lang}/projects/`, 타임라인, Conferences). 콘솔의 goto 빠른 버튼 4개도 이 페이지 단위 이동만 제공한다 |
+| `goto main.<섹션>` | 메인 페이지의 특정 섹션으로 이동(빠른 버튼엔 없고 명령으로만). 다른 페이지에 있어도 메인으로 이동한 뒤 스크롤한다. 섹션 이름만 단독으로는(`goto tech`) 동작하지 않는다 |
 | `goto projects.<프로젝트 id>` | 해당 프로젝트 상세 라우트(`/{lang}/projects/{id}/`)로 바로 이동. 다른 페이지에 있어도 동작한다 |
 | `menu` | 상단 메뉴 펼치기/접기 |
 | `top` | 맨 위로 |

@@ -188,7 +188,17 @@ export function GroundStationConsole() {
           pushLog(text, [dict.console.gotoTimelineLog]);
           return;
         }
-        // 메인 섹션은 goto main.<섹션>으로만 간다 — 맨 섹션 이름만 쓰는 건 지원하지 않는다.
+        if (arg === "main") {
+          router.push(`/${lang}/`);
+          pushLog(text, [dict.console.gotoMainLog]);
+          return;
+        }
+        if (arg === "projects") {
+          router.push(`/${lang}/projects/`);
+          pushLog(text, [dict.console.gotoProjectsLog]);
+          return;
+        }
+        // 메인 페이지 안의 섹션은 goto main.<섹션>으로만 간다 — 섹션 이름만 단독으로 쓰는 건 지원하지 않는다.
         pushLog(text, [dict.console.gotoNeedsTarget]);
         return;
       }
@@ -462,27 +472,22 @@ export function GroundStationConsole() {
             </span>
             {(
               [
-                ["about", dict.console.gotoAbout],
+                ["main", dict.console.gotoMain],
                 ["projects", dict.console.gotoProjects],
-                ["tech", dict.console.gotoTech],
-                ["cv", dict.console.gotoCv],
                 ["timeline", dict.console.gotoTimeline],
                 ["conferences", dict.console.gotoConferences],
               ] as const
-            ).map(([key, label]) => {
-              const isMainSection = key !== "timeline" && key !== "conferences";
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  className={styles.eggOpt}
-                  style={{ padding: "0 4px" }}
-                  onClick={() => runCmd(`goto ${isMainSection ? `main.${key}` : key}`)}
-                >
-                  {label}
-                </button>
-              );
-            })}
+            ).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                className={styles.eggOpt}
+                style={{ padding: "0 4px" }}
+                onClick={() => runCmd(`goto ${key}`)}
+              >
+                {label}
+              </button>
+            ))}
           </div>
           <button
             type="button"
