@@ -9,13 +9,13 @@ import { ChevronLeftIcon } from "@/components/icons";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
+import { SITE_CONFERENCES_URL } from "@/lib/site-meta";
 
 import { LangSwitcher } from "./LangSwitcher";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import styles from "./NavPill.module.css";
 
 const GITHUB_URL = "https://github.com/startergate";
-const CONFERENCES_URL = "https://startergate.dev/Conferences";
 
 export function NavPill() {
   const { lang, dict } = useLang();
@@ -62,7 +62,7 @@ export function NavPill() {
             </Link>
             <a
               className={styles.navlink}
-              href={CONFERENCES_URL}
+              href={SITE_CONFERENCES_URL}
               target="_blank"
               rel="noreferrer"
             >
