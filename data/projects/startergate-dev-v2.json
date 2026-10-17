@@ -1,0 +1,43 @@
+{
+  "id": "startergate-dev-v2",
+  "name": "STARTERGATE.DEV v2",
+  "description": {
+    "ko": "",
+    "en": ""
+  },
+  "category": "personal",
+  "status": "active",
+  "startedAt": "2026-10-02",
+  "types": [
+    "Front-end"
+  ],
+  "techs": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "satellite.js",
+    "GitHub Actions"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
+      ]
+    }
+  ],
+  "logo": {
+    "src": "startergate.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/startergate.dev",
+      "label": "startergate.dev"
+    }
+  ]
+}

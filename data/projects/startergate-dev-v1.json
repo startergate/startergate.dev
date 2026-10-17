@@ -1,0 +1,44 @@
+{
+  "id": "startergate-dev-v1",
+  "name": "STARTERGATE.DEV v1",
+  "description": {
+    "ko": "",
+    "en": ""
+  },
+  "category": "personal",
+  "status": "done",
+  "startedAt": "2020-05-10",
+  "finishedAt": "2026-09-11",
+  "types": [
+    "Front-end"
+  ],
+  "techs": [
+    "Gatsby",
+    "React",
+    "TypeScript",
+    "GraphQL",
+    "Styled Components",
+    "gh-pages"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        {
+          "ko": "개인 개발",
+          "en": "Solo Development"
+        }
+      ]
+    }
+  ],
+  "logo": {
+    "src": "startergate.png"
+  },
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/startergate.github.io",
+      "label": "startergate.github.io"
+    }
+  ]
+}
