@@ -23,7 +23,9 @@
 }
 
 .caption {
-  padding-bottom: 56px;
+  /* 같은 엘리먼트에 쓰는 전역 .wrap의 padding: 0 40px 단축 속성이
+   * 번들 순서에 따라 이 값을 덮어쓸 수 있어 !important로 고정한다. */
+  padding-bottom: 24px !important;
   display: flex;
   justify-content: center;
   text-align: center;
