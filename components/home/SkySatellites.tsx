@@ -50,6 +50,13 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
           : DEFAULT_TRAIL_LENGTH_PX;
 
         let trailDeg: number | null = null;
+        // 방위각이 0/360을 넘나들면(예: 359°→2°) left(%)가 거의 반대편으로
+        // 뛴다 — CSS 전환(transition)이 이 점프까지 애니메이션해서 점이
+        // 화면을 가로질러 미끄러지는 것처럼 보인다. 실제로 그만큼 움직인
+        // 게 아니라 각도 표현상의 점프이므로, 이번 갱신만 전환 없이
+        // 바로 새 위치로 옮긴다.
+        const azimuthWrapped =
+          p.prevAzimuthDeg != null && Math.abs(p.azimuthDeg - p.prevAzimuthDeg) > 180;
         if (trailLengthPx > 0 && p.prevAzimuthDeg != null && p.prevElevationDeg != null) {
           const prev = toScreen(p.prevAzimuthDeg, p.prevElevationDeg);
           const dAz = angleDelta(p.azimuthDeg, p.prevAzimuthDeg);
@@ -64,7 +71,11 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
           <div
             key={p.noradId}
             className={styles.dot}
-            style={{ left: `${left}%`, top: `${top}%` }}
+            style={{
+              left: `${left}%`,
+              top: `${top}%`,
+              transition: azimuthWrapped ? "none" : undefined,
+            }}
           >
             {trailDeg != null ? (
               <span
