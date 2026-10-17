@@ -136,8 +136,24 @@ export function ProjectModal({
       initial: c.name.charAt(0).toUpperCase(),
       isMe: c.name === SELF_NAME,
       isAI: c.name === AI_NAME,
+      isTeam: false,
     };
   });
+  // 소속 팀/단체(project.team)도 참여 인원 타일에 함께 보여준다 — 같은
+  // organizations.json 조회로 로고·링크가 있으면 그대로 쓴다.
+  if (project.team) {
+    const org = getPerson(project.team.name);
+    members.unshift({
+      name: project.team.name,
+      role: dict.modal.orgRoleLabel,
+      href: project.team.link ?? org?.link,
+      avatar: org?.avatar,
+      initial: project.team.name.charAt(0).toUpperCase(),
+      isMe: false,
+      isAI: false,
+      isTeam: true,
+    });
+  }
 
   const copyLink = async () => {
     try {
@@ -298,7 +314,8 @@ export function ProjectModal({
           <div className={`${styles.tile} ${styles.span3} ${styles.membersTile}`}>
             <span className={styles.tileLabel}>
               {dict.modal.members}{" "}
-              <span className={styles.memberCount}>{members.length}</span>
+              {/* 소속 팀은 참여자 수에 넣지 않는다 — 사람이 아니라 조직이다. */}
+              <span className={styles.memberCount}>{project.collaborators.length}</span>
             </span>
             <div className={styles.members}>
               {members.map((m) => {
@@ -335,6 +352,9 @@ export function ProjectModal({
                       <span className={styles.memberNameRow}>
                         <span className={styles.memberName}>{m.name}</span>
                         {m.isAI ? <span className={styles.aiBadge}>AI</span> : null}
+                        {m.isTeam ? (
+                          <span className={styles.orgBadge}>{dict.modal.orgBadge}</span>
+                        ) : null}
                       </span>
                       <span className={styles.memberRole}>{m.role}</span>
                     </span>

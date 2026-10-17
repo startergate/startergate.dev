@@ -222,6 +222,8 @@ const ko = {
     overview: "개요",
     techStack: "기술 스택",
     members: "참여 인원",
+    orgBadge: "소속",
+    orgRoleLabel: "소속 조직",
     linksLabel: "링크",
     prevProject: "이전 프로젝트",
     nextProject: "다음 프로젝트",

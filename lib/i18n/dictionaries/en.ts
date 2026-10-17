@@ -224,6 +224,8 @@ const en: Dictionary = {
     overview: "Overview",
     techStack: "Tech stack",
     members: "Team",
+    orgBadge: "Org",
+    orgRoleLabel: "Organization",
     linksLabel: "Links",
     prevProject: "Previous project",
     nextProject: "Next project",
