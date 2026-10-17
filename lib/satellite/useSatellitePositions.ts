@@ -40,7 +40,10 @@ type LoadedSatellite = {
  * (spec §7). 정지궤도·중궤도는 각각 MAX_GEO_SATELLITES·
  * MAX_MEO_SATELLITES개까지만 포함하고 넘치는 자리는 저궤도 위성으로
  * 채운다 — 정지궤도·중궤도는 각속도가 느려서 비중이 크면 하늘이
- * 정적으로 보인다.
+ * 정적으로 보인다. 정지궤도 중 한국 위성은 항상 포함하고, 나머지는
+ * 접속할 때마다(이 훅이 다시 설정될 때) 무작위로 뽑아 고정한다 —
+ * 매번 같은 위성만 뜨지 않게 하면서도, 매 틱 다시 뽑아 깜빡이지는
+ * 않게 한다.
  * 화면상 겹쳐 보이는 정지궤도 후보는 매 틱이 아니라 수집 시점
  * (scripts/fetch-satellites.mjs의 dedupeGeoBySeoulScreenPosition)
  * 에서 이미 걸러져 있으므로 여기서는 다시 거르지 않는다 — 매 틱
@@ -103,6 +106,10 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
       latitude: degreesToRadians(observer.lat),
       height: 0.1,
     };
+    // 한국 정지궤도 위성이 아닌 나머지 자리는 접속(이 useEffect가 다시
+    // 도는 시점)마다 한 번만 무작위로 뽑아 고정한다 — 정지궤도는 거의
+    // 안 움직이니 매 틱 다시 뽑으면 의미가 없고 깜빡이기만 한다.
+    let randomGeoPick: Set<number> | null = null;
 
     const tick = () => {
       const now = new Date();
@@ -141,6 +148,20 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
         return b.elevationDeg - a.elevationDeg;
       });
 
+      if (randomGeoPick === null) {
+        const geoCandidates = computed.filter((c) => c.orbitClass === "geo");
+        const koreanGeoCount = geoCandidates.filter((c) => c.isKorean).length;
+        const nonKoreanGeo = geoCandidates.filter((c) => !c.isKorean);
+        const remainingSlots = Math.max(0, MAX_GEO_SATELLITES - koreanGeoCount);
+        // Fisher-Yates — 한국 위성 제외 정지궤도 후보 중 remainingSlots개를 무작위로 고른다.
+        for (let i = nonKoreanGeo.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [nonKoreanGeo[i], nonKoreanGeo[j]] = [nonKoreanGeo[j], nonKoreanGeo[i]];
+        }
+        randomGeoPick = new Set(nonKoreanGeo.slice(0, remainingSlots).map((c) => c.noradId));
+      }
+      const fixedRandomGeoPick = randomGeoPick;
+
       const selected: typeof computed = [];
       let geoCount = 0;
       let meoCount = 0;
@@ -148,6 +169,8 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
         if (selected.length >= MAX_SATELLITES) break;
         if (candidate.orbitClass === "geo") {
           if (geoCount >= MAX_GEO_SATELLITES) continue;
+          // 한국 위성은 항상 포함하고, 나머지는 접속 시 무작위로 뽑아 둔 것만 포함한다.
+          if (!candidate.isKorean && !fixedRandomGeoPick.has(candidate.noradId)) continue;
           geoCount += 1;
         } else if (candidate.orbitClass === "meo") {
           if (meoCount >= MAX_MEO_SATELLITES) continue;
