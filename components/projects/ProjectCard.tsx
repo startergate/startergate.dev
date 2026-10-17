@@ -81,16 +81,16 @@ export function ProjectCard({
       </span>
 
       <span className={styles.metaRow}>
-        {tech ? (
+        {primaryTech ? (
           <Badge
-            mono={tech.abbr ?? monogram(tech.name)}
-            logoSrc={tech.logo?.src}
-            logoBackground={tech.logo?.background}
-            logoPadding={tech.logo?.padding}
+            mono={tech?.abbr ?? monogram(primaryTech)}
+            logoSrc={tech?.logo?.src}
+            logoBackground={tech?.logo?.background}
+            logoPadding={tech?.logo?.padding}
             className={styles.techBadge}
             logoClassName={styles.techMono}
           >
-            {tech.name}
+            {primaryTech}
           </Badge>
         ) : null}
         <span aria-hidden="true">·</span>
