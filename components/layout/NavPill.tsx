@@ -59,7 +59,12 @@ export function NavPill() {
             <Link className={styles.navlink} href={`/${lang}/timeline/`}>
               {dict.nav.timeline}
             </Link>
-            <a className={styles.navlink} href={CONFERENCES_URL}>
+            <a
+              className={styles.navlink}
+              href={CONFERENCES_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
               {dict.nav.conferences}
             </a>
             <span
