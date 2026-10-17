@@ -117,8 +117,8 @@
   "links": [
     {
       "type": "GitHub",
-      "link": "https://github.com/BeanSil/DOTORI-api",
-      "label": "BeanSil/DOTORI-api"
+      "link": "https://github.com/BeanSil-Archive2/DOTORI-api",
+      "label": "BeanSil-Archive2/DOTORI-api"
     },
     {
       "type": "GitHub",
@@ -127,18 +127,18 @@
     },
     {
       "type": "GitHub",
-      "link": "https://github.com/BeanSil/commit-convention-checker",
-      "label": "BeanSil/commit-convention-checker"
+      "link": "https://github.com/BeanSil-Archive2/commit-convention-checker",
+      "label": "BeanSil-Archive2/commit-convention-checker"
     },
     {
       "type": "GitHub",
-      "link": "https://github.com/BeanSil/git-flow-automation",
-      "label": "BeanSil/git-flow-automation"
+      "link": "https://github.com/BeanSil-Archive2/git-flow-automation",
+      "label": "BeanSil-Archive2/git-flow-automation"
     },
     {
       "type": "GitHub",
-      "link": "https://github.com/BeanSil/Bean-Account",
-      "label": "BeanSil/Bean-Account"
+      "link": "https://github.com/BeanSil-Archive2/Bean-Account",
+      "label": "BeanSil-Archive2/Bean-Account"
     }
   ],
   "contents": [
