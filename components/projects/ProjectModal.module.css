@@ -376,11 +376,19 @@ a.member:hover {
   letter-spacing: 0.02em;
 }
 .memberRole {
+  display: block;
   font-size: 12.5px;
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* 말줄임 텍스트를 Tooltip 트리거로 감쌀 때 바깥 트리거에 준다 — 트리거
+   자체에 overflow:hidden을 주면 아래로 튀어나오는 말풍선까지 같이
+   잘리므로, 자르는 역할은 안쪽 .memberRole이 맡고 트리거는 flex
+   칸 안에서 줄어들 수 있게 min-width만 0으로 둔다. */
+.memberRoleTrigger {
+  min-width: 0;
 }
 
 .article {

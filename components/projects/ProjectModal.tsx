@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import { CloseIcon, CopyLinkIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/Badge";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { sendEvent } from "@/lib/analytics";
 import { daysBetween, formatDate } from "@/lib/data/format";
 import { monogram } from "@/lib/data/monogram";
@@ -25,6 +26,40 @@ import styles from "./ProjectModal.module.css";
 const SELF_NAME = "최호승";
 /** 참여 인원 중 AI 도구를 이렇게 표시한다 — 이름 옆에 작은 "AI" 배지가 붙는다. */
 const AI_NAME = "Claude Code";
+
+/**
+ * 참여 인원 타일의 역할 텍스트. 역할이 많아 말줄임(ellipsis)으로
+ * 잘릴 때만 호버 시 전체 텍스트를 툴팁으로 보여준다 — 짧아서 안
+ * 잘리는 경우까지 굳이 호버 가능한 것처럼 보이지 않게 하기 위함.
+ */
+function MemberRole({ text }: { text: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [truncated, setTruncated] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const check = () => setTruncated(el.scrollWidth > el.clientWidth + 1);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [text]);
+
+  if (!truncated) {
+    return (
+      <span ref={ref} className={styles.memberRole}>
+        {text}
+      </span>
+    );
+  }
+  return (
+    <Tooltip content={text} className={styles.memberRoleTrigger}>
+      <span ref={ref} className={styles.memberRole}>
+        {text}
+      </span>
+    </Tooltip>
+  );
+}
 
 /**
  * 프로젝트 상세 팝업. 메인·목록 공용 (spec §6.2, 시안 ProjectModal.dc.html).
@@ -356,7 +391,7 @@ export function ProjectModal({
                           <span className={styles.orgBadge}>{dict.modal.orgBadge}</span>
                         ) : null}
                       </span>
-                      <span className={styles.memberRole}>{m.role}</span>
+                      <MemberRole text={m.role} />
                     </span>
                   </Tag>
                 );
