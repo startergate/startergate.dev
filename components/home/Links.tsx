@@ -1,8 +1,7 @@
-import { getLinkIcon } from "@/lib/data/link-icons";
+import { Badge } from "@/components/ui/Badge";
 import { monogram } from "@/lib/data/monogram";
 import type { LinkItem } from "@/lib/data/types";
 
-import { Badge } from "./Badge";
 import { SectionLabel } from "./SectionLabel";
 import styles from "./Links.module.css";
 
@@ -15,24 +14,19 @@ export function Links({ links, heading }: { links: LinkItem[]; heading: string }
         {heading}
       </h2>
       <div className={styles.row}>
-        {links.map((l) => {
-          const icon = getLinkIcon(l.type);
-          return (
-            <Badge
-              key={l.type + l.link}
-              href={l.link}
-              mono={l.link.startsWith("mailto:") ? "@" : monogram(l.type)}
-              logoSrc={icon?.src}
-              logoBackground={icon?.background}
-              logoPadding={icon?.padding}
-              className={styles.badge}
-              logoClassName={styles.logo}
-            >
-              <span>{l.type}</span>
-              <span className={styles.handle}>{l.external_id}</span>
-            </Badge>
-          );
-        })}
+        {links.map((l) => (
+          <Badge
+            key={l.type + l.link}
+            href={l.link}
+            mono={l.link.startsWith("mailto:") ? "@" : monogram(l.type)}
+            iconType={l.type}
+            className={styles.badge}
+            logoClassName={styles.logo}
+          >
+            <span>{l.type}</span>
+            <span className={styles.handle}>{l.external_id}</span>
+          </Badge>
+        ))}
       </div>
     </section>
   );

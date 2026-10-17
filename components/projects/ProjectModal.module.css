@@ -377,22 +377,9 @@ a.member:hover {
   font-weight: 500;
 }
 .stackMono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--surface2);
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--muted);
-  overflow: hidden;
-}
-.stackLogo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 9px !important;
 }
 
 .secNo {

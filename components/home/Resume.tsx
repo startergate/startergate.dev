@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ChevronDownIcon } from "@/components/icons";
+import { Badge } from "@/components/ui/Badge";
 import { formatExperiencePeriod } from "@/lib/data/experience-format";
 import { monogram } from "@/lib/data/monogram";
 import { getTechByName } from "@/lib/data/techs";
@@ -15,7 +16,6 @@ import { l10n } from "@/lib/i18n/l10n";
 import type { Locale } from "@/lib/i18n/locales";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 
-import { Badge } from "./Badge";
 import { SectionLabel } from "./SectionLabel";
 import styles from "./Resume.module.css";
 

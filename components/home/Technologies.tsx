@@ -1,8 +1,8 @@
+import { Badge } from "@/components/ui/Badge";
 import { monogram } from "@/lib/data/monogram";
 import type { ProfileMode, Tech } from "@/lib/data/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
 
-import { Badge } from "./Badge";
 import { SectionLabel } from "./SectionLabel";
 import styles from "./Technologies.module.css";
 
@@ -32,7 +32,7 @@ export function Technologies({
       <SectionLabel id="tech" num="03" label="Technologies" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.tech.heading}</h2>
-        <Badge href="https://stackshare.io/startergate" mono="SS">
+        <Badge href="https://stackshare.io/startergate" mono="SS" iconType="stackshare">
           {dict.tech.ssBadge}
         </Badge>
       </div>

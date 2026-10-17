@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 
+import { Badge } from "@/components/ui/Badge";
 import { cardPeriod } from "@/lib/data/format";
 import { monogram } from "@/lib/data/monogram";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
@@ -81,32 +82,16 @@ export function ProjectCard({
 
       <span className={styles.metaRow}>
         {tech ? (
-          <span className={styles.techBadge}>
-            <span
-              className={styles.techMono}
-              style={
-                tech.logo?.background || tech.logo?.padding
-                  ? {
-                      ...(tech.logo?.background ? { background: tech.logo.background } : null),
-                      ...(tech.logo?.padding ? { padding: tech.logo.padding } : null),
-                    }
-                  : undefined
-              }
-            >
-              {tech.logo?.src ? (
-                <Image
-                  src={`/images/${tech.logo.src}`}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className={styles.techLogo}
-                />
-              ) : (
-                tech.abbr ?? monogram(tech.name)
-              )}
-            </span>
+          <Badge
+            mono={tech.abbr ?? monogram(tech.name)}
+            logoSrc={tech.logo?.src}
+            logoBackground={tech.logo?.background}
+            logoPadding={tech.logo?.padding}
+            className={styles.techBadge}
+            logoClassName={styles.techMono}
+          >
             {tech.name}
-          </span>
+          </Badge>
         ) : null}
         <span aria-hidden="true">·</span>
         <span className={styles.part}>{part}</span>

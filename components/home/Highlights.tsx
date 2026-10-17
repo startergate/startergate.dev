@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { Badge } from "@/components/ui/Badge";
 import type { Project } from "@/lib/data/types";
 import type { Dictionary } from "@/lib/i18n/dictionaries/ko";
 import type { Locale } from "@/lib/i18n/locales";
 
-import { Badge } from "./Badge";
 import { SectionLabel } from "./SectionLabel";
 import styles from "./Highlights.module.css";
 
@@ -26,7 +26,7 @@ export function Highlights({
       <SectionLabel id="projects" num="02" label="Project Highlights" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.highlights.heading}</h2>
-        <Badge href="https://github.com/startergate" mono="GH">
+        <Badge href="https://github.com/startergate" mono="GH" iconType="github">
           {dict.highlights.ghBadge}
         </Badge>
       </div>

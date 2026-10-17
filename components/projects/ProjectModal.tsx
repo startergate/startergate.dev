@@ -4,9 +4,9 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Image from "next/image";
 
 import { CloseIcon, CopyLinkIcon } from "@/components/icons";
+import { Badge } from "@/components/ui/Badge";
 import { sendEvent } from "@/lib/analytics";
 import { daysBetween, formatDate } from "@/lib/data/format";
-import { getLinkIcon } from "@/lib/data/link-icons";
 import { monogram } from "@/lib/data/monogram";
 import type { ProjectOverview } from "@/lib/data/overview";
 import { getPerson } from "@/lib/data/people";
@@ -349,32 +349,17 @@ export function ProjectModal({
             <h3 className={styles.tileLabel}>{dict.modal.techStack}</h3>
             <div className={styles.badgeRow}>
               {stack.map((t) => (
-                <span key={t.name} className={styles.stackBadge}>
-                  <span
-                    className={styles.stackMono}
-                    style={
-                      t.logoBackground || t.logoPadding
-                        ? {
-                            ...(t.logoBackground ? { background: t.logoBackground } : null),
-                            ...(t.logoPadding ? { padding: t.logoPadding } : null),
-                          }
-                        : undefined
-                    }
-                  >
-                    {t.logoSrc ? (
-                      <Image
-                        src={`/images/${t.logoSrc}`}
-                        alt=""
-                        width={24}
-                        height={24}
-                        className={styles.stackLogo}
-                      />
-                    ) : (
-                      t.mono
-                    )}
-                  </span>
+                <Badge
+                  key={t.name}
+                  mono={t.mono}
+                  logoSrc={t.logoSrc}
+                  logoBackground={t.logoBackground}
+                  logoPadding={t.logoPadding}
+                  className={styles.stackBadge}
+                  logoClassName={styles.stackMono}
+                >
                   {t.name}
-                </span>
+                </Badge>
               ))}
             </div>
           </article>
@@ -404,44 +389,19 @@ export function ProjectModal({
           {project.links && project.links.length > 0 ? (
             <div className={`${styles.tile} ${styles.span4} ${styles.linksWrap}`}>
               <span className={styles.tileLabel}>{dict.modal.linksLabel}</span>
-              {project.links.map((l) => {
-                const icon = getLinkIcon(l.type);
-                return (
-                  <a
-                    key={l.link}
-                    href={l.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={styles.linkBadge}
-                  >
-                    <span
-                      className={styles.linkMono}
-                      style={
-                        icon?.background || icon?.padding
-                          ? {
-                              ...(icon?.background ? { background: icon.background } : null),
-                              ...(icon?.padding ? { padding: icon.padding } : null),
-                            }
-                          : undefined
-                      }
-                    >
-                      {icon ? (
-                        <Image
-                          src={`/images/${icon.src}`}
-                          alt=""
-                          width={26}
-                          height={26}
-                          className={styles.linkLogo}
-                        />
-                      ) : (
-                        monogram(l.type)
-                      )}
-                    </span>
-                    {l.label}
-                    <span className={styles.linkArrow}>↗</span>
-                  </a>
-                );
-              })}
+              {project.links.map((l) => (
+                <Badge
+                  key={l.link}
+                  href={l.link}
+                  mono={monogram(l.type)}
+                  iconType={l.type}
+                  className={styles.linkBadge}
+                  logoClassName={styles.linkMono}
+                >
+                  {l.label}
+                  <span className={styles.linkArrow}>↗</span>
+                </Badge>
+              ))}
             </div>
           ) : null}
         </div>

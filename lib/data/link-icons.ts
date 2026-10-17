@@ -1,6 +1,6 @@
 type LinkIcon = { src: string; background?: string; padding?: number };
 
-const LINK_ICON_BY_TYPE: Record<string, LinkIcon> = {
+const LINK_ICON_BY_TYPE = {
   // 메일은 아이콘 없이 "@" 글자만 쓴다 (components/home/Links.tsx 참고).
   // GitHub·LinkedIn 로고는 흰색 한 가지뿐이라 고정 배경이 없으면
   // 라이트 테마에서 거의 안 보였다 — 각각 브랜드 색으로 고정했다.
@@ -19,9 +19,18 @@ const LINK_ICON_BY_TYPE: Record<string, LinkIcon> = {
   facebook: { src: "externals/facebook.png" },
   twitter: { src: "externals/twitter.png", background: "#1DA1F2" },
   sourcerer: { src: "externals/sourcerer.png" },
-};
+} satisfies Record<string, LinkIcon>;
+
+/**
+ * `LINK_ICON_BY_TYPE`에 등록된 링크 종류. 새 아이콘을 추가하면 이
+ * 타입도 자동으로 늘어난다 — 하드코딩한 `iconType`(예: "github")에
+ * 자동완성·오타 검증을 주려고 둔다. 사용자 데이터(`data/links.json`
+ * 등)에서 오는 `type` 문자열은 이 목록 밖의 값일 수 있어 `getLinkIcon`
+ * 자체는 여전히 임의의 문자열을 받는다.
+ */
+export type LinkIconType = keyof typeof LINK_ICON_BY_TYPE;
 
 /** 링크/프로젝트 링크의 `type` 문자열로 `public/images/externals/*` 아이콘(과 필요하면 고정 배경색)을 찾는다 (spec §4.1, §6.2). */
 export function getLinkIcon(type: string): LinkIcon | undefined {
-  return LINK_ICON_BY_TYPE[type.trim().toLowerCase()];
+  return LINK_ICON_BY_TYPE[type.trim().toLowerCase() as LinkIconType];
 }
