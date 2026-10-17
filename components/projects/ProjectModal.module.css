@@ -167,6 +167,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+.strip > div:first-child,
+.strip > div:last-child {
+  /* .strip의 양 끝 칸은 grid-template-columns: auto라 내용 너비만큼만
+   * 차지한다 — 종료일이 없어 "—"만 찍히면 그 칸이 확 좁아져서
+   * 가운데 진행률 바(PeriodArc)가 비대칭으로 넓어져 보인다. 실제
+   * 날짜("YYYY.MM.DD")가 찍힐 때의 너비를 최소로 잡아 둔다. */
+  min-width: 132px;
+}
+
 .route {
   position: relative;
   height: 64px;
