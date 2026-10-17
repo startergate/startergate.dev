@@ -3,7 +3,8 @@
     "company": { "ko": "FETCHING" },
     "companyLogo": {
       "src": "teams/fetching_white.svg",
-      "srcOnLight": "teams/fetching.svg"
+      "srcOnLight": "teams/fetching.svg",
+      "padding": 12
     },
     "title": { "ko": "백엔드 엔지니어", "en": "Back-end Engineer" },
     "startedAt": "2020-12",
@@ -27,7 +28,8 @@
     },
     "companyLogo": {
       "src": "teams/peoplefund_white.png",
-      "srcOnLight": "teams/peoplefund.png"
+      "srcOnLight": "teams/peoplefund.png",
+      "padding": 12
     },
     "title": { "ko": "백엔드 엔지니어 (현장실습)", "en": "Back-end Engineer (Internship)" },
     "startedAt": "2020-01",

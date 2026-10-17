@@ -34,7 +34,17 @@ function ExperienceCard({ exp }: { exp: Experience }) {
   return (
     <article className={`${styles.exp} ${open ? styles.expOpen : ""}`}>
       <div className={styles.expRow}>
-        <span className={styles.logo}>
+        <span
+          className={styles.logo}
+          style={
+            exp.companyLogo?.background || exp.companyLogo?.padding
+              ? {
+                  ...(exp.companyLogo.background ? { background: exp.companyLogo.background } : null),
+                  ...(exp.companyLogo.padding ? { padding: exp.companyLogo.padding } : null),
+                }
+              : undefined
+          }
+        >
           {logoSrc ? (
             <Image
               src={`/images/${logoSrc}`}
