@@ -13,9 +13,9 @@
     "Front-end"
   ],
   "techs": [
+    "TypeScript",
     "Gatsby",
     "React",
-    "TypeScript",
     "GraphQL",
     "Styled Components",
     "gh-pages"

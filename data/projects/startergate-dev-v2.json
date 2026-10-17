@@ -12,9 +12,9 @@
     "Front-end"
   ],
   "techs": [
+    "TypeScript",
     "Next.js",
     "React",
-    "TypeScript",
     "Tailwind CSS",
     "satellite.js",
     "GitHub Actions"
