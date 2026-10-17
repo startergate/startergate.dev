@@ -6,19 +6,25 @@
  * "앙각 10도 이상 중 최대 10개" 선정은 클라이언트(satellite.js,
  * useSatellitePositions.ts)가 그때그때 한다.
  *
- * data/satellite-priority.json의 NORAD ID를 CATNR로 하나씩 조회하고,
- * 남는 자리는 CelesTrak `visual`(밝은 위성)·`starlink`(저궤도 표본
- * 40기)·`gps-ops`·`glo-ops`(중궤도 위성항법)·`geo`(정지궤도 표본)
- * 그룹에서 채운다. 각 그룹은 SATCAT에서 OBJECT_TYPE을 같이 받아
- * 실제 임무를 수행한 PAYLOAD만 남긴다(로켓 동체 R/B 제외).
+ * 후보 구성:
+ * - data/satellite-priority.json의 NORAD ID(ISS·허블 등, 국적 무관
+ *   항상 보여주고 싶은 것들)를 CATNR로 하나씩 조회.
+ * - CelesTrak `active` 그룹 전체에서 OWNER === "SKOR"(대한민국)·
+ *   PAYLOAD인 것만 걸러 자동으로 가져온다(fetchKoreanPayloads) — 기업·
+ *   대학 큐브샛까지 포함해 새 위성이 뜨거나 수명이 다해도 이 스크립트가
+ *   다음 실행 때 저절로 반영한다.
+ * - CelesTrak `visual`(밝은 위성)·`starlink`(저궤도 표본 40기)·
+ *   `gps-ops`·`glo-ops`(중궤도 위성항법)·`geo`(정지궤도 표본) 그룹.
+ *   각 그룹은 SATCAT에서 OBJECT_TYPE을 같이 받아 실제 임무를 수행한
+ *   PAYLOAD만 남긴다(로켓 동체 R/B 제외).
  *
- * 정지궤도는 서울 상공 기준 경도대가 겹치는 것들이 많아, 수집
- * 시점에 dedupeGeoBySeoulScreenPosition으로 한 번만 걸러 둔다(화면상
- * 거리가 lib/satellite/screen.ts/useSatellitePositions.ts의
- * MIN_SEPARATION_PCT 안쪽이면 앙각 낮은 쪽을 버림, 단 한국 위성은
- * 우선). 매 틱 클라이언트에서 다시 거르면 앙각이 근소하게 뒤바뀔
- * 때마다 결과가 바뀌어 깜빡이므로, 겹침 제거는 여기(수집 시점)
- * 에서만 한다.
+ * 정지궤도는 서울 상공 기준 경도대가 겹치는 것들이 많아, 수집 시점에
+ * dedupeGeoBySeoulScreenPosition으로 한 번만 걸러 둔다(화면상 거리가
+ * lib/satellite/screen.ts/useSatellitePositions.ts의 MIN_SEPARATION_PCT
+ * 안쪽이면 앙각 낮은 쪽을 버림, 한국 위성 우선). `geo` 그룹과
+ * fetchKoreanPayloads의 정지궤도 결과 양쪽에 각각 적용한다. 매 틱
+ * 클라이언트에서 다시 거르면 앙각이 근소하게 뒤바뀔 때마다 결과가
+ * 바뀌어 깜빡이므로, 겹침 제거는 여기(수집 시점)에서만 한다.
  *
  * CelesTrak SATCAT의 OWNER === "SKOR"(대한민국)인 후보는 isKorean으로
  * 표시해 둔다 — 우선순위 목록 밖에서는 궤도와 상관없이 한국 위성을
@@ -127,6 +133,30 @@ async function fetchSatcatInfo(group) {
 
 function parseNoradFromTle(tle1) {
   return Number.parseInt(tle1.slice(2, 7), 10);
+}
+
+/**
+ * SATCAT에서 "현재 활동 중"으로 분류된 전체 객체 중 대한민국
+ * 소유(OWNER === "SKOR")·PAYLOAD(OBJECT_TYPE === "PAY")인 것만 골라,
+ * `active` 그룹 TLE 전체에서 그 NORAD ID에 해당하는 TLE를 찾아온다.
+ * 기업·대학 큐브샛을 포함해 CelesTrak SATCAT을 그대로 따라가므로
+ * 새 위성이 뜨거나 수명이 다해도 손으로 고칠 필요가 없다. (달 궤도인
+ * 다누리처럼 SGP4로 전파할 수 없는 궤도는 `active` TLE 목록 자체에
+ * 없어 자동으로 빠진다.)
+ */
+async function fetchKoreanPayloads() {
+  const satcatRes = await fetch(`${SATCAT_URL}?GROUP=active&FORMAT=json`);
+  if (!satcatRes.ok) {
+    throw new Error(`CelesTrak SATCAT request failed (${satcatRes.status}): GROUP=active`);
+  }
+  const records = await satcatRes.json();
+  const koreanIds = new Set();
+  for (const r of records) {
+    if (r.OBJECT_TYPE === "PAY" && r.OWNER === "SKOR") koreanIds.add(r.NORAD_CAT_ID);
+  }
+
+  const tle = await fetchGroup("active");
+  return tle.filter((v) => koreanIds.has(parseNoradFromTle(v.tle1)));
 }
 
 /** TLE 2행의 평균 운동(revs/day, 52~63번째 열)에서 궤도 긴반지름 → 고도(km)를 구한다. */
@@ -243,6 +273,39 @@ async function main() {
     } catch (err) {
       console.warn(`[fetch-satellites] skip ${p.name} (${p.noradId}): ${err.message}`);
     }
+  }
+
+  // 한국 기업·대학 소유 소형위성·큐브샛까지 포함해, 현재 활동 중인
+  // 한국 위성 전체를 SATCAT에서 받아 온다 (fetchKoreanPayloads 주석 참고).
+  // 천리안·무궁화·아나시스처럼 정지궤도인 것들은 다른 정지궤도
+  // 후보와 마찬가지로 서울 상공에서 경도대가 몰려 겹쳐 보이므로,
+  // 이 묶음만 따로 떼어 dedupeGeoBySeoulScreenPosition으로 한 번
+  // 걸러 준다(저·중궤도 한국 위성은 그럴 일이 없어 그대로 둔다).
+  try {
+    const korean = await fetchKoreanPayloads();
+    const koreanGeo = [];
+    const koreanOther = [];
+    for (const v of korean) {
+      let orbitClass;
+      try {
+        orbitClass = orbitClassFromAltitude(altitudeKmFromTle(v.tle2));
+      } catch {
+        orbitClass = undefined;
+      }
+      (orbitClass === "geo" ? koreanGeo : koreanOther).push(v);
+    }
+    const koreanGeoDeduped = dedupeGeoBySeoulScreenPosition(koreanGeo);
+    for (const v of [...koreanOther, ...koreanGeoDeduped]) {
+      const noradId = parseNoradFromTle(v.tle1);
+      if (seen.has(noradId)) continue;
+      satellites.push(makeEntry(v.name, noradId, v.tle1, v.tle2, true));
+      seen.add(noradId);
+    }
+    console.log(
+      `[fetch-satellites] korean: ${koreanOther.length} non-geo + geo ${koreanGeo.length} candidates -> ${koreanGeoDeduped.length} after dedup`,
+    );
+  } catch (err) {
+    console.warn(`[fetch-satellites] korean payloads fetch failed: ${err.message}`);
   }
 
   // 남는 자리를 채울 밝은 위성 후보 (앙각 기준 선정은 클라이언트가 한다).
