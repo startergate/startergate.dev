@@ -23,6 +23,9 @@ const TRAIL_LENGTH_PX: Record<OrbitClass, number> = {
   geo: 0,
 };
 const DEFAULT_TRAIL_LENGTH_PX = 46;
+/** 이 값(%) 넘게 오른쪽에 있으면 이름표를 점 왼쪽에 단다 — 안 그러면
+ * 글자가 히어로 오른쪽 바깥으로 넘어가 잘린다. */
+const RIGHT_EDGE_FLIP_PCT = 82;
 
 /** 방위각이 0/360을 넘나드는 경우를 보정한 차이(-180~180). */
 function angleDelta(a: number, b: number): number {
@@ -67,10 +70,12 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
           }
         }
 
+        const nearRightEdge = left > RIGHT_EDGE_FLIP_PCT;
+
         return (
           <div
             key={p.noradId}
-            className={styles.dot}
+            className={`${styles.dot} ${nearRightEdge ? styles.dotFlip : ""}`}
             style={{
               left: `${left}%`,
               top: `${top}%`,

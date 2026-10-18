@@ -109,3 +109,21 @@
   transform: scale(1.4);
   opacity: 1;
 }
+
+/* 점이 히어로 오른쪽 끝에 가까우면(RIGHT_EDGE_FLIP_PCT) 이름표·화살표·
+   방위/앙각 정보를 점 오른쪽이 아니라 왼쪽에 붙인다 — 안 그러면 긴
+   이름이 .layer의 overflow:hidden에 잘려 안 보인다. */
+.dotFlip .label {
+  left: auto;
+  right: 11px;
+}
+.dotFlip .infoLink {
+  left: auto;
+  right: 100%;
+  margin-left: 0;
+  margin-right: 4px;
+}
+.dotFlip .meta {
+  left: auto;
+  right: 0;
+}
