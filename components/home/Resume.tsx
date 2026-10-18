@@ -156,7 +156,7 @@ function CvDownloadDropdown() {
   );
 }
 
-/** 04 — Résumé. 경력 카드 + CV 다운로드 + Timeline 링크 카드 (spec §4.1). */
+/** 04 — Experiences. 경력 카드 + CV 다운로드 + Timeline 링크 카드 (spec §4.1). */
 export function Resume({
   lang,
   dict,
@@ -168,7 +168,7 @@ export function Resume({
 }) {
   return (
     <section className={styles.section}>
-      <SectionLabel id="resume" num="04" label="Résumé" />
+      <SectionLabel id="resume" num="04" label="Experiences" />
       <div className={styles.headRow}>
         <h2 className={styles.heading}>{dict.resume.heading}</h2>
         <CvDownloadDropdown />
