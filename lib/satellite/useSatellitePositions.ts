@@ -13,10 +13,10 @@ import {
 
 import priorityList from "@/data/satellite-priority.json";
 
+import { MIN_ELEVATION_DEG } from "./screen";
 import type { Observer, SatellitePosition, SatellitesFile } from "./types";
 
 const MAX_SATELLITES = 15;
-const MIN_ELEVATION_DEG = 10;
 const UPDATE_INTERVAL_MS = 3000;
 /**
  * 정지궤도·중궤도는 지구 자전 대비 각속도가 느려서 전체 중 여러
