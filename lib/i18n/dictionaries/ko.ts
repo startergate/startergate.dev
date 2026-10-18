@@ -48,6 +48,7 @@ const ko = {
     scrollDown: "아래로 스크롤",
     skySeoul: "서울 상공",
     skyMine: "내 위치 상공",
+    skyDisclaimer: "현재 상공에 있는 모든 위성의 위치를 표시하지는 않으며, 위치는 추정값으로 실제와 다를 수 있습니다.",
     locToMine: "내 위치로 보기",
     locToSeoul: "서울 기준으로 보기",
     satMetaTemplate: "방위 {az}° · 앙각 {el}°",

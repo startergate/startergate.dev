@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { ChevronDownIcon, LocationPinIcon } from "@/components/icons";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { SITE_EMAIL, SITE_OPEN_TO_WORK, getSiteName } from "@/lib/site-meta";
 import { useLang } from "@/lib/i18n/LangProvider";
 import type { ProfileMode } from "@/lib/data/types";
@@ -84,6 +85,9 @@ export function Hero({ mode }: { mode: ProfileMode }) {
         <span className={styles.skyCaption}>
           <span className={styles.skyBlink} aria-hidden="true" />
           {loc === "mine" ? dict.hero.skyMine : dict.hero.skySeoul} · {clock}
+          <Tooltip content={dict.hero.skyDisclaimer} align="end" side="top" className={styles.skyInfo}>
+            ⓘ
+          </Tooltip>
         </span>
       </div>
 

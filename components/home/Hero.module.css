@@ -28,6 +28,16 @@
   color: var(--sky);
 }
 
+.skyInfo {
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+.skyInfo:hover {
+  color: var(--muted);
+}
+
 .skyBlink {
   width: 5px;
   height: 5px;

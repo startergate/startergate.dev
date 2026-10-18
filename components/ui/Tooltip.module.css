@@ -58,3 +58,44 @@
     transform 0.15s ease,
     visibility 0s;
 }
+
+/* align="end" — 트리거가 화면 오른쪽 끝에 붙어 있을 때, 가운데 정렬
+   대신 말풍선 오른쪽 끝을 트리거 오른쪽 끝에 맞춰 왼쪽으로 펼친다.
+   화살표도 중앙이 아니라 말풍선 오른쪽 쪽으로 옮겨 트리거를 계속
+   가리키게 한다. */
+.bubbleEnd {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+.bubbleEnd::before {
+  left: auto;
+  right: 3px;
+  transform: rotate(45deg);
+}
+.trigger:hover .bubbleEnd,
+.trigger:focus-visible .bubbleEnd {
+  transform: translateY(0);
+}
+
+/* side="top" — 트리거가 화면 아래쪽 끝 근처에 있어 아래로 펼치면
+   하단 고정 요소와 겹칠 때, 위로 펼친다. .bubbleEnd와 함께 써도
+   되도록 transform(세로 방향)만 다루고 좌우 정렬은 건드리지 않는다
+   — 이 블록이 .bubbleEnd보다 뒤에 있어야 세로 transform이 우선한다. */
+.bubbleTop {
+  top: auto;
+  bottom: calc(100% + 11px);
+  transform: translateY(-4px);
+}
+.bubbleTop::before {
+  top: auto;
+  bottom: -5px;
+  border-left: none;
+  border-top: none;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.trigger:hover .bubbleTop,
+.trigger:focus-visible .bubbleTop {
+  transform: translateY(0);
+}
