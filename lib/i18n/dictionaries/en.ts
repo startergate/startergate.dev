@@ -50,7 +50,7 @@ const en: Dictionary = {
     scrollDown: "Scroll down",
     skySeoul: "Sky over Seoul",
     skyMine: "Sky above you",
-    skyDisclaimer: "Not every satellite currently overhead is shown, and positions are estimates that may differ from reality.",
+    skyDisclaimer: "Not every satellite currently overhead is shown, and positions are estimates that may differ from reality. Satellite data comes from CelesTrak.",
     locToMine: "View from my location",
     locToSeoul: "Reset to Seoul",
     satMetaTemplate: "Az {az}° · El {el}°",
