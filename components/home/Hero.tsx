@@ -84,7 +84,7 @@ export function Hero({ mode }: { mode: ProfileMode }) {
         </button>
         <span className={styles.skyCaption}>
           <span className={styles.skyBlink} aria-hidden="true" />
-          {loc === "mine" ? dict.hero.skyMine : dict.hero.skySeoul} · {clock}
+          {loc === "mine" ? dict.hero.skyMine : dict.hero.skySeoul} · <span className="mono">{clock}</span>
           <Tooltip content={dict.hero.skyDisclaimer} align="end" side="top" className={styles.skyInfo}>
             ⓘ
           </Tooltip>
