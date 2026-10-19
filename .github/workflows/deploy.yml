@@ -1,0 +1,98 @@
+name: Deploy
+
+# 정적 export 결과물(out/)을 사용자 사이트 저장소
+# startergate/startergate.github.io의 main 브랜치로 푸시한다.
+# 그 저장소가 startergate.dev를 서빙한다 (spec §2.5).
+#
+# - release: 발행된 태그를 배포한다.
+# - workflow_run: 매일 위성 데이터 갱신이 끝나면 최신 release를 다시
+#   배포한다. main의 미발행 작업은 이 경로로 배포되지 않는다.
+# - workflow_dispatch: 선택한 ref를 배포한다.
+# 어느 경우든 public/data/satellites.json은 main의 것을 쓴다.
+on:
+  release:
+    types: [published]
+  workflow_run:
+    workflows: ["Update satellites"]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve ref
+        id: ref
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            tag=$(gh api "repos/${{ github.repository }}/releases/latest" --jq .tag_name 2>/dev/null || true)
+            if [ -z "$tag" ]; then
+              echo "no release yet, skipping"
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "ref=refs/tags/$tag" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.ref.outputs.skip != 'true'
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
+
+      - name: Use latest satellite data from main
+        if: steps.ref.outputs.skip != 'true'
+        run: |
+          git fetch --depth=1 origin main
+          git checkout FETCH_HEAD -- public/data/satellites.json
+
+      - uses: actions/setup-node@v4
+        if: steps.ref.outputs.skip != 'true'
+        with:
+          node-version: 24
+          cache: npm
+
+      - if: steps.ref.outputs.skip != 'true'
+        run: npm ci
+
+      - if: steps.ref.outputs.skip != 'true'
+        run: npm run lint
+
+      - if: steps.ref.outputs.skip != 'true'
+        run: npm run build
+
+      # 기존 Gatsby 사이트의 빌드 브랜치(master)를 out/v1/에 넣는다.
+      # /v1/ prefix로 빌드된 것이 아니면(루트 기준 빌드면) 경로가 깨지므로 건너뛴다.
+      - name: Include v1 site
+        if: steps.ref.outputs.skip != 'true'
+        run: |
+          git clone --depth 1 --branch master https://github.com/startergate/startergate.dev-v1.git v1-dist
+          if grep -q '"/v1/' v1-dist/index.html; then
+            rm -rf v1-dist/.git v1-dist/CNAME
+            mv v1-dist out/v1
+          else
+            echo "v1 build is not prefixed with /v1/, skipping"
+          fi
+
+      - name: Push to startergate.github.io
+        if: steps.ref.outputs.skip != 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: startergate/startergate.github.io
+          publish_branch: main
+          publish_dir: ./out
+          cname: startergate.dev
+          allow_empty_commit: true
+          full_commit_message: "deploy: ${{ steps.ref.outputs.ref }}"

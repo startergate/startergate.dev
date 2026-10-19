@@ -1,7 +1,8 @@
 name: Update satellites
 
 # 하루 1회 CelesTrak GP 데이터를 받아 public/data/satellites.json을
-# 갱신한다 (spec §7). 이 파일의 커밋이 배포를 트리거한다.
+# 갱신한다 (spec §7). 이 workflow가 끝나면 deploy.yml이 최신 release를
+# 새 위성 데이터로 다시 배포한다.
 on:
   schedule:
     - cron: "0 18 * * *" # 03:00 KST

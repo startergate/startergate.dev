@@ -60,11 +60,14 @@
   - `/{lang}/projects/{id}/` (신형, id가 존재하지 않는 경우) 또는 `/project/{Name}/` (구 사이트 형식) 패턴이면 `/{lang}/projects/`(목록만, 팝업 없음)로 클라이언트 리다이렉트한다.
   - 그 외 경로는 일반 404 안내만 보여준다.
 
-### 2.5 배포 **[미정]**
+### 2.5 배포
 
-- 현재 `startergate.dev` 도메인은 `startergate/startergate.github.io` 사용자 사이트에 연결되어 있다. `/Conferences` 같은 다른 저장소의 프로젝트 페이지도 이 도메인 아래에서 서빙된다.
-- 이 저장소를 프로젝트 페이지로 바로 배포하고 커스텀 도메인을 옮기면 `/Conferences` 경로가 깨질 수 있다.
-- **[제안]** 빌드는 이 저장소에서 하고, 결과물(`out/`)은 `startergate.github.io` 저장소의 배포 브랜치로 푸시한다(deploy key 또는 PAT 사용). 이렇게 하면 도메인 구성을 바꾸지 않아도 된다.
+- `startergate.dev` 도메인은 사용자 사이트 저장소 `startergate/startergate.github.io`에 연결되어 있다. 이 저장소는 빌드 결과물만 담고(`main` 브랜치, Pages 소스), 소스는 이 저장소(`startergate/startergate.dev`)에 있다. `/Conferences` 같은 다른 저장소의 프로젝트 페이지도 이 도메인 아래에서 그대로 서빙된다.
+- 기존 Gatsby 사이트 저장소는 `startergate/startergate.dev-v1`로 이름을 바꿨다. 기존 사이트는 `/v1/` prefix로 빌드한 결과를 그 저장소의 빌드 브랜치 `master`에 두고, 배포할 때 `out/v1/`로 복사해 `startergate.dev/v1/`로 서빙한다(`/v1/` prefix 빌드가 아니면 건너뜀).
+- 배포는 `.github/workflows/deploy.yml`이 한다. 빌드한 `out/`을 deploy key(`ACTIONS_DEPLOY_KEY` secret)로 `startergate.github.io`의 `main`에 푸시하고 `CNAME`을 붙인다.
+  - 새 release를 발행하면 그 태그를 배포한다. 태그·이름은 기존과 같은 형식(`20260911.01` / `2026.09.11. Build 01`)을 쓴다.
+  - 위성 데이터 갱신 workflow가 끝나면 최신 release를 새 위성 데이터로 다시 배포한다. main의 미발행 변경은 이 경로로 나가지 않는다.
+  - 수동 실행(`workflow_dispatch`)은 선택한 ref를 배포한다.
 
 ## 3. 공통 레이아웃
 
@@ -332,7 +335,7 @@ type Project = {
   - **한국 위성**은 우선 목록에 이름을 박아 두지 않는다 — `fetchKoreanPayloads`가 CelesTrak SATCAT의 `active` 그룹 전체에서 `OWNER === "SKOR"`·`OBJECT_TYPE === "PAY"`인 것만 걸러 자동으로 가져온다(기업·대학 큐브샛 포함). 새 위성이 뜨거나 수명이 다해도 다음 실행 때 저절로 반영된다. 다누리(달 궤도)처럼 SGP4로 전파할 수 없는 위성은 자동으로 빠진다.
 - **위성 이름 옆에 호버하면 화살표(↗) 링크가 뜬다** — NORAD ID로 `https://www.n2yo.com/satellite/?s={noradId}` 상세 정보 페이지를 새 탭으로 연다. 위성 레이어 전체는 `aria-hidden`인 배경 장식이라, 이 링크만 `aria-hidden="false"`로 다시 노출해 스크린리더·키보드로도 닿게 한다.
 - **데이터 파이프라인**
-  - GitHub Action이 매일 1회 CelesTrak에서 TLE·SATCAT 데이터를 받아 `public/data/satellites.json`으로 커밋하고, 그 커밋이 배포를 트리거한다(`scripts/fetch-satellites.mjs`).
+  - GitHub Action이 매일 1회 CelesTrak에서 TLE·SATCAT 데이터를 받아 `public/data/satellites.json`으로 커밋한다(`scripts/fetch-satellites.mjs`). 이 workflow가 끝나면 최신 release가 새 데이터로 다시 배포된다(§2.5).
   - 국적과 무관하게 항상 보여주고 싶은 위성(ISS·허블 등)은 `data/satellite-priority.json`에 NORAD ID와 표시 이름으로 관리한다.
   - 클라이언트는 `satellite.js`로 현재 시각의 위치를 전파 계산하고 관측자 기준 방위각과 앙각을 구한다. 갱신 주기는 3초다.
   - 데이터 로드나 계산이 실패하면 위성 없이 별 하늘만 보여준다. 오류 문구는 표시하지 않는다.
@@ -377,4 +380,3 @@ type Project = {
 
 - Blog는 링크 없이 호버 시 "준비 중" 말풍선만 있다.
 - 위성 우선순위 NORAD ID는 구현할 때 확인한다.
-- 배포 방식(§2.5)은 아직 정하지 않았다.
