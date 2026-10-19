@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 import { FlagKR, FlagUS } from "@/components/icons";
+import { sendEvent } from "@/lib/analytics";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { LOCALES, type Locale } from "@/lib/i18n/locales";
 
@@ -41,6 +42,7 @@ export function LangSwitcher() {
   const switchTo = useCallback(
     (target: Locale) => {
       setOpen(false);
+      if (target !== lang) sendEvent("lang_change", { from: lang, to: target });
       try {
         window.localStorage.setItem("lang", target);
       } catch {
@@ -52,7 +54,7 @@ export function LangSwitcher() {
       const query = searchParams.toString();
       window.location.href = query ? `${newPath}?${query}` : newPath;
     },
-    [pathname, searchParams],
+    [lang, pathname, searchParams],
   );
 
   return (

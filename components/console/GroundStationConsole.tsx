@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
+import { sendEvent } from "@/lib/analytics";
 import { useConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { fillTemplate } from "@/lib/i18n/template";
@@ -189,6 +190,7 @@ export function GroundStationConsole() {
 
       case "lang": {
         const next = arg === "ko" || arg === "en" ? arg : lang === "ko" ? "en" : "ko";
+        if (next !== lang) sendEvent("lang_change", { from: lang, to: next });
         try {
           window.localStorage.setItem("lang", next);
         } catch {

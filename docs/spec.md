@@ -375,7 +375,12 @@ type Project = {
 ## 9. 분석
 
 - GA4 `G-99G6KZQV5K`를 쓴다. 정적 export 환경에서는 `@next/third-parties/google`의 `GoogleAnalytics` 또는 `next/script`로 넣는다.
-- **[제안]** 프로젝트 팝업 열기(`project_open`, id), 언어 변경, 모드 변경, CV 다운로드를 이벤트로 보낸다.
+- 커스텀 이벤트(값이 실제로 바뀔 때만 보낸다):
+  - `project_open` { id }: 프로젝트 팝업 열기
+  - `lang_change` { from, to }: 언어 선택 메뉴 또는 콘솔 `lang`으로 언어 변경
+  - `mode_change` { from, to }: 모드 스위치 또는 콘솔 `mode`로 프로필 모드 변경
+  - `cv_download` { file }: CV 다운로드 메뉴에서 파일 선택
+- 언어 전환·다운로드처럼 바로 페이지를 떠나는 동작에서도 유실되지 않도록 beacon으로 보낸다.
 
 ## 10. 확정했지만 구현 때 확인할 것
 

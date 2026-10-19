@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ChevronDownIcon } from "@/components/icons";
+import { sendEvent } from "@/lib/analytics";
 import { Badge } from "@/components/ui/Badge";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatExperiencePeriod } from "@/lib/data/experience-format";
@@ -145,7 +146,10 @@ function CvDownloadDropdown() {
               download
               role="menuitem"
               className={styles.downloadOpt}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                sendEvent("cv_download", { file: opt.file });
+                setOpen(false);
+              }}
             >
               {opt.label}
             </a>
