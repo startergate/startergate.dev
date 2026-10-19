@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import { sendEvent } from "@/lib/analytics";
 import type { ProfileMode } from "@/lib/data/types";
 
 /**
@@ -19,6 +20,7 @@ export function useProfileMode(): [ProfileMode, (mode: ProfileMode) => void] {
 
   const setMode = useCallback(
     (next: ProfileMode) => {
+      if (next !== mode) sendEvent("mode_change", { from: mode, to: next });
       const params = new URLSearchParams(searchParams.toString());
       if (next === "backend") {
         params.delete("mode");
@@ -28,7 +30,7 @@ export function useProfileMode(): [ProfileMode, (mode: ProfileMode) => void] {
       const qs = params.toString();
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
-    [searchParams, router, pathname],
+    [mode, searchParams, router, pathname],
   );
 
   return [mode, setMode];

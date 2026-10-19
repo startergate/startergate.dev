@@ -12,10 +12,15 @@ declare global {
 }
 
 /**
- * GA4 커스텀 이벤트 전송 헬퍼. 프로젝트 팝업 열기, 언어/모드 변경,
- * CV 다운로드 등은 각 기능을 구현할 때 이 함수로 호출한다 (spec §9 [제안]).
+ * GA4 커스텀 이벤트 전송 헬퍼 (spec §9). 보내는 이벤트:
+ * - `project_open` { id }
+ * - `lang_change` { from, to }
+ * - `mode_change` { from, to }
+ * - `cv_download` { file }
+ * 바로 페이지를 떠나는 동작(언어 전환, 다운로드)에서도 유실되지 않도록
+ * 항상 beacon 전송을 쓴다.
  */
 export function sendEvent(name: string, params?: GtagEventParams) {
   if (typeof window === "undefined" || !window.gtag) return;
-  window.gtag("event", name, params);
+  window.gtag("event", name, { ...params, transport_type: "beacon" });
 }
