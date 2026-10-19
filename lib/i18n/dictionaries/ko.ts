@@ -41,7 +41,7 @@ const ko = {
     done: "완료",
   },
   hero: {
-    slogan: "[새 표어]",
+    slogan: "Constantly improving,",
     roleBackend: "백엔드 엔지니어",
     roleGame: "게임 개발자 / 플레이어",
     openToWork: "open to work",

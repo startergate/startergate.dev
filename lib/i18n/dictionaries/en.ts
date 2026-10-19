@@ -43,9 +43,9 @@ const en: Dictionary = {
     done: "Done",
   },
   hero: {
-    slogan: "[새 표어]",
+    slogan: "Constantly improving,",
     roleBackend: "Back-end Engineer",
-    roleGame: "Game Developer / Player",
+    roleGame: "Game Developer / Gamer",
     openToWork: "open to work",
     scrollDown: "Scroll down",
     skySeoul: "Sky over Seoul",
