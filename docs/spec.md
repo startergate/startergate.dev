@@ -1,8 +1,6 @@
 # startergate.dev 리뉴얼 기획
 
 이 문서는 디자인 시안 작업과 기획 확인 과정에서 확정한 내용을 정리한 것이다.
-**[제안]** 표시는 확정이 아니라 구현 편의를 위한 기본안이다. 바꾸고 싶으면 이 문서를 고친 뒤 구현한다.
-**[미정]** 표시는 아직 결정이 필요한 항목이다.
 
 ---
 
@@ -20,9 +18,9 @@
 - 모든 페이지는 `/{lang}/` 접두사를 가진다. `lang ∈ {ko, en}`.
 - 사이트 안의 **모든 텍스트**(UI 문구, 소개, 경력, 프로젝트 설명, 콘솔 출력)가 번역 대상이다.
 - 루트 `/` 진입 시: 사용자가 이전에 언어를 직접 고른 기록이 있으면 그 언어, 없으면 `navigator.language`가 `ko`로 시작하면 `/ko/`, 그 외는 `/en/`으로 이동한다. 정적 배포라 미들웨어 없이 클라이언트에서 처리한다.
-- **[제안]** 언어를 직접 고르면 `localStorage`에 저장한다. 언어 전환 시 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다.
+- 언어를 직접 고르면(상단 언어 메뉴, 콘솔 `lang`) `localStorage`에 저장한다. 언어 전환 시 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다.
 - `<html lang>`과 `hreflang` 대체 링크를 언어에 맞게 설정한다.
-- 영어 번역문이 아직 없는 데이터는 **[제안]** 한국어로 대체 표시한다.
+- 영어 번역문이 아직 없는 데이터는 한국어로 대체 표시한다.
 
 ### 2.2 페이지
 
@@ -37,7 +35,7 @@
 
 ### 2.3 프로젝트 상세 경로와 쿼리 파라미터
 
-- 프로젝트 상세 팝업은 **실제 정적 라우트** `/{lang}/projects/{id}/`다 (당초 쿼리 파라미터 `?p=` 방식에서 변경, 2026-10-13). `app/[lang]/projects/[id]/page.tsx`가 `generateStaticParams`로 모든 프로젝트 id를 빌드 타임에 정적 생성하고, 목록 페이지와 같은 컴포넌트로 팝업만 열린 상태를 그린다.
+- 프로젝트 상세 팝업은 **실제 정적 라우트** `/{lang}/projects/{id}/`다. `app/[lang]/projects/[id]/page.tsx`가 `generateStaticParams`로 모든 프로젝트 id를 빌드 타임에 정적 생성하고, 목록 페이지와 같은 컴포넌트로 팝업만 열린 상태를 그린다.
   - 목록에서 카드를 열면 `router.push('/{lang}/projects/{id}/')`. 뒤로가기로 팝업이 닫힌다.
   - 팝업 안에서 이전/다음 프로젝트로 넘길 때는 `router.replace(...)`로 바꾼다(뒤로가기 한 번에 닫히도록).
   - 닫기 버튼·Esc·오버레이 클릭으로 닫으면 `router.back()`, 직접 진입한 경우(히스토리에 목록이 없음)에는 `router.replace('/{lang}/projects/')`.
@@ -55,7 +53,7 @@
   - `cv.pdf` = 한국어 1페이지 요약
   - `resume-ko.pdf` = 한국어 전체
   - `resume-en.pdf` = 영어 전체
-  - 기존 사이트처럼 이 세 개를 고르는 다운로드 드롭다운을 둔다. **[제안]** 영어 페이지에서는 `resume-en.pdf`를 먼저 보여준다.
+  - 기존 사이트처럼 이 세 개를 고르는 다운로드 드롭다운을 둔다. 순서는 두 언어 모두 위 목록 순서(`cv.pdf` → `resume-ko.pdf` → `resume-en.pdf`)다.
 - **404 처리 (`global-not-found`)**: 정적 export에서 빌드되지 않은 경로는 전부 여기로 온다. 경로를 보고:
   - `/{lang}/projects/{id}/` (신형, id가 존재하지 않는 경우) 또는 `/project/{Name}/` (구 사이트 형식) 패턴이면 `/{lang}/projects/`(목록만, 팝업 없음)로 클라이언트 리다이렉트한다.
   - 그 외 경로는 일반 404 안내만 보여준다.
@@ -81,12 +79,12 @@
   - Conferences
   - Blog
   - CV
-- **Blog** 링크는 블로그 도메인이 아직 정해지지 않았다. 링크는 없고, 호버·포커스하면 글자(Blog) 그대로 두고 아래에 말풍선으로 "준비 중 / Coming soon"을 띄운다(2026-10-13 변경: 글자를 바꿔치기하던 것에서 말풍선 방식으로).
+- **Blog** 링크는 블로그 도메인이 아직 정해지지 않았다. 링크는 없고, 호버·포커스하면 글자(Blog) 그대로 두고 아래에 말풍선으로 "준비 중 / Coming soon"을 띄운다.
 - **CV**는 메인의 이력 섹션(`#resume`)으로 이동한다. 다른 페이지에서 누르면 `/{lang}/#resume`으로 간다.
 - **언어 선택**: 현재 국기만 보인다. 누르면 드롭다운에 `🇰🇷 KO 한국어`와 `🇺🇸 EN English`가 나온다. 국기는 SVG를 쓰고 이모지 국기는 쓰지 않는다(Windows에서 국기 이모지가 표시되지 않기 때문).
 - 모든 버튼은 크기, 간격, 호버 배경을 하나로 통일한다.
 - 네비게이션 배경은 투명하다.
-- 메뉴를 펼친 상태는 **[제안]** 페이지 이동 사이에서 유지하지 않는다.
+- 메뉴를 펼친 상태는 페이지 이동 사이에서도 유지된다(콘솔 `menu` 명령과 같은 상태를 공유한다).
 
 ### 3.2 하단 고정 요소
 
@@ -138,7 +136,7 @@
   - 메일, LinkedIn, Rocketpunch, GitHub, StackShare, npm, Docker Hub
 - **프로필 모드**: 기존 사이트처럼 역할 문구, 소개, 하이라이트 프로젝트, 기술 목록, 이력 일부가 모드에 따라 바뀐다.
   - 내용은 일단 기존 사이트의 `src/pages/index.tsx`에 있는 backend/game 분기 내용을 그대로 옮긴다.
-  - **[제안]** 모드 선택은 URL 쿼리만 진실 공급원으로 삼고 localStorage에는 저장하지 않는다. 기존 사이트는 localStorage에 저장했다. 바꾸려면 이 항목을 수정한다.
+  - 모드 선택은 URL 쿼리만 진실 공급원으로 삼고 localStorage에는 저장하지 않는다(기존 사이트는 localStorage에 저장했다).
 
 ### 4.2 프로젝트 목록
 
@@ -182,7 +180,7 @@ type Project = {
   techs: string[];             // 사용 기술 (기존 tags)
   part?: string;               // 카드에 쓰는 담당 영역: "Back-end" | "Front-end" | "Full-stack" | ...
   collaborators: { name: string; roles: L10n[] | string[] }[];
-  logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string }; // background: 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보일 때 고정 배경색 (2026-10-15 추가)
+  logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string }; // background: 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보일 때 고정 배경색
   images?: { src: string; description?: L10n }[];   // 여러 장 가능, 없어도 됨
   links?: { type: string; link: string; label: string }[];
   contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];  // 본문 섹션, 없어도 됨
@@ -240,7 +238,7 @@ type Project = {
     abbr?: string;
   };
   ```
-- `data/experiences.json`: 기존 `index.tsx`의 경력 문단 중 첫 문단을 `summary`(카드에 항상 보임), 나머지를 `detail`(펼쳤을 때)로 나눴다. `techs`는 기존 데이터에 없던 필드라 경력 설명에 등장하는 기술 위주로 새로 채웠다. **(2026-10-15 변경)** `period`(미리 포맷한 문자열)를 `startedAt`/`finishedAt`(YYYY-MM)로 바꿨다 — "5년 3개월" 같은 기간 표시는 `lib/data/experience-format.ts`가 그때그때 계산한다(데이터에 텍스트로 중복해서 적어두지 않는다). `companyLogo`에도 `background`를 추가해, 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보이는 경우 고정 배경색을 줄 수 있다.
+- `data/experiences.json`: 기존 `index.tsx`의 경력 문단 중 첫 문단을 `summary`(카드에 항상 보임), 나머지를 `detail`(펼쳤을 때)로 나눴다. `techs`는 기존 데이터에 없던 필드라 경력 설명에 등장하는 기술 위주로 새로 채웠다. 기간은 `startedAt`/`finishedAt`(YYYY-MM)으로 두고, "5년 3개월" 같은 기간 표시는 `lib/data/experience-format.ts`가 그때그때 계산한다(데이터에 텍스트로 중복해서 적어두지 않는다). `companyLogo`에도 `background`를 추가해, 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보이는 경우 고정 배경색을 줄 수 있다.
   ```ts
   type Experience = {
     company: L10n;
@@ -255,7 +253,7 @@ type Project = {
     techs: string[];      // techs.json의 name 참조
   };
   ```
-- `data/timeline.json`: 학력·수상·자격·그룹 활동을 담는다. `org`는 항목 종류에 따라 학과/수상 등급/발급 기관/동아리 설명처럼 의미가 달라지는 보조 라벨이다. 빈실처럼 같은 소속에서 역할이 바뀐 경우, 역할·기간이 다르면 항목을 나눈다(기존 빈실 "동아리원"과 "부장"을 분리, 시안 TL_ITEMS와 동일). **(2026-10-15 변경)** `career` 항목은 더 이상 이 파일에 두지 않는다 — `data/experiences.json`과 제목·소속·설명·링크가 그대로 겹쳤다는 피드백으로, `lib/data/timeline.ts`의 `getTimelineItems()`가 `getExperiences()`에서 그때그때 합성해 나머지 항목과 합친다(최신순 정렬). `year`/`date`(미리 포맷한 문자열)도 `startedAt`/`finishedAt`/`ongoing`으로 바꿨다 — 연도 그룹 키는 `startedAt`의 앞 4자리에서, 화면 표시 문자열은 `lib/data/timeline-format.ts`의 `formatTimelinePeriod()`가 계산한다.
+- `data/timeline.json`: 학력·수상·자격·그룹 활동을 담는다. `org`는 항목 종류에 따라 학과/수상 등급/발급 기관/동아리 설명처럼 의미가 달라지는 보조 라벨이다. 빈실처럼 같은 소속에서 역할이 바뀐 경우, 역할·기간이 다르면 항목을 나눈다(기존 빈실 "동아리원"과 "부장"을 분리, 시안 TL_ITEMS와 동일). `career` 항목은 이 파일에 두지 않는다 — `data/experiences.json`과 내용이 겹치므로 `lib/data/timeline.ts`의 `getTimelineItems()`가 `getExperiences()`에서 그때그때 합성해 나머지 항목과 합친다(최신순 정렬). 기간은 `startedAt`/`finishedAt`/`ongoing`으로 두고, 연도 그룹 키는 `startedAt`의 앞 4자리에서, 화면 표시 문자열은 `lib/data/timeline-format.ts`의 `formatTimelinePeriod()`가 계산한다.
   ```ts
   type TimelineItem = {
     type: 'career' | 'award' | 'cert' | 'group' | 'edu';
@@ -381,8 +379,3 @@ type Project = {
   - `mode_change` { from, to }: 모드 스위치 또는 콘솔 `mode`로 프로필 모드 변경
   - `cv_download` { file }: CV 다운로드 메뉴에서 파일 선택
 - 언어 전환·다운로드처럼 바로 페이지를 떠나는 동작에서도 유실되지 않도록 beacon으로 보낸다.
-
-## 10. 확정했지만 구현 때 확인할 것
-
-- Blog는 링크 없이 호버 시 "준비 중" 말풍선만 있다.
-- 위성 우선순위 NORAD ID는 구현할 때 확인한다.

@@ -33,7 +33,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - 언어는 경로 접두사: `/ko/...`, `/en/...`. 루트 `/`는 브라우저 언어(또는 저장된 선택)로 클라이언트 리다이렉트.
 - 페이지: `/{lang}/` 메인, `/{lang}/projects/` 프로젝트 목록, `/{lang}/timeline/` 타임라인.
-- 프로젝트 상세는 별도 라우트가 없는 **팝업**. 목록 페이지에서만 `?p={id}`로 URL에 반영하고, 뒤로가기로 닫힌다. 메인에서 연 팝업은 URL을 바꾸지 않는다.
+- 프로젝트 상세는 **팝업**이다. 목록에서 열면 정적 라우트 `/{lang}/projects/{id}/`(`generateStaticParams`로 전부 생성)로 이동하고, 뒤로가기로 닫힌다. 메인에서 연 팝업은 URL을 바꾸지 않는다(spec §2.3).
 - 프로필 모드(backend/game)는 메인 전용, `?mode=game`으로 지정 가능, 기본값 backend.
 - `/Conferences`, `/cv.pdf` 등은 이 앱의 라우트가 아니다(spec §2.4).
 
