@@ -196,9 +196,10 @@ export function GroundStationConsole() {
         } catch {
           // 저장 실패해도 이번 전환은 진행한다.
         }
+        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
         const segments = pathname.split("/");
         segments[1] = next;
-        router.push(segments.join("/") || "/");
+        router.push((segments.join("/") || "/") + window.location.search);
         pushLog(text, [
           fillTemplate(dict.console.langChangedTemplate, {
             value: next === "en" ? dict.nav.langEn : dict.nav.langKo,
