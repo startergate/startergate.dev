@@ -19,7 +19,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
+
+      # fetch-satellites.mjs가 satellite.js로 궤도를 계산하므로 의존성이 필요하다.
+      - run: npm ci
 
       - name: Fetch CelesTrak data
         run: node scripts/fetch-satellites.mjs
