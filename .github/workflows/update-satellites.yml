@@ -2,7 +2,8 @@ name: Update satellites
 
 # 하루 1회 CelesTrak GP 데이터를 받아 public/data/satellites.json을
 # 갱신한다 (spec §7). 이 workflow가 끝나면 deploy.yml이 최신 release를
-# 새 위성 데이터로 다시 배포한다.
+# 새 위성 데이터로 다시 배포한다. 끝에 main을 develop에 병합해
+# 두 브랜치가 어긋나지 않게 한다.
 on:
   schedule:
     - cron: "0 18 * * *" # 03:00 KST
@@ -15,7 +16,12 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      # 수동 실행 시 선택한 브랜치와 관계없이 항상 main을 갱신한다.
+      # develop 병합을 위해 전체 히스토리를 받는다.
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -35,3 +41,21 @@ jobs:
             git commit -m "chore: 위성 데이터 갱신 ($(date -u +%Y-%m-%d))"
             git push
           fi
+
+      # main을 develop에 병합한다. 이번에 main이 바뀌지 않았어도 실행하므로
+      # 지난 실행의 누락도 메운다. 충돌이 나면 병합을 취소하고 이 단계만
+      # 실패로 표시한다(job은 성공으로 끝나 위성 데이터 재배포는 그대로 돈다).
+      - name: Merge main into develop
+        continue-on-error: true
+        run: |
+          if ! git rev-parse --verify -q origin/develop >/dev/null; then
+            echo "no develop branch"
+            exit 0
+          fi
+          git checkout -B develop origin/develop
+          if ! git merge --no-edit main; then
+            git merge --abort
+            echo "::error::main을 develop에 병합하다 충돌이 났습니다. 직접 병합해 주세요."
+            exit 1
+          fi
+          git push origin develop
