@@ -335,7 +335,7 @@ type Project = {
   - **한국 위성**은 우선 목록에 이름을 박아 두지 않는다 — `fetchKoreanPayloads`가 CelesTrak SATCAT의 `active` 그룹 전체에서 `OWNER === "SKOR"`·`OBJECT_TYPE === "PAY"`인 것만 걸러 자동으로 가져온다(기업·대학 큐브샛 포함). 새 위성이 뜨거나 수명이 다해도 다음 실행 때 저절로 반영된다. 다누리(달 궤도)처럼 SGP4로 전파할 수 없는 위성은 자동으로 빠진다.
 - **위성 이름 옆에 호버하면 화살표(↗) 링크가 뜬다** — NORAD ID로 `https://www.n2yo.com/satellite/?s={noradId}` 상세 정보 페이지를 새 탭으로 연다. 위성 레이어 전체는 `aria-hidden`인 배경 장식이라, 이 링크만 `aria-hidden="false"`로 다시 노출해 스크린리더·키보드로도 닿게 한다.
 - **데이터 파이프라인**
-  - GitHub Action이 매일 1회 CelesTrak에서 TLE·SATCAT 데이터를 받아 `public/data/satellites.json`으로 커밋한다(`scripts/fetch-satellites.mjs`). 이 workflow가 끝나면 최신 release가 새 데이터로 다시 배포된다(§2.5).
+  - GitHub Action이 매일 1회 CelesTrak에서 TLE·SATCAT 데이터를 받아 `public/data/satellites.json`으로 커밋하고, 이어서 `main`을 `develop`에 병합한다(`scripts/fetch-satellites.mjs`). 이 workflow가 끝나면 최신 release가 새 데이터로 다시 배포된다(§2.5).
   - 국적과 무관하게 항상 보여주고 싶은 위성(ISS·허블 등)은 `data/satellite-priority.json`에 NORAD ID와 표시 이름으로 관리한다.
   - 클라이언트는 `satellite.js`로 현재 시각의 위치를 전파 계산하고 관측자 기준 방위각과 앙각을 구한다. 갱신 주기는 3초다.
   - 데이터 로드나 계산이 실패하면 위성 없이 별 하늘만 보여준다. 오류 문구는 표시하지 않는다.
@@ -369,6 +369,7 @@ type Project = {
 | `whoami`, `clear`, `exit` | 자기소개 한 줄 / 로그 지우기 / 닫기 |
 
 - 콘솔 열기·닫기 단축키는 **없다**. 콘솔이 열려 있을 때 Esc로 닫는 것만 지원한다.
+- 입력창에서 ↑/↓로 이전에 실행한 명령을 셸처럼 되짚는다. 바로 앞과 같은 명령은 한 번만 남기고 최근 50개까지 기억한다. 기록은 페이지를 새로 고치기 전까지 유지되며(콘솔을 닫았다 열어도 남음), ↓로 끝까지 내려오면 탐색 전에 치던 입력으로 돌아간다. 직접 고치기 시작하면 탐색이 끝난다.
 - 콘솔 출력 문구도 i18n 대상이다.
 
 ## 9. 분석

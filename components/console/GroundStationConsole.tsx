@@ -25,6 +25,9 @@ const SECTION_IDS: Record<string, string> = {
   links: "links",
 };
 
+// ↑/↓로 되짚을 수 있는 명령 기록의 최대 개수.
+const HISTORY_LIMIT = 50;
+
 /**
  * 좌측 하단 `>_` 지상국 콘솔 (spec §8). 사이트의 모든 기능을 명령으로
  * 조작할 수 있어야 하고, 이 페이지에 없는 기능은 안내만 한다. 열기/
@@ -46,6 +49,12 @@ export function GroundStationConsole() {
   const displayRef = useRef<HTMLSpanElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // 실행한 명령 기록(오래된 것 → 최근 것). ↑/↓로 셸처럼 되짚는다.
+  // historyIndex가 null이면 기록을 보고 있지 않은 새 입력 상태이고,
+  // 탐색을 시작할 때 치던 입력은 draft에 맡겨 두었다가 ↓로 끝까지 오면 돌려준다.
+  const history = useRef<string[]>([]);
+  const historyIndex = useRef<number | null>(null);
+  const draft = useRef("");
 
   // 입력이 길어져 넘치면 실제 터미널처럼 뒤쪽(커서 쪽)이 보이게 스크롤한다.
   useEffect(() => {
@@ -101,9 +110,53 @@ export function GroundStationConsole() {
     window.open(SITE_CONFERENCES_URL, "_blank", "noreferrer");
   };
 
+  const recordHistory = (text: string) => {
+    const entries = history.current;
+    // 셸처럼 바로 앞과 같은 명령은 한 번만 남긴다.
+    if (entries[entries.length - 1] !== text) {
+      entries.push(text);
+      if (entries.length > HISTORY_LIMIT) entries.shift();
+    }
+    historyIndex.current = null;
+    draft.current = "";
+  };
+
+  // 기록에서 꺼낸 값을 입력에 채우고 캐럿을 끝으로 보낸다.
+  const recallInput = (value: string) => {
+    setInput(value);
+    setCaret(value.length);
+    requestAnimationFrame(() => inputRef.current?.setSelectionRange(value.length, value.length));
+  };
+
+  const browseHistory = (direction: "older" | "newer"): boolean => {
+    const entries = history.current;
+    const index = historyIndex.current;
+    if (direction === "older") {
+      if (entries.length === 0) return false;
+      if (index === null) {
+        draft.current = input;
+        historyIndex.current = entries.length - 1;
+      } else {
+        historyIndex.current = Math.max(0, index - 1);
+      }
+      recallInput(entries[historyIndex.current]);
+      return true;
+    }
+    if (index === null) return false;
+    if (index + 1 >= entries.length) {
+      historyIndex.current = null;
+      recallInput(draft.current);
+    } else {
+      historyIndex.current = index + 1;
+      recallInput(entries[index + 1]);
+    }
+    return true;
+  };
+
   const runCmd = (raw: string) => {
     const text = raw.trim();
     if (!text) return;
+    recordHistory(text);
     const parts = text.split(/\s+/);
     const cmd = parts[0].toLowerCase();
     const arg = parts[1]?.toLowerCase();
@@ -346,6 +399,11 @@ export function GroundStationConsole() {
     } else if (e.key === "Escape") {
       e.preventDefault();
       closeEgg();
+    } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      // 한글 조합 중의 화살표는 IME에 맡긴다.
+      if (e.nativeEvent.isComposing) return;
+      // 기록을 넘겼을 때만 캐럿이 줄 처음/끝으로 튀는 기본 동작을 막는다.
+      if (browseHistory(e.key === "ArrowUp" ? "older" : "newer")) e.preventDefault();
     }
   };
 
@@ -546,6 +604,8 @@ export function GroundStationConsole() {
               type="text"
               value={input}
               onChange={(e) => {
+                // 직접 고치기 시작하면 기록 탐색을 끝내고 새 입력으로 본다.
+                historyIndex.current = null;
                 setInput(e.target.value);
                 syncCaret(e.target);
               }}
