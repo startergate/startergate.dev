@@ -5,8 +5,6 @@
  *
  * - 신형 `/{lang}/projects/{id}/`: 목록만 보이는 `/{lang}/projects/`로 보낸다.
  * - 구 Gatsby 사이트 형식 `/project/{Name}/`: 같은 방식으로 목록으로 보낸다.
- *   TODO(2단계 데이터 이전): {Name} -> {id} 매핑이 준비되면 매칭되는 경우
- *   해당 `/{lang}/projects/{id}/`로 직접 보내 깊은 링크를 살린다.
  */
 export const LEGACY_REDIRECT_SCRIPT = `(function(){
 try {
