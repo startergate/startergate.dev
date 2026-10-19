@@ -36,6 +36,9 @@ const en: Dictionary = {
   rootRedirect: {
     choose: "Choose your language",
   },
+  footer: {
+    previousVersions: "Previous versions",
+  },
   status: {
     planning: "Planning",
     active: "In progress",

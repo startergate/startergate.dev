@@ -1,9 +1,14 @@
+import { SITE_V0_URL, SITE_V1_URL } from "@/lib/site-meta";
 import styles from "./Ground.module.css";
 
 /**
- * 모든 페이지 맨 아래의 언덕 두 개 지면과 저작권 표시 (spec §3.3).
+ * 모든 페이지 맨 아래의 언덕 두 개 지면과 저작권 표시, 이전 버전 링크 (spec §3.3).
  */
-export function Ground() {
+export function Ground({
+  previousVersionsLabel,
+}: {
+  previousVersionsLabel: string;
+}) {
   const year = new Date().getFullYear();
 
   return (
@@ -26,6 +31,14 @@ export function Ground() {
       <div className={styles.captionLayer}>
         <div className={`wrap ${styles.caption}`}>
           <span>© {year} startergate</span>
+          <nav aria-label={previousVersionsLabel} className={styles.versions}>
+            <a href={SITE_V0_URL} target="_blank" rel="noreferrer">
+              v0
+            </a>
+            <a href={SITE_V1_URL} target="_blank" rel="noreferrer">
+              v1
+            </a>
+          </nav>
         </div>
       </div>
     </footer>

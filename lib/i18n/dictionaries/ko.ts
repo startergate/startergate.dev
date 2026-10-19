@@ -34,6 +34,9 @@ const ko = {
   rootRedirect: {
     choose: "언어를 선택하세요",
   },
+  footer: {
+    previousVersions: "이전 버전",
+  },
   status: {
     planning: "계획 중",
     active: "진행 중",

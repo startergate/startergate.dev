@@ -115,7 +115,7 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
               <ConsoleCapabilitiesProvider>
                 <NavPill />
                 {children}
-                <Ground />
+                <Ground previousVersionsLabel={dict.footer.previousVersions} />
                 <BottomDock />
                 <GroundStationConsole />
               </ConsoleCapabilitiesProvider>

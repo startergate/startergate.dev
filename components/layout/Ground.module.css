@@ -29,6 +29,28 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  gap: 12px;
   font-size: 13px;
   color: var(--muted);
+}
+
+.versions {
+  display: flex;
+  gap: 12px;
+}
+
+.versions::before {
+  content: "·";
+  color: var(--dim);
+}
+
+.versions a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.versions a:hover,
+.versions a:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
 }
