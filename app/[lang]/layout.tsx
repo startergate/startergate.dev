@@ -13,7 +13,12 @@ import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { LangProvider } from "@/lib/i18n/LangProvider";
 import { DEFAULT_LOCALE, LOCALES, isLocale } from "@/lib/i18n/locales";
 import { NavMenuProvider } from "@/lib/layout/NavMenuContext";
-import { SITE_TITLE, SITE_URL, getSiteDescription } from "@/lib/site-meta";
+import {
+  SITE_TITLE,
+  SITE_URL,
+  getPageUrlMetadata,
+  getSiteDescription,
+} from "@/lib/site-meta";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { THEME_INIT_SCRIPT } from "@/lib/theme/theme-init-script";
 import "../globals.css";
@@ -47,20 +52,7 @@ export async function generateMetadata({
       template: `%s | ${SITE_TITLE}`,
     },
     description,
-    alternates: {
-      canonical: `/${locale}/`,
-      languages: {
-        ko: "/ko/",
-        en: "/en/",
-        "x-default": "/en/",
-      },
-    },
-    openGraph: {
-      title: SITE_TITLE,
-      description,
-      type: "website",
-      url: `${SITE_URL}/${locale}/`,
-    },
+    ...getPageUrlMetadata(locale, ""),
     twitter: {
       card: "summary",
       creator: "@startergate",
