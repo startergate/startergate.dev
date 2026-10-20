@@ -108,10 +108,15 @@
 }
 
 .slogan {
-  display: inline-block;
+  /* inline이라 두 줄로 넘어가면 배경이 글자가 있는 줄에만 칠해진다
+     (inline-block이면 박스 전체가 칠해진다). clone으로 줄마다 좌우
+     여백을 따로 준다. */
+  display: inline;
   background: var(--text);
   color: var(--bg);
   padding: 0 14px 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .name {

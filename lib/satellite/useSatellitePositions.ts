@@ -17,14 +17,27 @@ import { MIN_ELEVATION_DEG } from "./screen";
 import type { Observer, SatellitePosition, SatellitesFile } from "./types";
 
 const MAX_SATELLITES = 15;
+const MIN_SATELLITES = 6;
+/** 화면 폭 이만큼(px)마다 위성 하나 — 좁은 화면에서 점과 이름표가 빽빽해지지 않게 한다. */
+const PX_PER_SATELLITE = 96;
 const UPDATE_INTERVAL_MS = 3000;
 /**
  * 정지궤도·중궤도는 지구 자전 대비 각속도가 느려서 전체 중 여러
  * 자리를 차지하면 하늘이 정적으로 보인다 — 궤도별로 한 번에 보여줄
- * 수를 제한해 저궤도 위성이 들어올 자리를 남겨 둔다.
+ * 수를 제한해 저궤도 위성이 들어올 자리를 남겨 둔다. 화면 폭에 따라
+ * 전체 수가 줄면 이 상한도 같은 비율(전체의 1/3)로 줄인다.
  */
 const MAX_GEO_SATELLITES = 5;
-const MAX_MEO_SATELLITES = 5;
+
+type SatelliteLimits = { total: number; perSlowOrbit: number };
+
+function limitsForWidth(width: number): SatelliteLimits {
+  const total = Math.min(
+    MAX_SATELLITES,
+    Math.max(MIN_SATELLITES, Math.round(width / PX_PER_SATELLITE)),
+  );
+  return { total, perSlowOrbit: Math.max(1, Math.round(total / 3)) };
+}
 
 type LoadedSatellite = {
   name: string;
@@ -36,9 +49,9 @@ type LoadedSatellite = {
 };
 
 /**
- * 앙각 10° 이상인 위성 중 최대 15개를 우선순위·앙각 순으로 뽑는다
- * (spec §7). 정지궤도·중궤도는 각각 MAX_GEO_SATELLITES·
- * MAX_MEO_SATELLITES개까지만 포함하고 넘치는 자리는 저궤도 위성으로
+ * 앙각 10° 이상인 위성 중 최대 15개(화면 폭에 따라 6~15개)를
+ * 우선순위·앙각 순으로 뽑는다 (spec §7). 정지궤도·중궤도는 각각 전체의
+ * 1/3(15개일 때 5개)까지만 포함하고 넘치는 자리는 저궤도 위성으로
  * 채운다 — 정지궤도·중궤도는 각속도가 느려서 비중이 크면 하늘이
  * 정적으로 보인다. 정지궤도 중 한국 위성은 항상 포함하고, 나머지는
  * 접속할 때마다(이 훅이 다시 설정될 때) 무작위로 뽑아 고정한다 —
@@ -55,10 +68,22 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
   const [positions, setPositions] = useState<SatellitePosition[]>([]);
   const satellitesRef = useRef<LoadedSatellite[]>([]);
   const [loaded, setLoaded] = useState(false);
+  // 매 틱 읽기만 하므로 ref에 둔다 — 상태로 두면 폭이 바뀔 때마다
+  // 아래 effect가 다시 돌아 정지궤도 무작위 선택까지 다시 뽑힌다.
+  const limitsRef = useRef<SatelliteLimits>(limitsForWidth(Number.POSITIVE_INFINITY));
   // 위성별 직전 위치 — 점 옆 트레일 방향 계산용.
   const lastSeenRef = useRef<Map<number, { azimuthDeg: number; elevationDeg: number }>>(
     new Map(),
   );
+
+  useEffect(() => {
+    const update = () => {
+      limitsRef.current = limitsForWidth(window.innerWidth);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -162,18 +187,19 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
       }
       const fixedRandomGeoPick = randomGeoPick;
 
+      const limits = limitsRef.current;
       const selected: typeof computed = [];
       let geoCount = 0;
       let meoCount = 0;
       for (const candidate of computed) {
-        if (selected.length >= MAX_SATELLITES) break;
+        if (selected.length >= limits.total) break;
         if (candidate.orbitClass === "geo") {
-          if (geoCount >= MAX_GEO_SATELLITES) continue;
+          if (geoCount >= limits.perSlowOrbit) continue;
           // 한국 위성은 항상 포함하고, 나머지는 접속 시 무작위로 뽑아 둔 것만 포함한다.
           if (!candidate.isKorean && !fixedRandomGeoPick.has(candidate.noradId)) continue;
           geoCount += 1;
         } else if (candidate.orbitClass === "meo") {
-          if (meoCount >= MAX_MEO_SATELLITES) continue;
+          if (meoCount >= limits.perSlowOrbit) continue;
           meoCount += 1;
         }
         selected.push(candidate);
