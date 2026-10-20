@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs/config";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -14,4 +15,13 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "startergate",
+  project: "startergate-dev",
+
+  // Source map upload; skipped when the token is absent (e.g. local builds).
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+
+  silent: !process.env.CI,
+});
