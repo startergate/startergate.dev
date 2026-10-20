@@ -349,8 +349,10 @@ export function ProjectModal({
           <div className={`${styles.tile} ${styles.span3} ${styles.membersTile}`}>
             <span className={styles.tileLabel}>
               {dict.modal.members}{" "}
-              {/* 소속 팀은 참여자 수에 넣지 않는다 — 사람이 아니라 조직이다. */}
-              <span className={styles.memberCount}>{project.collaborators.length}</span>
+              {/* 소속 팀과 AI 도구는 참여자 수에 넣지 않는다 — 사람이 아니다. */}
+              <span className={styles.memberCount}>
+                {project.collaborators.filter((c) => c.name !== AI_NAME).length}
+              </span>
             </span>
             <div className={styles.members}>
               {members.map((m) => {
