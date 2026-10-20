@@ -85,10 +85,21 @@
   padding: 28px;
   transition: border-color 0.2s ease;
 }
-.exp:hover,
-.exp:focus-within,
+.exp:has(:focus-visible),
 .expOpen {
   border-color: var(--accent) !important;
+}
+/* Touch devices keep :hover after a tap, so hover-to-expand is mouse-only. */
+@media (hover: hover) and (pointer: fine) {
+  .exp:hover {
+    border-color: var(--accent) !important;
+  }
+  .exp:hover .more {
+    grid-template-rows: 1fr;
+  }
+  .exp:hover .chev {
+    transform: rotate(180deg);
+  }
 }
 
 .expRow {
@@ -187,8 +198,6 @@
   grid-template-rows: 0fr;
   transition: grid-template-rows 0.35s ease;
 }
-.exp:hover .more,
-.exp:focus-within .more,
 .expOpen .more {
   grid-template-rows: 1fr;
 }
@@ -225,7 +234,6 @@
 .chev {
   transition: transform 0.25s ease;
 }
-.exp:hover .chev,
 .expOpen .chev {
   transform: rotate(180deg);
 }
