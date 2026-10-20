@@ -50,11 +50,13 @@ jobs:
         if: steps.ref.outputs.skip != 'true'
         with:
           ref: ${{ steps.ref.outputs.ref }}
+          # Sentry release에 커밋을 연결하려면 이전 release까지의 이력이 필요하다.
+          fetch-depth: 0
 
       - name: Use latest satellite data from main
         if: steps.ref.outputs.skip != 'true'
         run: |
-          git fetch --depth=1 origin main
+          git fetch origin main
           git checkout FETCH_HEAD -- public/data/satellites.json
 
       - uses: actions/setup-node@v4
