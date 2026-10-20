@@ -7,6 +7,7 @@ import { resolveOverview, type ProjectOverview } from "@/lib/data/overview";
 import { getAllProjects } from "@/lib/data/projects";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/locales";
+import { SITE_TITLE, getPageUrlMetadata } from "@/lib/site-meta";
 
 export async function generateMetadata({
   params,
@@ -14,7 +15,11 @@ export async function generateMetadata({
   const { lang } = await params;
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE;
   const dict = await getDictionary(locale);
-  return { title: dict.pageTitles.projects };
+  const title = dict.pageTitles.projects;
+  return {
+    title,
+    ...getPageUrlMetadata(locale, "projects/", `${title} | ${SITE_TITLE}`),
+  };
 }
 
 export default async function ProjectsPage({
