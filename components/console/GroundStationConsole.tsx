@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
+import { sendEvent } from "@/lib/analytics";
 import { useConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { fillTemplate } from "@/lib/i18n/template";
@@ -189,14 +190,16 @@ export function GroundStationConsole() {
 
       case "lang": {
         const next = arg === "ko" || arg === "en" ? arg : lang === "ko" ? "en" : "ko";
+        if (next !== lang) sendEvent("lang_change", { from: lang, to: next });
         try {
           window.localStorage.setItem("lang", next);
         } catch {
           // 저장 실패해도 이번 전환은 진행한다.
         }
+        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
         const segments = pathname.split("/");
         segments[1] = next;
-        router.push(segments.join("/") || "/");
+        router.push((segments.join("/") || "/") + window.location.search);
         pushLog(text, [
           fillTemplate(dict.console.langChangedTemplate, {
             value: next === "en" ? dict.nav.langEn : dict.nav.langKo,

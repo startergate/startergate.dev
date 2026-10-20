@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# [STARTERGATE.DEV](https://startergate.dev)
+
+Built with Next.js, Deployed by GitHub Pages
+
+The previous Gatsby site lives at [startergate/startergate.dev-v1](https://github.com/startergate/startergate.dev-v1) and is still served under [`/v1/`](https://startergate.dev/v1/).
+
+## Prerequisites
+
+- Node.js 24
+- npm
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command | Description |
+|---|---|
+| `npm run dev` | Start development server at `localhost:3000` |
+| `npm run build` | Build a static export into `out/` |
+| `npm run lint` | Lint with ESLint |
+| `node scripts/fetch-satellites.mjs` | Refresh `public/data/satellites.json` from CelesTrak |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+| Path | Contents |
+|---|---|
+| `app/` | Routes: `/{lang}/`, `/{lang}/projects/`, `/{lang}/projects/{id}/`, `/{lang}/timeline/` (`lang` is `ko` or `en`) |
+| `components/` | UI components, grouped by page and layout |
+| `lib/` | i18n dictionaries, theme, analytics, satellite calculation |
+| `data/` | Site content: profile, projects, experiences, timeline, links |
+| `public/` | Static files: CV PDFs, images, satellite data |
+| `docs/` | Specification (`spec.md`) and design mockups |
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The static export is pushed to [startergate/startergate.github.io](https://github.com/startergate/startergate.github.io), which serves `startergate.dev`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- On every new GitHub Release, GitHub Actions runs `lint` → `build` → deploy, bundling the v1 site into `/v1/`.
+- Once a day, satellite data is refreshed from [CelesTrak](https://celestrak.org) and the latest release is redeployed with it.
+- Manual runs are also available from the Actions tab.
 
-## Deploy on Vercel
+## Credits
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Some parts of this codebase were written with the assistance of [Claude Code](https://claude.ai/code).

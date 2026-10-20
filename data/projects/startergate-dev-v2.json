@@ -6,8 +6,9 @@
     "en": ""
   },
   "category": "personal",
-  "status": "active",
+  "status": "done",
   "startedAt": "2026-10-13",
+  "finishedAt": "2026-10-19",
   "types": [
     "Front-end"
   ],
@@ -47,6 +48,11 @@
       "type": "GitHub",
       "link": "https://github.com/startergate/startergate.dev",
       "label": "startergate.dev"
+    },
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/startergate.github.io",
+      "label": "startergate.github.io"
     }
   ]
 }

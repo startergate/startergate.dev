@@ -29,6 +29,15 @@
           "en": "Solo Development"
         }
       ]
+    },
+    {
+      "name": "Claude Code",
+      "roles": [
+        {
+          "ko": "일부 구현",
+          "en": "Partial Implementation"
+        }
+      ]
     }
   ],
   "logo": {
@@ -37,8 +46,8 @@
   "links": [
     {
       "type": "GitHub",
-      "link": "https://github.com/startergate/startergate.github.io",
-      "label": "startergate.github.io"
+      "link": "https://github.com/startergate/startergate.dev-v1",
+      "label": "startergate.dev-v1"
     }
   ]
 }
