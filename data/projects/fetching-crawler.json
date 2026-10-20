@@ -35,6 +35,15 @@
           "en": "Development"
         }
       ]
+    },
+    {
+      "name": "Claude Code",
+      "roles": [
+        {
+          "ko": "일부 구현",
+          "en": "Partial Implementation"
+        }
+      ]
     }
   ]
 }
