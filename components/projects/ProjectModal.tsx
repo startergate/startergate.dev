@@ -61,6 +61,14 @@ function MemberRole({ text }: { text: string }) {
   );
 }
 
+const FOCUSABLE_SELECTOR =
+  'button:not(:disabled), a[href], [tabindex]:not([tabindex="-1"])';
+
+/** Tabbable elements inside `root`, in DOM order. */
+function getFocusables(root: HTMLElement): HTMLElement[] {
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+}
+
 /**
  * 프로젝트 상세 팝업. 메인·목록 공용 (spec §6.2, 시안 ProjectModal.dc.html).
  * `projects`의 순서가 이전/다음 탐색 순서다.
@@ -101,9 +109,30 @@ export function ProjectModal({
     };
   }, []);
 
-  // 처음 열릴 때 포커스 이동.
+  // Keep focus inside the dialog even when it escapes without a Tab key
+  // (e.g. a programmatic focus on the page behind). Declared before the
+  // restore effect below so this listener is removed first on close.
   useEffect(() => {
+    const onFocusIn = (e: FocusEvent) => {
+      const root = overlayRef.current;
+      if (!root || !(e.target instanceof Node) || root.contains(e.target)) return;
+      (getFocusables(root)[0] ?? root).focus({ preventScroll: true });
+    };
+    document.addEventListener("focusin", onFocusIn);
+    return () => document.removeEventListener("focusin", onFocusIn);
+  }, []);
+
+  // 처음 열릴 때 포커스 이동. The opener (e.g. the card) gets focus back on
+  // close if it is still in the document.
+  useEffect(() => {
+    const opener =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
     overlayRef.current?.focus({ preventScroll: true });
+    return () => {
+      if (opener && opener !== document.body && opener.isConnected) {
+        opener.focus({ preventScroll: true });
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -204,16 +233,20 @@ export function ProjectModal({
   const trapFocus = (e: KeyboardEvent<HTMLDivElement>) => {
     const root = overlayRef.current;
     if (!root) return;
-    const focusables = root.querySelectorAll<HTMLElement>(
-      'button, a[href], [tabindex]:not([tabindex="-1"])',
-    );
-    if (focusables.length === 0) return;
+    const focusables = getFocusables(root);
+    if (focusables.length === 0) {
+      e.preventDefault();
+      return;
+    }
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
+    // -1 when focus sits on the overlay itself (right after opening) or on
+    // anything outside the tabbable set — wrap instead of letting Tab leave.
+    const current = focusables.indexOf(document.activeElement as HTMLElement);
+    if (e.shiftKey && current <= 0) {
       e.preventDefault();
       last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
+    } else if (!e.shiftKey && (current === -1 || current === focusables.length - 1)) {
       e.preventDefault();
       first.focus();
     }

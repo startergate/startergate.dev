@@ -18,6 +18,7 @@ import type { ProjectOverview } from "@/lib/data/overview";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { markCameFromList, didComeFromList } from "@/lib/mode/cameFromList";
+import { rememberProjectOpener, takeProjectOpener } from "@/lib/mode/projectFocusReturn";
 
 import { FilterBar } from "./FilterBar";
 import { ProjectCard } from "./ProjectCard";
@@ -83,6 +84,18 @@ export function ProjectsExplorer({
     setOpenId(initialOpenId);
   }
 
+  // Closing the popup always lands on a freshly mounted list without one
+  // (back or replace to /projects/), so give focus back to the card here.
+  useEffect(() => {
+    if (initialOpenId) return;
+    const id = takeProjectOpener();
+    if (!id) return;
+    document
+      .querySelector<HTMLElement>(`[data-project-id="${CSS.escape(id)}"]`)
+      ?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     try {
       window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
@@ -102,6 +115,7 @@ export function ProjectsExplorer({
 
   const openProject = (id: string) => {
     markCameFromList();
+    rememberProjectOpener(id);
     setOpenId(id);
     router.push(`/${lang}/projects/${id}/`, { scroll: false });
   };
@@ -112,13 +126,15 @@ export function ProjectsExplorer({
   };
 
   const close = useCallback(() => {
+    // Direct entry has no opener card; fall back to the open project's card.
+    if (!didComeFromList() && openId) rememberProjectOpener(openId);
     setOpenId(undefined);
     if (didComeFromList()) {
       router.back();
     } else {
       router.replace(`/${lang}/projects/`, { scroll: false });
     }
-  }, [router, lang]);
+  }, [router, lang, openId]);
 
   const consoleOpenProject = useCallback(
     (query: string) => {
