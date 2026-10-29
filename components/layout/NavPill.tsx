@@ -26,7 +26,7 @@ export function NavPill() {
   const cvHref = isHome ? "#resume" : `/${lang}/#resume`;
 
   return (
-    <nav aria-label="주 메뉴" className={styles.nav}>
+    <nav aria-label={dict.nav.mainMenu} className={styles.nav}>
       <div className={styles.row}>
         <div className={styles.pill}>
           <button

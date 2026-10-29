@@ -2,6 +2,7 @@ import type { Dictionary } from "./ko";
 
 const en: Dictionary = {
   nav: {
+    mainMenu: "Main menu",
     menuOpen: "Expand menu",
     menuClose: "Collapse menu",
     github: "GitHub",
@@ -191,6 +192,8 @@ const en: Dictionary = {
   },
   timelinePage: {
     all: "All",
+    filterAria: "Timeline category filter",
+    listAria: "Timeline",
     types: {
       career: "Career",
       award: "Awards",
