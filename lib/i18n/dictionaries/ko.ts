@@ -1,5 +1,6 @@
 const ko = {
   nav: {
+    mainMenu: "주 메뉴",
     menuOpen: "메뉴 펼치기",
     menuClose: "메뉴 접기",
     github: "GitHub",
@@ -189,6 +190,8 @@ const ko = {
   },
   timelinePage: {
     all: "전체",
+    filterAria: "타임라인 분류 필터",
+    listAria: "타임라인",
     types: {
       career: "경력",
       award: "수상",
