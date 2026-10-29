@@ -196,15 +196,18 @@ export function GroundStationConsole() {
         } catch {
           // 저장 실패해도 이번 전환은 진행한다.
         }
-        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
-        const segments = pathname.split("/");
-        segments[1] = next;
-        router.push((segments.join("/") || "/") + window.location.search);
         pushLog(text, [
           fillTemplate(dict.console.langChangedTemplate, {
             value: next === "en" ? dict.nav.langEn : dict.nav.langKo,
           }),
         ]);
+        if (next === lang) return;
+        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
+        // router.push 대신 location.href로 완전히 새로 로드한다 — 이유는 LangSwitcher 주석 참고
+        // ([lang]이 루트 레이아웃 파라미터라 클라이언트 전환 시 테마 <script> 태그 오류가 난다).
+        const segments = pathname.split("/");
+        segments[1] = next;
+        window.location.href = (segments.join("/") || "/") + window.location.search;
         return;
       }
 
