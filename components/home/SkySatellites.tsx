@@ -26,6 +26,11 @@ const DEFAULT_TRAIL_LENGTH_PX = 46;
 /** 이 값(%) 넘게 오른쪽에 있으면 이름표를 점 왼쪽에 단다 — 안 그러면
  * 글자가 히어로 오른쪽 바깥으로 넘어가 잘린다. */
 const RIGHT_EDGE_FLIP_PCT = 82;
+/** 직전 위치에서 화면상 이 거리(%) 넘게 떨어지면 전환 없이 바로 옮긴다 —
+ * 탭이 백그라운드에 있는 동안 타이머가 느려졌다가 다시 포커스되면 위성이
+ * 한 번에 멀리 움직여야 하는데, 이를 2.9초짜리 전환으로 미끄러지게 보여주면
+ * 실제 움직임처럼 보이지 않는다. 평상시 3초 갱신 간 이동은 저궤도도 몇 % 이내다. */
+const JUMP_THRESHOLD_PCT = 8;
 
 /** 방위각이 0/360을 넘나드는 경우를 보정한 차이(-180~180). */
 function angleDelta(a: number, b: number): number {
@@ -52,17 +57,29 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
           ? TRAIL_LENGTH_PX[p.orbitClass]
           : DEFAULT_TRAIL_LENGTH_PX;
 
-        let trailDeg: number | null = null;
+        const prev =
+          p.prevAzimuthDeg != null && p.prevElevationDeg != null
+            ? {
+                azimuthDeg: p.prevAzimuthDeg,
+                ...toScreen(p.prevAzimuthDeg, p.prevElevationDeg),
+              }
+            : null;
+
         // 방위각이 0/360을 넘나들면(예: 359°→2°) left(%)가 거의 반대편으로
-        // 뛴다 — CSS 전환(transition)이 이 점프까지 애니메이션해서 점이
-        // 화면을 가로질러 미끄러지는 것처럼 보인다. 실제로 그만큼 움직인
-        // 게 아니라 각도 표현상의 점프이므로, 이번 갱신만 전환 없이
-        // 바로 새 위치로 옮긴다.
-        const azimuthWrapped =
-          p.prevAzimuthDeg != null && Math.abs(p.azimuthDeg - p.prevAzimuthDeg) > 180;
-        if (trailLengthPx > 0 && p.prevAzimuthDeg != null && p.prevElevationDeg != null) {
-          const prev = toScreen(p.prevAzimuthDeg, p.prevElevationDeg);
-          const dAz = angleDelta(p.azimuthDeg, p.prevAzimuthDeg);
+        // 뛴다 — 실제로 그만큼 움직인 게 아니라 각도 표현상의 점프다. 또
+        // 탭이 백그라운드였다가 돌아오면 실제로도 한 번에 멀리 움직인다.
+        // 어느 쪽이든 CSS 전환(transition)이 이 점프를 애니메이션하면 점이
+        // 화면을 가로질러 미끄러지는 것처럼 보이므로, 이번 갱신만 전환 없이
+        // 바로 새 위치로 옮긴다. 거리는 CSS가 실제로 애니메이션하는 값인
+        // 보정 전 left 차이로 잰다.
+        const jumped =
+          prev != null &&
+          (Math.abs(p.azimuthDeg - prev.azimuthDeg) > 180 ||
+            Math.hypot(left - prev.left, top - prev.top) > JUMP_THRESHOLD_PCT);
+
+        let trailDeg: number | null = null;
+        if (trailLengthPx > 0 && prev != null) {
+          const dAz = angleDelta(p.azimuthDeg, prev.azimuthDeg);
           const dx = (dAz / 360) * 100;
           const dy = top - prev.top;
           if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001) {
@@ -79,7 +96,7 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
             style={{
               left: `${left}%`,
               top: `${top}%`,
-              transition: azimuthWrapped || p.instant ? "none" : undefined,
+              transition: jumped || p.instant ? "none" : undefined,
             }}
           >
             {trailDeg != null ? (
