@@ -72,8 +72,10 @@ export function Hero({ mode }: { mode: ProfileMode }) {
     }
   };
 
+  const role = mode === "backend" ? dict.hero.roleBackend : dict.hero.roleGame;
+
   return (
-    <section id="top" aria-label={dict.hero.roleBackend} className={styles.hero}>
+    <section id="top" aria-label={role} className={styles.hero}>
       <StarField />
       <SkySatellites positions={satellites} />
 
@@ -100,7 +102,7 @@ export function Hero({ mode }: { mode: ProfileMode }) {
           STARTERGATE <span className={styles.nameSlash}>/</span> {getSiteName(lang)}
         </p>
         <p className={styles.role}>
-          {mode === "backend" ? dict.hero.roleBackend : dict.hero.roleGame}
+          {role}
         </p>
         <a className={`mono ${styles.email}`} href={`mailto:${SITE_EMAIL}`}>
           {SITE_EMAIL}
