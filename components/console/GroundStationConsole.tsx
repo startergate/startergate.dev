@@ -10,6 +10,7 @@ import { fillTemplate } from "@/lib/i18n/template";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
 import { SITE_CONFERENCES_URL, SITE_EMAIL } from "@/lib/site-meta";
 import { useTheme } from "@/lib/theme/ThemeProvider";
+import { usePrefersReducedMotion } from "@/lib/ui/usePrefersReducedMotion";
 
 import styles from "./GroundStationConsole.module.css";
 
@@ -37,6 +38,7 @@ const HISTORY_LIMIT = 50;
 export function GroundStationConsole() {
   const { lang, dict } = useLang();
   const { theme, setTheme } = useTheme();
+  const scrollBehavior: ScrollBehavior = usePrefersReducedMotion() ? "auto" : "smooth";
   const router = useRouter();
   const pathname = usePathname();
   const { open: navOpen, setOpen: setNavOpen } = useNavMenu();
@@ -102,7 +104,7 @@ export function GroundStationConsole() {
   const scrollToId = (id: string): boolean => {
     const el = document.getElementById(id);
     if (!el) return false;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({ behavior: scrollBehavior, block: "start" });
     return true;
   };
 
@@ -290,7 +292,7 @@ export function GroundStationConsole() {
       }
 
       case "top":
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: scrollBehavior });
         pushLog(text, [dict.console.topLog]);
         return;
 
