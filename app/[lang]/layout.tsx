@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { BottomDock } from "@/components/layout/BottomDock";
 import { Ground } from "@/components/layout/Ground";
+import { LegacyServiceWorkerCleanup } from "@/components/layout/LegacyServiceWorkerCleanup";
 import { NavPill } from "@/components/layout/NavPill";
 import { GroundStationConsole } from "@/components/console/GroundStationConsole";
 import { GA_MEASUREMENT_ID } from "@/lib/analytics";
@@ -110,6 +111,7 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
                 <Ground previousVersionsLabel={dict.footer.previousVersions} />
                 <BottomDock />
                 <GroundStationConsole />
+                <LegacyServiceWorkerCleanup />
               </ConsoleCapabilitiesProvider>
             </NavMenuProvider>
           </LangProvider>
