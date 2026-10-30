@@ -79,7 +79,7 @@ export function SkySatellites({ positions }: { positions: SatellitePosition[] })
             style={{
               left: `${left}%`,
               top: `${top}%`,
-              transition: azimuthWrapped ? "none" : undefined,
+              transition: azimuthWrapped || p.instant ? "none" : undefined,
             }}
           >
             {trailDeg != null ? (

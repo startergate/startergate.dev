@@ -29,6 +29,9 @@ export type SatellitePosition = {
    * 이번이 그 위성의 첫 갱신이면 없다. */
   prevAzimuthDeg?: number;
   prevElevationDeg?: number;
+  /** First update after the observer changed — move without a transition,
+   * since the jump is a change of viewpoint, not satellite motion. */
+  instant?: boolean;
 };
 
 export type Observer = { lat: number; lon: number };
