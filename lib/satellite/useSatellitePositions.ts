@@ -123,6 +123,10 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
   useEffect(() => {
     if (!loaded) return;
 
+    // Positions from the previous observer are in a different sky frame, so
+    // drop them; otherwise the first tick would draw tails toward stale points.
+    lastSeenRef.current.clear();
+
     const priorityIndex = new Map<number, number>(
       (priorityList as { noradId: number }[]).map((p, i) => [p.noradId, i]),
     );
@@ -135,6 +139,9 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
     // 도는 시점)마다 한 번만 무작위로 뽑아 고정한다 — 정지궤도는 거의
     // 안 움직이니 매 틱 다시 뽑으면 의미가 없고 깜빡이기만 한다.
     let randomGeoPick: Set<number> | null = null;
+    // The first tick of each run follows an observer change (or the initial
+    // load, where dots mount fresh anyway), so it should not animate.
+    let firstTick = true;
 
     const tick = () => {
       const now = new Date();
@@ -218,8 +225,10 @@ export function useSatellitePositions(observer: Observer): SatellitePosition[] {
             isKorean,
             prevAzimuthDeg: prev?.azimuthDeg,
             prevElevationDeg: prev?.elevationDeg,
+            instant: firstTick,
           };
         });
+      firstTick = false;
       for (const p of next) {
         lastSeenRef.current.set(p.noradId, {
           azimuthDeg: p.azimuthDeg,

@@ -23,5 +23,11 @@ export default withSentryConfig(nextConfig, {
   authToken: process.env.SENTRY_AUTH_TOKEN,
   widenClientFileUpload: true,
 
+  // Release name defaults to the git HEAD SHA; commits are associated
+  // automatically. Only builds with the token (the deploy workflow) record it.
+  release: {
+    deploy: { env: "production" },
+  },
+
   silent: !process.env.CI,
 });

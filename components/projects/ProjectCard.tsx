@@ -51,6 +51,7 @@ export function ProjectCard({
       onClick={onOpen}
       aria-haspopup="dialog"
       aria-label={ariaLabel}
+      data-project-id={project.id}
     >
       <span className={styles.head}>
         <span

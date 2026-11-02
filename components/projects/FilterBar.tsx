@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 import { CheckIcon, ChevronDownIcon, CloseIcon } from "@/components/icons";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
@@ -141,7 +141,7 @@ export function FilterBar({
                   role="group"
                   aria-label={g.label}
                   className={styles.ddPop}
-                  style={{ width: g.width, gridTemplateColumns: g.cols }}
+                  style={{ "--dd-width": g.width, gridTemplateColumns: g.cols } as CSSProperties}
                 >
                   {g.options.map((o) => {
                     const on = (sel as string[]).includes(o.value);

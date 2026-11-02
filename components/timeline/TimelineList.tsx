@@ -74,8 +74,8 @@ export function TimelineList({
 
   return (
     <>
-      <section aria-label={dict.timelinePage.all} className={styles.filterSection}>
-        <div role="group" aria-label={dict.timelinePage.all} className={styles.chips}>
+      <section aria-label={dict.timelinePage.filterAria} className={styles.filterSection}>
+        <div role="group" aria-label={dict.timelinePage.filterAria} className={styles.chips}>
           <button
             type="button"
             className={`${styles.chip} ${active === "all" ? styles.chipOn : ""}`}
@@ -102,7 +102,7 @@ export function TimelineList({
         </div>
       </section>
 
-      <section aria-label="Timeline" className={styles.timelineSection}>
+      <section aria-label={dict.timelinePage.listAria} className={styles.timelineSection}>
         <div aria-hidden="true" className={styles.axis} />
         {years.map((yr) => (
           <div key={yr.year} className={styles.row}>

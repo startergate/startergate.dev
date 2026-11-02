@@ -10,6 +10,7 @@ import { fillTemplate } from "@/lib/i18n/template";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
 import { SITE_CONFERENCES_URL, SITE_EMAIL } from "@/lib/site-meta";
 import { useTheme } from "@/lib/theme/ThemeProvider";
+import { usePrefersReducedMotion } from "@/lib/ui/usePrefersReducedMotion";
 
 import styles from "./GroundStationConsole.module.css";
 
@@ -37,6 +38,7 @@ const HISTORY_LIMIT = 50;
 export function GroundStationConsole() {
   const { lang, dict } = useLang();
   const { theme, setTheme } = useTheme();
+  const scrollBehavior: ScrollBehavior = usePrefersReducedMotion() ? "auto" : "smooth";
   const router = useRouter();
   const pathname = usePathname();
   const { open: navOpen, setOpen: setNavOpen } = useNavMenu();
@@ -102,7 +104,7 @@ export function GroundStationConsole() {
   const scrollToId = (id: string): boolean => {
     const el = document.getElementById(id);
     if (!el) return false;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({ behavior: scrollBehavior, block: "start" });
     return true;
   };
 
@@ -196,15 +198,18 @@ export function GroundStationConsole() {
         } catch {
           // 저장 실패해도 이번 전환은 진행한다.
         }
-        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
-        const segments = pathname.split("/");
-        segments[1] = next;
-        router.push((segments.join("/") || "/") + window.location.search);
         pushLog(text, [
           fillTemplate(dict.console.langChangedTemplate, {
             value: next === "en" ? dict.nav.langEn : dict.nav.langKo,
           }),
         ]);
+        if (next === lang) return;
+        // 상단 언어 메뉴처럼 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다 (spec §2.1).
+        // router.push 대신 location.href로 완전히 새로 로드한다 — 이유는 LangSwitcher 주석 참고
+        // ([lang]이 루트 레이아웃 파라미터라 클라이언트 전환 시 테마 <script> 태그 오류가 난다).
+        const segments = pathname.split("/");
+        segments[1] = next;
+        window.location.href = (segments.join("/") || "/") + window.location.search;
         return;
       }
 
@@ -287,7 +292,7 @@ export function GroundStationConsole() {
       }
 
       case "top":
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: scrollBehavior });
         pushLog(text, [dict.console.topLog]);
         return;
 

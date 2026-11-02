@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { ProjectModal } from "@/components/projects/ProjectModal";
 import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
@@ -18,6 +18,7 @@ import type { ProjectOverview } from "@/lib/data/overview";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { markCameFromList, didComeFromList } from "@/lib/mode/cameFromList";
+import { rememberProjectOpener, takeProjectOpener } from "@/lib/mode/projectFocusReturn";
 
 import { FilterBar } from "./FilterBar";
 import { ProjectCard } from "./ProjectCard";
@@ -37,10 +38,11 @@ function loadStoredFilters(): ProjectFilters {
 }
 
 /**
- * 프로젝트 목록 + 필터 + 팝업. `/projects/`와 `/projects/{id}/`가 같은
- * 컴포넌트를 쓴다(spec §2.2, §2.3) — initialOpenId만 다르다. 필터는
- * sessionStorage에 저장해 두 라우트 사이를 오갈 때(이전/다음, 열기/닫기)
- * 그대로 유지되게 한다. URL에는 필터를 남기지 않는다.
+ * 프로젝트 목록 + 필터 + 팝업. `app/[lang]/projects/layout.tsx`에 있어
+ * `/projects/`와 `/projects/{id}/` 사이를 오가도 리마운트되지 않는다
+ * (spec §2.2, §2.3, #36). 열린 프로젝트는 라우트의 `id` 파라미터를
+ * 따른다. 필터는 sessionStorage에 저장해 다른 페이지에 다녀와도
+ * 유지되게 한다. URL에는 필터를 남기지 않는다.
  */
 export function ProjectsExplorer({
   lang,
@@ -48,23 +50,24 @@ export function ProjectsExplorer({
   techOptions,
   typeOptions,
   overviews,
-  initialOpenId,
 }: {
   lang: string;
   allProjects: Project[];
   techOptions: string[];
   typeOptions: string[];
   overviews: Record<string, ProjectOverview>;
-  initialOpenId?: string;
 }) {
   const { dict } = useLang();
   const router = useRouter();
+  const routeId = useParams<{ id?: string }>().id;
   // 서버는 sessionStorage를 모르니 항상 EMPTY_FILTERS로 시작해야
   // 하이드레이션이 깨지지 않는다(여기서 바로 읽으면 이전 세션에
   // 필터가 남아 있던 사용자만 서버/클라이언트 렌더가 달라져
   // 깨진다 — 실제로 재현됨). 마운트 직후에만 동기화한다.
   const [filters, setFilters] = useState<ProjectFilters>(EMPTY_FILTERS);
-  const [openId, setOpenId] = useState<string | undefined>(initialOpenId);
+  // Set optimistically on open/close so the popup reacts before the route
+  // change lands; routeId keeps it in sync with back/forward and direct loads.
+  const [openId, setOpenId] = useState<string | undefined>(routeId);
 
   useEffect(() => {
     const stored = loadStoredFilters();
@@ -74,14 +77,26 @@ export function ProjectsExplorer({
       setFilters(stored);
     }
   }, []);
-  // 브라우저 뒤로/앞으로가기처럼 이 컴포넌트가 리마운트 없이 다른
-  // /projects/{id}/로 바뀌는 경우를 렌더 중에 동기화한다(React가
-  // 권장하는 "렌더 중 상태 조정" 패턴 — effect에서 하면 한 프레임 늦는다).
-  const [syncedInitialOpenId, setSyncedInitialOpenId] = useState(initialOpenId);
-  if (initialOpenId !== syncedInitialOpenId) {
-    setSyncedInitialOpenId(initialOpenId);
-    setOpenId(initialOpenId);
+  // 브라우저 뒤로/앞으로가기처럼 라우트의 id가 바뀌는 경우를 렌더 중에
+  // 동기화한다(React가 권장하는 "렌더 중 상태 조정" 패턴 — effect에서
+  // 하면 한 프레임 늦는다).
+  const [syncedRouteId, setSyncedRouteId] = useState(routeId);
+  if (routeId !== syncedRouteId) {
+    setSyncedRouteId(routeId);
+    setOpenId(routeId);
   }
+
+  // Once the popup closes (close button, Esc, browser back), give focus back
+  // to the card it was opened from — or, after a direct entry, to the card of
+  // the project that was open.
+  useEffect(() => {
+    if (openId) return;
+    const id = takeProjectOpener();
+    if (!id) return;
+    document
+      .querySelector<HTMLElement>(`[data-project-id="${CSS.escape(id)}"]`)
+      ?.focus();
+  }, [openId]);
 
   useEffect(() => {
     try {
@@ -102,6 +117,7 @@ export function ProjectsExplorer({
 
   const openProject = (id: string) => {
     markCameFromList();
+    rememberProjectOpener(id);
     setOpenId(id);
     router.push(`/${lang}/projects/${id}/`, { scroll: false });
   };
@@ -112,13 +128,15 @@ export function ProjectsExplorer({
   };
 
   const close = useCallback(() => {
+    // Direct entry has no opener card; fall back to the open project's card.
+    if (!didComeFromList() && openId) rememberProjectOpener(openId);
     setOpenId(undefined);
     if (didComeFromList()) {
       router.back();
     } else {
       router.replace(`/${lang}/projects/`, { scroll: false });
     }
-  }, [router, lang]);
+  }, [router, lang, openId]);
 
   const consoleOpenProject = useCallback(
     (query: string) => {
