@@ -181,6 +181,13 @@ body {
      따라 지면(Ground)까지 이어진다. height:100%로 고정하면 한 화면
      분량만 칠해지고 그 아래는 배경이 끊긴다. */
   min-height: 100vh;
+  min-height: 100dvh;
+  /* 내용이 짧거나 아직 렌더되지 않았을 때(메인 페이지의 Suspense
+     fallback이 null이라 정적 HTML에는 본문이 비어 있다)도 지면(Ground)이
+     화면 맨 아래에 붙도록 세로 flex로 쌓고, 본문(.page-main)이 남는
+     높이를 채운다. */
+  display: flex;
+  flex-direction: column;
   /* 단색이 아니라 하늘 그라데이션 배경 (spec §3.3). 별·유성은 히어로
      영역에만 두므로 메인 페이지 구현(3단계)에서 별도로 얹는다. */
   background: var(--sky-gradient);
@@ -205,6 +212,10 @@ a:hover {
 
 .num {
   font-variant-numeric: tabular-nums;
+}
+
+.page-main {
+  flex: 1 0 auto;
 }
 
 .wrap {

@@ -107,7 +107,10 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
             <NavMenuProvider>
               <ConsoleCapabilitiesProvider>
                 <NavPill />
-                {children}
+                {/* flex: 1 wrapper keeps Ground pinned to the viewport
+                    bottom even when the page renders little or nothing yet
+                    (e.g. the main page's Suspense fallback is null). */}
+                <main className="page-main">{children}</main>
                 <Ground previousVersionsLabel={dict.footer.previousVersions} />
                 <BottomDock />
                 <GroundStationConsole />
