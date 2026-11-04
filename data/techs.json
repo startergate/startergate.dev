@@ -288,5 +288,423 @@
       "src": "langs/jest.png",
       "background": "#37383B"
     }
+  },
+  {
+    "name": "AWS EC2",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/aws.svg",
+      "background": "#FFFFFF",
+      "padding": 3
+    }
+  },
+  {
+    "name": "AWS ECS",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/aws.svg",
+      "background": "#FFFFFF",
+      "padding": 3
+    }
+  },
+  {
+    "name": "AWS S3",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/aws.svg",
+      "background": "#FFFFFF",
+      "padding": 3
+    }
+  },
+  {
+    "name": "Sequelize",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/sequelize.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "ICON",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/icon.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Google Cloud Platform",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/googlecloud.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Android",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/android.svg",
+      "background": "#1A1A1A",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Travis CI",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/travisci.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "StyleCI",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/styleci.svg",
+      "background": "#E44041",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Redux",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/redux.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Styled Components",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/styledcomponents.svg",
+      "background": "#FFFFFF",
+      "padding": 2
+    }
+  },
+  {
+    "name": "GraphQL",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/graphql.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Bootstrap",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/bootstrap.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Electron",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/electron.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Swagger",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/swagger.svg",
+      "background": "#173647",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Tensorflow",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/tensorflow.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Jupyter Notebook",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/jupyter.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Next.js",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/nextdotjs.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "npm",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/npm.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Slack API",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/slack.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Discord",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/discord.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Puppeteer",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/puppeteer.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Steamworks SDK",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/steam.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Discord Social SDK",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/discord.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "HTML",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/html5.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Google Maps API",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/googlemaps.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Passport",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/passport.svg",
+      "background": "#1A1A1A",
+      "padding": 4
+    }
+  },
+  {
+    "name": "GitHub Pages",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/github.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "GitHub Actions",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/githubactions.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Tailwind CSS",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/tailwindcss.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Sentry",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/sentry.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Google Analytics",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/googleanalytics.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "ESLint",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/eslint.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "libcurl",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/curl.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "socket.io",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/socketdotio.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Chrome Extension",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/googlechrome.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Webpack",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/webpack.svg",
+      "background": "#2B3A42",
+      "padding": 4
+    }
+  },
+  {
+    "name": "Bun",
+    "mode": "all",
+    "level": "learned",
+    "listed": false,
+    "logo": {
+      "src": "langs/bun.svg",
+      "background": "#FFFFFF",
+      "padding": 4
+    }
   }
 ]

@@ -12,6 +12,9 @@ export type Tech = {
   level: "using" | "learned" | "learning";
   logo?: { src: string; background?: string; cover?: boolean; padding?: number };
   abbr?: string;
+  /** false면 홈 Technologies 섹션에는 안 보이고, 프로젝트 카드/팝업의
+   * 기술 로고 조회(getTechByName)에만 쓰인다. 이때 mode/level은 쓰이지 않는다. */
+  listed?: boolean;
 };
 
 export type Experience = {
