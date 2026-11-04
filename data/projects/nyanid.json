@@ -15,7 +15,8 @@
     "TypeScript",
     "Node.js",
     "Koa.js",
-    "MySQL"
+    "MySQL",
+    "OAuth"
   ],
   "collaborators": [
     {
