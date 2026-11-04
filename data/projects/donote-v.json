@@ -16,7 +16,14 @@
     "Node.js",
     "Koa.js",
     "MySQL",
-    "AWS EC2"
+    "AWS EC2",
+    "React",
+    "Redux",
+    "Styled Components",
+    "GraphQL",
+    "Sequelize",
+    "Docker",
+    "Express.js"
   ],
   "collaborators": [
     {
