@@ -15,7 +15,11 @@
   "techs": [
     "PHP",
     "MySQL",
-    "AWS EC2"
+    "AWS EC2",
+    "Bootstrap",
+    "jQuery",
+    "Travis CI",
+    "StyleCI"
   ],
   "collaborators": [
     {
