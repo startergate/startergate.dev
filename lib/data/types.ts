@@ -54,6 +54,32 @@ export type TimelineItem = {
   link?: string;
 };
 
+/**
+ * 본문 섹션. `text`가 있으면 그것을, 없으면 `ref`(data/ 기준 마크다운
+ * 경로)를 읽는다. `ref`는 모든 언어에 같은 파일을 쓰는 문자열이거나,
+ * 언어별 파일을 지정하는 `{ ko, en? }`(en이 없으면 ko 파일)이다.
+ */
+export type ProjectContent = { title: L10n; text?: L10n; ref?: string | L10n; image?: string };
+
+export type ProjectImage = { src: string; description?: L10n };
+
+/**
+ * 완료한 프로젝트에 나중에 더한 큰 개발 (spec §5.1). 부모 파일 안에만
+ * 존재하며 카드·목록 필터·타임라인에는 따로 나오지 않고 부모 팝업
+ * 안에서만 보인다. 기술·참여 인원·링크는 부모 것을 따른다.
+ */
+export type SubProject = {
+  /** slug, 부모 프로젝트 안에서 유일. */
+  id: string;
+  title: L10n;
+  status: ProjectStatus;
+  startedAt: string;
+  finishedAt?: string;
+  images?: ProjectImage[];
+  /** 부모 contents와 같은 규칙: 첫 섹션 제목이 "개요"면 개요로 쓴다. */
+  contents?: ProjectContent[];
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -68,8 +94,9 @@ export type Project = {
   part?: string;
   collaborators: { name: string; roles: L10n[] | string[] }[];
   logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string; padding?: number };
-  images?: { src: string; description?: L10n }[];
+  images?: ProjectImage[];
   links?: { type: string; link: string; label: string }[];
-  contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];
+  contents?: ProjectContent[];
+  subProjects?: SubProject[];
   highlight?: { backend?: number; game?: number };
 };
