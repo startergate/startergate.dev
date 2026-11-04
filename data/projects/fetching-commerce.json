@@ -20,9 +20,11 @@
     "TypeScript",
     "Node.js",
     "Next.js",
-    "Nest.js",
+    "NestJS",
     "MySQL",
     "Aurora MySQL",
+    "Redis",
+    "Elasticsearch",
     "AWS ECS"
   ],
   "collaborators": [

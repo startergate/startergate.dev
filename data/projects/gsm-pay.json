@@ -18,7 +18,10 @@
     "Koa.js",
     "MySQL",
     "GraphQL",
-    "AWS EC2"
+    "AWS EC2",
+    "Redis",
+    "Docker",
+    "Sequelize"
   ],
   "collaborators": [
     {

@@ -17,8 +17,11 @@
     "Next.js",
     "React",
     "Tailwind CSS",
-    "satellite.js",
-    "GitHub Actions"
+    "GitHub Actions",
+    "Sentry",
+    "Google Analytics",
+    "GitHub Pages",
+    "ESLint"
   ],
   "collaborators": [
     {

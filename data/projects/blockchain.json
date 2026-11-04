@@ -15,7 +15,10 @@
   "techs": [
     "Python",
     "JavaScript",
-    "Node.js"
+    "Node.js",
+    "Express.js",
+    "MySQL",
+    "ICON"
   ],
   "collaborators": [
     {

@@ -68,7 +68,7 @@ const ko = {
       paragraphs: [
         {
           label: "기술 스택",
-          body: "**TypeScript 기반 Node.js**로 개발하며 서버 프레임워크는 **Nest.js**를 주로 씁니다. MySQL 계열 DB를 직접 쿼리와 TypeORM으로 다루고, **Aurora MySQL** 마이그레이션과 운영, Redis·DynamoDB 캐싱, **RabbitMQ와 SQS**를 조합한 태스크 분산을 프로덕션에서 운영했습니다.",
+          body: "**TypeScript 기반 Node.js**로 개발하며 서버 프레임워크는 **NestJS**를 주로 씁니다. MySQL 계열 DB를 직접 쿼리와 TypeORM으로 다루고, **Aurora MySQL** 마이그레이션과 운영, Redis·DynamoDB 캐싱, **RabbitMQ와 SQS**를 조합한 태스크 분산을 프로덕션에서 운영했습니다.",
         },
         {
           label: "경험",

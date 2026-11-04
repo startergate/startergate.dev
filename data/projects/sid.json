@@ -17,7 +17,17 @@
     "Node.js",
     "Express.js",
     "MySQL",
-    "AWS EC2"
+    "AWS EC2",
+    "PHP",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C++",
+    "C#",
+    "jQuery",
+    "npm",
+    "Passport",
+    "StyleCI"
   ],
   "collaborators": [
     {

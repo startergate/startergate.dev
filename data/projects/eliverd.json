@@ -18,7 +18,9 @@
     "MySQL",
     "Docker",
     "AWS EC2",
-    "AWS S3"
+    "AWS S3",
+    "Django REST Framework",
+    "Swagger"
   ],
   "collaborators": [
     {
