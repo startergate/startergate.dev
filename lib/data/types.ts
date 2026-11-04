@@ -54,8 +54,12 @@ export type TimelineItem = {
   link?: string;
 };
 
-/** 본문 섹션. `text`가 있으면 그것을, 없으면 `ref`(data/ 기준 마크다운 경로)를 읽는다. */
-export type ProjectContent = { title: L10n; text?: L10n; ref?: string; image?: string };
+/**
+ * 본문 섹션. `text`가 있으면 그것을, 없으면 `ref`(data/ 기준 마크다운
+ * 경로)를 읽는다. `ref`는 모든 언어에 같은 파일을 쓰는 문자열이거나,
+ * 언어별 파일을 지정하는 `{ ko, en? }`(en이 없으면 ko 파일)이다.
+ */
+export type ProjectContent = { title: L10n; text?: L10n; ref?: string | L10n; image?: string };
 
 export type ProjectImage = { src: string; description?: L10n };
 

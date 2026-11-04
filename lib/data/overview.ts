@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import type { Locale } from "@/lib/i18n/locales";
-import { l10n } from "@/lib/i18n/l10n";
+import { l10n, type L10n } from "@/lib/i18n/l10n";
 
 import type { Project, ProjectContent, ProjectImage, ProjectStatus } from "./types";
 
@@ -14,6 +14,11 @@ function readProjectMarkdown(ref: string): string {
     .map((block) => block.replace(/\\\n/g, " ").replace(/\s+/g, " ").trim())
     .filter(Boolean)
     .join(" ");
+}
+
+/** Markdown body for the given language; a plain string ref is shared by all languages. */
+function readContentRef(ref: string | L10n, lang: Locale): string {
+  return readProjectMarkdown(typeof ref === "string" ? ref : l10n(ref, lang));
 }
 
 function isOverviewTitle(titleKo: string): boolean {
@@ -48,7 +53,7 @@ function resolveContent(c: ProjectContent, lang: Locale, no: string): ProjectSec
   return {
     no,
     title: l10n(c.title, lang),
-    body: c.text ? l10n(c.text, lang) : c.ref ? readProjectMarkdown(c.ref) : undefined,
+    body: c.text ? l10n(c.text, lang) : c.ref ? readContentRef(c.ref, lang) : undefined,
     image: c.image,
   };
 }
@@ -67,7 +72,7 @@ function splitContents(
   const sectionsRaw = useFirstAsOverview ? contents.slice(1) : contents;
   const overview = useFirstAsOverview
     ? first.ref
-      ? readProjectMarkdown(first.ref)
+      ? readContentRef(first.ref, lang)
       : first.text
         ? l10n(first.text, lang)
         : undefined

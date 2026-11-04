@@ -169,7 +169,12 @@
 
 ```ts
 type L10n = { ko: string; en?: string };
-type ProjectContent = { title: L10n; text?: L10n; ref?: string; image?: string };
+type ProjectContent = {
+  title: L10n;
+  text?: L10n;
+  ref?: string | L10n;         // data/ 기준 마크다운 경로. 문자열이면 모든 언어 공통, { ko, en? }이면 언어별 파일(en 없으면 ko)
+  image?: string;
+};
 type ProjectImage = { src: string; description?: L10n };
 type SubProject = {
   id: string;                  // slug, 부모 프로젝트 안에서 유일
@@ -330,7 +335,7 @@ type Project = {
   - 링크
 - 하단에 이전/다음 프로젝트 이동을 둔다.
 - 키보드: Esc는 닫기, ←/→는 이전/다음.
-- 마크다운 본문(`ref`)은 기존 `src/data/markdowns/*.md`를 빌드할 때 렌더한다.
+- 마크다운 본문(`ref`)은 기존 `src/data/markdowns/*.md`를 빌드할 때 렌더한다. `ref`를 `{ ko, en? }`로 쓰면 언어별 파일을 읽고, 영어 파일이 없으면 한국어 파일로 대체한다.
 
 ## 7. 위성 하늘
 
