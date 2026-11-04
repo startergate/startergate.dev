@@ -19,7 +19,8 @@
   "techs": [
     "C#",
     "Unity",
-    "Steamworks"
+    "Steamworks SDK",
+    "Discord Social SDK"
   ],
   "collaborators": [
     {
