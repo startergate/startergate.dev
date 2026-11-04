@@ -608,6 +608,21 @@ a.member:hover {
   gap: 14px;
   overflow-x: auto;
 }
+/* Sub-project images are a level down from the parent's, so keep them
+   smaller to stop one expanded item from taking over the popup. */
+.subImages .image {
+  max-height: 220px;
+}
+.subSection .secImage {
+  align-self: flex-start;
+  min-height: 0;
+  max-width: 100%;
+}
+.subSection .secImageImg {
+  width: auto;
+  max-width: 100%;
+  max-height: 270px;
+}
 .subSection {
   display: flex;
   flex-direction: column;
