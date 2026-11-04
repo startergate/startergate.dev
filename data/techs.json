@@ -213,7 +213,7 @@
     }
   },
   {
-    "name": "AuroraDB",
+    "name": "Aurora MySQL",
     "mode": "backend",
     "level": "using",
     "logo": {
