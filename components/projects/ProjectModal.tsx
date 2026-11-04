@@ -22,6 +22,7 @@ import { useTheme } from "@/lib/theme/ThemeProvider";
 
 import { PeriodArc } from "./PeriodArc";
 import styles from "./ProjectModal.module.css";
+import { SubProjects } from "./SubProjects";
 
 const SELF_NAME = "최호승";
 /** 참여 인원 중 AI 도구를 이렇게 표시한다 — 이름 옆에 작은 "AI" 배지가 붙는다. */
@@ -479,6 +480,8 @@ export function ProjectModal({
               ) : null}
             </article>
           ))}
+
+          <SubProjects key={project.id} items={resolved?.subProjects ?? []} />
 
           {project.links && project.links.length > 0 ? (
             <div className={`${styles.tile} ${styles.span4} ${styles.linksWrap}`}>

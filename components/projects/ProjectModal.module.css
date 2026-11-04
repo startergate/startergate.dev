@@ -502,6 +502,132 @@ a.member:hover {
   color: var(--dim);
 }
 
+/* Sub-project accordion (spec §6.2) */
+.subWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 24px;
+}
+.subList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.subItem {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+}
+.subHeading {
+  margin: 0;
+  font: inherit;
+}
+.subHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 18px;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.subHeader:hover .subTitle {
+  color: var(--accent);
+}
+.subTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease;
+}
+.subMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px 14px;
+  font-size: 13.5px;
+}
+.subPeriod {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.subStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+.subStatus .statusDot {
+  width: 8px;
+  height: 8px;
+}
+.subChevron {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px 4px;
+  border-right: 2px solid var(--dim);
+  border-bottom: 2px solid var(--dim);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.subChevronOpen {
+  margin: 4px 4px 0;
+  transform: rotate(-135deg);
+}
+.subPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 18px 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  animation: subOpen 0.2s ease-out;
+}
+@keyframes subOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.subImages {
+  /* Same horizontal strip as the parent's images. */
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+}
+.subSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.subSecTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .subPanel {
+    animation: none;
+  }
+  .subChevron {
+    transition: none;
+  }
+}
+
 .navRow {
   display: flex;
   justify-content: space-between;
@@ -576,5 +702,16 @@ a.member:hover {
   }
   .copyBtn span {
     display: none;
+  }
+  .subHeader {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .subTitle {
+    flex-basis: calc(100% - 32px);
+  }
+  .subMeta {
+    order: 3;
+    justify-content: flex-start;
   }
 }
