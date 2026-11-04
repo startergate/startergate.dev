@@ -12,7 +12,8 @@
     "Etc"
   ],
   "techs": [
-    "TypeScript"
+    "TypeScript",
+    "Node.js"
   ],
   "collaborators": [
     {
