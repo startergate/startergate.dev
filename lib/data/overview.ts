@@ -4,7 +4,13 @@ import path from "node:path";
 import type { Locale } from "@/lib/i18n/locales";
 import { l10n, type L10n } from "@/lib/i18n/l10n";
 
-import type { Project, ProjectContent, ProjectImage, ProjectStatus } from "./types";
+import type {
+  Project,
+  ProjectContent,
+  ProjectImage,
+  ProjectLink,
+  ProjectStatus,
+} from "./types";
 
 function readProjectMarkdown(ref: string): string {
   const full = path.join(process.cwd(), "data", ref);
@@ -39,6 +45,7 @@ export type ResolvedSubProject = {
   startedAt: string;
   finishedAt?: string;
   images: ProjectImage[];
+  links: ProjectLink[];
   overview?: string;
   sections: ProjectSection[];
 };
@@ -101,6 +108,7 @@ export function resolveOverview(
     startedAt: sp.startedAt,
     finishedAt: sp.finishedAt,
     images: sp.images ?? [],
+    links: sp.links ?? [],
     ...splitContents(sp.contents ?? [], lang),
   }));
 

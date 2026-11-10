@@ -63,10 +63,12 @@ export type ProjectContent = { title: L10n; text?: L10n; ref?: string | L10n; im
 
 export type ProjectImage = { src: string; description?: L10n };
 
+export type ProjectLink = { type: string; link: string; label: string };
+
 /**
  * 완료한 프로젝트에 나중에 더한 큰 개발 (spec §5.1). 부모 파일 안에만
  * 존재하며 카드·목록 필터·타임라인에는 따로 나오지 않고 부모 팝업
- * 안에서만 보인다. 기술·참여 인원·링크는 부모 것을 따른다.
+ * 안에서만 보인다. 기술·참여 인원은 부모 것을 따른다.
  */
 export type SubProject = {
   /** slug, 부모 프로젝트 안에서 유일. */
@@ -76,6 +78,8 @@ export type SubProject = {
   startedAt: string;
   finishedAt?: string;
   images?: ProjectImage[];
+  /** 패치노트 등 하위 프로젝트 자체의 링크. 부모 links와 같은 형식. */
+  links?: ProjectLink[];
   /** 부모 contents와 같은 규칙: 첫 섹션 제목이 "개요"면 개요로 쓴다. */
   contents?: ProjectContent[];
 };
@@ -95,7 +99,7 @@ export type Project = {
   collaborators: { name: string; roles: L10n[] | string[] }[];
   logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string; padding?: number };
   images?: ProjectImage[];
-  links?: { type: string; link: string; label: string }[];
+  links?: ProjectLink[];
   contents?: ProjectContent[];
   subProjects?: SubProject[];
   highlight?: { backend?: number; game?: number };

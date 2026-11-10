@@ -3,7 +3,9 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 
+import { Badge } from "@/components/ui/Badge";
 import { formatDate } from "@/lib/data/format";
+import { monogram } from "@/lib/data/monogram";
 import type { ResolvedSubProject } from "@/lib/data/overview";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
 import { useLang } from "@/lib/i18n/LangProvider";
@@ -122,6 +124,25 @@ function SubProjectItem({ item }: { item: ResolvedSubProject }) {
               ) : null}
             </div>
           ))}
+
+          {item.links.length > 0 ? (
+            <div className={styles.subLinks}>
+              <span className={styles.tileLabel}>{dict.modal.linksLabel}</span>
+              {item.links.map((l) => (
+                <Badge
+                  key={l.link}
+                  href={l.link}
+                  mono={monogram(l.type)}
+                  iconType={l.type}
+                  className={styles.linkBadge}
+                  logoClassName={styles.linkMono}
+                >
+                  {l.label}
+                  <span className={styles.linkArrow}>↗</span>
+                </Badge>
+              ))}
+            </div>
+          ) : null}
         </div>
       ) : null}
     </li>

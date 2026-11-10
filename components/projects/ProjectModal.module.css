@@ -623,6 +623,12 @@ a.member:hover {
   max-width: 100%;
   max-height: 270px;
 }
+.subLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
 .subSection {
   display: flex;
   flex-direction: column;
