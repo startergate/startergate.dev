@@ -7,9 +7,13 @@ const PROJECTS_DIR = path.join(process.cwd(), "data/projects");
 
 let cache: Project[] | null = null;
 
-/** data/projects/*.json 전체를 읽어온다 (서버 전용 — fs를 쓴다). */
+/**
+ * data/projects/*.json 전체를 읽어온다 (서버 전용 — fs를 쓴다).
+ * Cached only in production builds: in `next dev` the JSON is re-read on
+ * every call so edits to project files show up on reload.
+ */
 export function getAllProjects(): Project[] {
-  if (cache) return cache;
+  if (cache && process.env.NODE_ENV === "production") return cache;
   const files = fs
     .readdirSync(PROJECTS_DIR)
     .filter((f) => f.endsWith(".json"));

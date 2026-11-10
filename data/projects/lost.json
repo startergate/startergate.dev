@@ -101,6 +101,47 @@
       "label": "tiny-beluga/Lost-Issue-Tracker"
     }
   ],
+  "subProjects": [
+    {
+      "id": "lost-gamepad-support",
+      "title": {
+        "ko": "게임 패드 지원",
+        "en": "Gamepad Support"
+      },
+      "status": "done",
+      "startedAt": "2026-10-19",
+      "finishedAt": "2026-10-28",
+      "contents": [
+        {
+          "title": {
+            "ko": "게임 패드 지원",
+            "en": "Gamepad Support"
+          },
+          "text": {
+            "ko": "게임 패드를 지원하고자 하는 노력은 Lost 출시 이후부터 있어왔다. 다만 다른 이슈 사항에 밀려 진행되지 않았고 이후 학교를 졸업하고 일하면서 잊혀지게 되었다. 이후 바이브 코딩을 시도해보는 과정에서 작업해보면 좋겠다고 판단이 되어서 개발을 진행하게 되었고, 이를 통해서 빠르게 패치를 진행할수 있었다. 패드를 지원함을 통해서 Lost는 키보드 이외에 다양한 입력 방식을 지원할수 있게 되었고 무엇보다도 Steam Deck과 같은 게이밍 UMPC 환경에서도 플레이가 가능하게 되었다.",
+            "en": "Gamepad support had been on the list ever since Lost launched. It kept getting pushed back by other issues, and after graduating and starting work it was forgotten. Later, while trying out vibe coding, it seemed like a good thing to take on, and that made it possible to ship the patch quickly. With gamepad support, Lost now accepts input methods beyond the keyboard, and above all it can be played on handheld gaming PCs such as the Steam Deck."
+          }
+        },
+        {
+          "title": {
+            "ko": "엔진과 라이브러리 현대화",
+            "en": "Modernizing the Engine and Libraries"
+          },
+          "text": {
+            "ko": "2026년 10월 28일에 진행된 이 업데이트는 Lost의 6년만의 업데이트이자 마지막 업데이트가 되었다. 업데이트가 오랫동안 되지 않았기 때문에, 게임이 사용하는 엔진과 SDK가 오래되었거나 아예 deprecated 된 것도 있었다. 이를 해결하고 게임을 추후 업데이트하지 않아도 실행이 될 수 있도록 게임 엔진을 Unity 6으로 업데이트하고 Discord와 Steamworks SDK를 최신으로 변경하는 작업을 함께 진행하였다.",
+            "en": "Released on October 28, 2026, this was Lost's first update in six years, and its last. Because the game had gone so long without an update, its engine was outdated, and some of its SDKs had fallen behind or been deprecated entirely. To fix this and keep the game running without further updates, the engine was upgraded to Unity 6 and the Discord and Steamworks SDKs were moved to their latest versions."
+          }
+        }
+      ],
+      "links": [
+        {
+          "type": "Steam",
+          "link": "https://store.steampowered.com/news/app/1095360/view/676261964507250801?l=english",
+          "label": "2026.10.28. Update"
+        }
+      ]
+    }
+  ],
   "highlight": {
     "game": 1
   }
