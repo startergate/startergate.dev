@@ -188,7 +188,8 @@ type SubProject = {
 };
 type Project = {
   id: string;                  // URL용 slug, 소문자-하이픈 (예: "dotori", "fetching-admin")
-  name: string;
+  name?: string;               // 정식 이름. name과 codename 중 하나는 반드시 있어야 한다(로더가 검사)
+  codename?: L10n;             // 가칭 (아래 참고)
   description: L10n;
   category: 'work' | 'team' | 'personal';   // 현업 / 팀 / 개인 — 데이터로 지정
   team?: { name: string; link?: string };   // 있으면 팝업 상단 라벨이 "{team.name} 프로젝트"
@@ -208,6 +209,10 @@ type Project = {
 };
 ```
 
+- **가칭(`codename`)**: 프로젝트의 가칭을 언어별로 적는다(`{ "ko": ..., "en": ... }`). `name`과 `codename` 중 하나는 반드시 있어야 한다.
+  - `name`이 있으면 카드에는 `name`만 보이고, 팝업에서 제목 바로 아래에 가칭을 작고 흐린 글씨로 보여준다(ko "가칭 {codename}" / en "Codename: {codename}", i18n 사전 `modal.codenameTemplate`).
+  - `name`이 없으면 현재 언어의 가칭이 곧 표시 이름이다. 카드·팝업 제목·이전/다음 이동·콘솔·페이지 메타데이터 등 이름이 쓰이는 모든 곳에 가칭을 쓰고, "가칭" 라벨은 붙이지 않는다. 코드에서는 `lib/data/project-name.ts`의 `getProjectDisplayName(project, lang)`으로 이름을 얻는다.
+  - 콘솔 `open <이름>` 검색은 `name`과 가칭(ko/en) 모두로 찾는다.
 - **하위 프로젝트(`subProjects`)**: 완료한 프로젝트에 나중에 규모가 큰 개발을 더할 때(예: `startergate-dev-v2` 완료 뒤의 큰 기능 추가), 그 작업을 부모 프로젝트에 딸린 하위 프로젝트로 기록한다. 작은 수정은 하위 프로젝트로 만들지 않는다.
   - 부모 파일(`data/projects/{id}.json`) 안에 배열로 둔다. 별도 파일로 나누지 않는다.
   - 필드는 제목, 상태, 기간, 이미지, 링크, 본문뿐이다. 설명·기술·참여 인원은 두지 않는다(부모 것을 따른다). 링크는 패치노트처럼 하위 프로젝트 자체를 가리키는 것만 넣는다.

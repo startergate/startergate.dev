@@ -15,6 +15,7 @@ import {
   type ProjectFilters,
 } from "@/lib/data/project-filter";
 import type { ProjectOverview } from "@/lib/data/overview";
+import { getProjectDisplayName } from "@/lib/data/project-name";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { markCameFromList, didComeFromList } from "@/lib/mode/cameFromList";
@@ -57,7 +58,7 @@ export function ProjectsExplorer({
   typeOptions: string[];
   overviews: Record<string, ProjectOverview>;
 }) {
-  const { dict } = useLang();
+  const { lang: locale, dict } = useLang();
   const router = useRouter();
   const routeId = useParams<{ id?: string }>().id;
   // 서버는 sessionStorage를 모르니 항상 EMPTY_FILTERS로 시작해야
@@ -142,10 +143,10 @@ export function ProjectsExplorer({
     (query: string) => {
       const found = findProjectByQuery(filtered, query);
       if (found) openProject(found.id);
-      return found?.name ?? null;
+      return found ? getProjectDisplayName(found, locale) : null;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filtered, lang],
+    [filtered, lang, locale],
   );
 
   const consoleApplyFilter = useCallback(
@@ -187,7 +188,7 @@ export function ProjectsExplorer({
     useMemo(
       () => ({
         projects: {
-          list: () => filtered.map((p) => ({ id: p.id, name: p.name })),
+          list: () => filtered.map((p) => ({ id: p.id, name: getProjectDisplayName(p, locale) })),
           open: consoleOpenProject,
           close,
         },
@@ -197,7 +198,7 @@ export function ProjectsExplorer({
         },
         reset: () => setFilters(EMPTY_FILTERS),
       }),
-      [filtered, consoleOpenProject, close, consoleApplyFilter, dict],
+      [filtered, consoleOpenProject, close, consoleApplyFilter, dict, locale],
     ),
   );
 

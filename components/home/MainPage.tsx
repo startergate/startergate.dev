@@ -6,6 +6,7 @@ import { ProjectModal } from "@/components/projects/ProjectModal";
 import { useRegisterConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
 import { findProjectByQuery } from "@/lib/data/find-project";
 import type { ProjectOverview } from "@/lib/data/overview";
+import { getProjectDisplayName } from "@/lib/data/project-name";
 import type { Experience, LinkItem, ProfileMode, Project, Tech } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { useProfileMode } from "@/lib/mode/useProfileMode";
@@ -74,9 +75,9 @@ export function MainPageContent({
     (query: string) => {
       const found = findProjectByQuery(projects, query);
       if (found) setOpenId(found.id);
-      return found?.name ?? null;
+      return found ? getProjectDisplayName(found, lang) : null;
     },
-    [projects],
+    [projects, lang],
   );
 
   useRegisterConsoleCapabilities(
@@ -84,12 +85,12 @@ export function MainPageContent({
       () => ({
         mode: { current: () => mode, set: setMode },
         projects: {
-          list: () => projects.map((p) => ({ id: p.id, name: p.name })),
+          list: () => projects.map((p) => ({ id: p.id, name: getProjectDisplayName(p, lang) })),
           open: openProject,
           close: () => setOpenId(null),
         },
       }),
-      [mode, setMode, projects, openProject],
+      [mode, setMode, projects, openProject, lang],
     ),
   );
 
