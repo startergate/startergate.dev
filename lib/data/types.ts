@@ -86,7 +86,10 @@ export type SubProject = {
 
 export type Project = {
   id: string;
-  name: string;
+  /** name과 codename 중 하나는 반드시 있어야 한다 (getAllProjects가 검사). */
+  name?: string;
+  /** 가칭. name이 없으면 이것이 표시 이름이 된다 (lib/data/project-name.ts). */
+  codename?: L10n;
   description: L10n;
   category: ProjectCategory;
   team?: { name: string; link?: string };

@@ -17,12 +17,15 @@ export function getAllProjects(): Project[] {
   const files = fs
     .readdirSync(PROJECTS_DIR)
     .filter((f) => f.endsWith(".json"));
-  cache = files.map(
-    (f) =>
-      JSON.parse(
-        fs.readFileSync(path.join(PROJECTS_DIR, f), "utf8"),
-      ) as Project,
-  );
+  cache = files.map((f) => {
+    const project = JSON.parse(
+      fs.readFileSync(path.join(PROJECTS_DIR, f), "utf8"),
+    ) as Project;
+    if (!project.name && !project.codename?.ko) {
+      throw new Error(`data/projects/${f}: "name" 또는 "codename" 중 하나가 필요합니다.`);
+    }
+    return project;
+  });
   return cache;
 }
 

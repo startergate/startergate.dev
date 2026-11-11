@@ -245,6 +245,7 @@ const ko = {
     planningCaption: "계획 중",
     noEndValue: "—",
     detailAriaTemplate: "{name} 상세 보기",
+    codenameTemplate: "가칭 {codename}",
   },
 };
 

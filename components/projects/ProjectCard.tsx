@@ -7,6 +7,7 @@ import { cardPeriod } from "@/lib/data/format";
 import { monogram } from "@/lib/data/monogram";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
 import { getTechByName } from "@/lib/data/techs";
+import { getProjectDisplayName } from "@/lib/data/project-name";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { l10n } from "@/lib/i18n/l10n";
@@ -36,7 +37,8 @@ export function ProjectCard({
   const period = cardPeriod(project);
   const statusLabel = dict.status[project.status];
   const statusColor = STATUS_COLOR_VAR[project.status];
-  const ariaLabel = `${fillTemplate(dict.modal.detailAriaTemplate, { name: project.name })} · ${statusLabel}`;
+  const displayName = getProjectDisplayName(project, lang);
+  const ariaLabel = `${fillTemplate(dict.modal.detailAriaTemplate, { name: displayName })} · ${statusLabel}`;
 
   // mounted 전엔 서버와 같은 기본(src) 변형만 쓴다 (components/home/Resume.tsx와 동일한 이유).
   const logoSrc =
@@ -68,11 +70,11 @@ export function ProjectCard({
               className={styles.monoImg}
             />
           ) : (
-            monogram(project.name)
+            monogram(displayName)
           )}
         </span>
         <span className={styles.titleCol}>
-          <span className={styles.name}>{project.name}</span>
+          <span className={styles.name}>{displayName}</span>
           <span className={styles.desc}>{l10n(project.description, lang)}</span>
         </span>
         <span className={styles.status} style={{ color: statusColor }}>
