@@ -247,6 +247,7 @@ const en: Dictionary = {
     planningCaption: "Planning",
     noEndValue: "—",
     detailAriaTemplate: "View details for {name}",
+    codenameTemplate: "Codename: {codename}",
   },
 };
 
