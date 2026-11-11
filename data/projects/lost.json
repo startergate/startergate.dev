@@ -1,6 +1,10 @@
 {
   "id": "lost",
   "name": "Lost",
+  "codename": {
+    "ko": "Project Star",
+    "en": "Project Star"
+  },
   "description": {
     "ko": "2D 플랫포머 게임",
     "en": "2D platformer game"
