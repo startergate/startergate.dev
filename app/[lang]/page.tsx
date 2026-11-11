@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { MainPage } from "@/components/home/MainPage";
+import { MainPage, StaticMainPage } from "@/components/home/MainPage";
 import { getExperiences } from "@/lib/data/experiences";
 import { getLinks } from "@/lib/data/links";
 import { resolveOverview, type ProjectOverview } from "@/lib/data/overview";
@@ -23,16 +23,21 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     overviews[p.id] = resolveOverview(p, locale);
   }
 
+  const props = {
+    highlightsByMode: { backend, game },
+    overviews,
+    techs: getAllTechs(),
+    experiences: getExperiences(),
+    links: getLinks(),
+  };
+
   return (
-    // MainPage는 useSearchParams(?mode=game)를 쓰므로 Suspense로 감싼다.
-    <Suspense fallback={null}>
-      <MainPage
-        highlightsByMode={{ backend, game }}
-        overviews={overviews}
-        techs={getAllTechs()}
-        experiences={getExperiences()}
-        links={getLinks()}
-      />
+    // MainPage reads ?mode via useSearchParams, so it must sit inside
+    // Suspense. The fallback renders the same body in the default backend
+    // mode and is prerendered into the static HTML; after hydration the
+    // real MainPage (which reads ?mode) replaces it.
+    <Suspense fallback={<StaticMainPage {...props} />}>
+      <MainPage {...props} />
     </Suspense>
   );
 }

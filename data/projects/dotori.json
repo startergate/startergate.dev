@@ -21,7 +21,10 @@
     "Node.js",
     "Koa.js",
     "MariaDB",
-    "AWS EC2"
+    "AWS EC2",
+    "Redis",
+    "Docker",
+    "Jest"
   ],
   "collaborators": [
     {

@@ -14,7 +14,13 @@
   ],
   "techs": [
     "PHP",
-    "AWS EC2"
+    "AWS EC2",
+    "Java",
+    "Android",
+    "Python",
+    "Django",
+    "Travis CI",
+    "StyleCI"
   ],
   "collaborators": [
     {

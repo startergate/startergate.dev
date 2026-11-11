@@ -12,7 +12,9 @@
     "Chatbot"
   ],
   "techs": [
-    "Python"
+    "Python",
+    "Slack API",
+    "Discord"
   ],
   "collaborators": [
     {

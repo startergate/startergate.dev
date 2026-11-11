@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getProjectDisplayName } from "@/lib/data/project-name";
 import { getAllProjects } from "@/lib/data/projects";
+import { l10n } from "@/lib/i18n/l10n";
+import { getProjectOgImage } from "@/lib/og/project-og";
 import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n/locales";
 import { SITE_TITLE, getPageUrlMetadata } from "@/lib/site-meta";
 
@@ -22,12 +25,19 @@ export async function generateMetadata({
   const { lang, id } = await params;
   const locale = isLocale(lang) ? lang : DEFAULT_LOCALE;
   const project = getAllProjects().find((p) => p.id === id);
+  const name = project ? getProjectDisplayName(project, locale) : undefined;
+  // Some projects have no description yet; fall back to the site's.
+  const description =
+    (project && l10n(project.description, locale)) || undefined;
   return {
-    title: project?.name,
+    title: name,
+    ...(description && { description }),
     ...getPageUrlMetadata(
       locale,
       `projects/${id}/`,
-      project ? `${project.name} | ${SITE_TITLE}` : SITE_TITLE,
+      name ? `${name} | ${SITE_TITLE}` : SITE_TITLE,
+      description,
+      project && name ? getProjectOgImage(project, name) : undefined,
     ),
   };
 }

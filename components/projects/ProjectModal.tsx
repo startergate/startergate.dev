@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/OptimizedImage";
 
 import { CloseIcon, CopyLinkIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/Badge";
@@ -14,6 +14,7 @@ import { getPerson } from "@/lib/data/people";
 import { getSiteName, SITE_URL } from "@/lib/site-meta";
 import { STATUS_COLOR_VAR } from "@/lib/data/status";
 import { getTechByName } from "@/lib/data/techs";
+import { getProjectDisplayName, getProjectSubCodename } from "@/lib/data/project-name";
 import type { Project } from "@/lib/data/types";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { l10n } from "@/lib/i18n/l10n";
@@ -22,6 +23,7 @@ import { useTheme } from "@/lib/theme/ThemeProvider";
 
 import { PeriodArc } from "./PeriodArc";
 import styles from "./ProjectModal.module.css";
+import { SubProjects } from "./SubProjects";
 
 const SELF_NAME = "최호승";
 /** 참여 인원 중 AI 도구를 이렇게 표시한다 — 이름 옆에 작은 "AI" 배지가 붙는다. */
@@ -170,6 +172,9 @@ export function ProjectModal({
       ? dict.modal.personalProject
       : dict.modal.teamProject;
 
+  const displayName = getProjectDisplayName(project, lang);
+  const subCodename = getProjectSubCodename(project, lang);
+
   const shareUrl = `${SITE_URL}/${lang}/projects/${project.id}/`;
 
   // mounted 전엔 서버와 같은 기본(src) 변형만 쓴다 (components/home/Resume.tsx와 동일한 이유).
@@ -270,7 +275,7 @@ export function ProjectModal({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      aria-label={project.name}
+      aria-label={displayName}
       tabIndex={-1}
       ref={overlayRef}
       onClick={onClose}
@@ -312,12 +317,17 @@ export function ProjectModal({
                 className={styles.monoImg}
               />
             ) : (
-              monogram(project.name)
+              monogram(displayName)
             )}
           </span>
           <div style={{ minWidth: 0 }}>
             <div className={styles.kind}>{kindLabel}</div>
-            <h2 className={styles.title}>{project.name}</h2>
+            <h2 className={styles.title}>{displayName}</h2>
+            {subCodename ? (
+              <p className={styles.codename}>
+                {fillTemplate(dict.modal.codenameTemplate, { codename: subCodename })}
+              </p>
+            ) : null}
             <p className={styles.desc}>{l10n(project.description, lang)}</p>
           </div>
         </header>
@@ -480,6 +490,8 @@ export function ProjectModal({
             </article>
           ))}
 
+          <SubProjects key={project.id} items={resolved?.subProjects ?? []} />
+
           {project.links && project.links.length > 0 ? (
             <div className={`${styles.tile} ${styles.span4} ${styles.linksWrap}`}>
               <span className={styles.tileLabel}>{dict.modal.linksLabel}</span>
@@ -508,7 +520,7 @@ export function ProjectModal({
               onClick={() => onNavigate(prev.id)}
             >
               <span className={styles.navSub}>← {dict.modal.prevProject}</span>
-              <span className={styles.navName}>{prev.name}</span>
+              <span className={styles.navName}>{getProjectDisplayName(prev, lang)}</span>
             </button>
           ) : (
             <span />
@@ -520,7 +532,7 @@ export function ProjectModal({
               onClick={() => onNavigate(next.id)}
             >
               <span className={styles.navSub}>{dict.modal.nextProject} →</span>
-              <span className={styles.navName}>{next.name}</span>
+              <span className={styles.navName}>{getProjectDisplayName(next, lang)}</span>
             </button>
           ) : (
             <span />

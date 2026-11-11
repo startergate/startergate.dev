@@ -169,9 +169,27 @@
 
 ```ts
 type L10n = { ko: string; en?: string };
+type ProjectContent = {
+  title: L10n;
+  text?: L10n;
+  ref?: string | L10n;         // data/ 기준 마크다운 경로. 문자열이면 모든 언어 공통, { ko, en? }이면 언어별 파일(en 없으면 ko)
+  image?: string;
+};
+type ProjectImage = { src: string; description?: L10n };
+type SubProject = {
+  id: string;                  // slug, 부모 프로젝트 안에서 유일
+  title: L10n;
+  status: 'planning' | 'active' | 'canceled' | 'done';
+  startedAt: string;           // YYYY-MM-DD
+  finishedAt?: string;
+  images?: ProjectImage[];     // 부모 images와 같은 형식
+  links?: { type: string; link: string; label: string }[];  // 부모 links와 같은 형식(패치노트 등)
+  contents?: ProjectContent[]; // 부모 contents와 같은 형식·규칙(ref 마크다운, 첫 섹션 "개요")
+};
 type Project = {
   id: string;                  // URL용 slug, 소문자-하이픈 (예: "dotori", "fetching-admin")
-  name: string;
+  name?: string;               // 정식 이름. name과 codename 중 하나는 반드시 있어야 한다(로더가 검사)
+  codename?: L10n;             // 가칭 (아래 참고)
   description: L10n;
   category: 'work' | 'team' | 'personal';   // 현업 / 팀 / 개인 — 데이터로 지정
   team?: { name: string; link?: string };   // 있으면 팝업 상단 라벨이 "{team.name} 프로젝트"
@@ -183,16 +201,23 @@ type Project = {
   part?: string;               // 카드에 쓰는 담당 영역: "Back-end" | "Front-end" | "Full-stack" | ...
   collaborators: { name: string; roles: L10n[] | string[] }[];
   logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string }; // background: 로고가 흰색/검은색 한 가지뿐이라 테마에 따라 안 보일 때 고정 배경색
-  images?: { src: string; description?: L10n }[];   // 여러 장 가능, 없어도 됨
+  images?: ProjectImage[];     // 여러 장 가능, 없어도 됨
   links?: { type: string; link: string; label: string }[];
-  contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];  // 본문 섹션, 없어도 됨
+  contents?: ProjectContent[];  // 본문 섹션, 없어도 됨
+  subProjects?: SubProject[];   // 하위 프로젝트, 없어도 됨 (아래 참고)
   highlight?: { backend?: number; game?: number };   // 값 = 하이라이트 순서. 없으면 하이라이트 아님
 };
 ```
 
-- **[계획] 하위 프로젝트**: 완료한 프로젝트에 나중에 규모가 큰 개발을 더할 때(예: `startergate-dev-v2` 완료 뒤의 큰 기능 추가), 그 작업을 부모 프로젝트에 딸린 하위 프로젝트로 기록한다. 작은 수정은 하위 프로젝트로 만들지 않는다.
-  - 정할 것: 데이터 구조(하위 프로젝트 파일이 부모 id를 참조하는 방식 / 부모 파일 안에 배열로 두는 방식), 목록·카드에서 따로 보일지 부모 안에서만 보일지, 팝업에서의 표시 방식, 필터·타임라인에 포함할지.
-  - 첫 하위 프로젝트가 생길 때 이 항목을 확정하고 스키마에 반영한다.
+- **가칭(`codename`)**: 프로젝트의 가칭을 언어별로 적는다(`{ "ko": ..., "en": ... }`). `name`과 `codename` 중 하나는 반드시 있어야 한다.
+  - `name`이 있으면 카드에는 `name`만 보이고, 팝업에서 제목 바로 아래에 가칭을 작고 흐린 글씨로 보여준다(ko "가칭 {codename}" / en "Codename: {codename}", i18n 사전 `modal.codenameTemplate`).
+  - `name`이 없으면 현재 언어의 가칭이 곧 표시 이름이다. 카드·팝업 제목·이전/다음 이동·콘솔·페이지 메타데이터 등 이름이 쓰이는 모든 곳에 가칭을 쓰고, "가칭" 라벨은 붙이지 않는다. 코드에서는 `lib/data/project-name.ts`의 `getProjectDisplayName(project, lang)`으로 이름을 얻는다.
+  - 콘솔 `open <이름>` 검색은 `name`과 가칭(ko/en) 모두로 찾는다.
+- **하위 프로젝트(`subProjects`)**: 완료한 프로젝트에 나중에 규모가 큰 개발을 더할 때(예: `startergate-dev-v2` 완료 뒤의 큰 기능 추가), 그 작업을 부모 프로젝트에 딸린 하위 프로젝트로 기록한다. 작은 수정은 하위 프로젝트로 만들지 않는다.
+  - 부모 파일(`data/projects/{id}.json`) 안에 배열로 둔다. 별도 파일로 나누지 않는다.
+  - 필드는 제목, 상태, 기간, 이미지, 링크, 본문뿐이다. 설명·기술·참여 인원은 두지 않는다(부모 것을 따른다). 링크는 패치노트처럼 하위 프로젝트 자체를 가리키는 것만 넣는다.
+  - 본문(`contents`)은 부모와 같은 형식과 규칙으로 처리한다: `text`가 없으면 `ref` 마크다운을 읽고, 첫 섹션 제목이 "개요"면 개요 문단으로 쓰고 나머지에 01, 02 … 번호를 붙인다.
+  - 카드, 목록 필터, 타임라인에는 따로 나오지 않고 부모 팝업 안에서만 보인다(§6.2). 카드의 기간도 부모 기간 그대로다.
 
 기존 데이터에서 옮길 때의 매핑:
 
@@ -311,10 +336,12 @@ type Project = {
   - 개요
   - 기술 스택
   - 본문 섹션(01, 02 …). 섹션마다 이미지를 넣을 수 있다.
+  - 하위 프로젝트(`subProjects`가 있을 때만): "하위 프로젝트 / Sub-projects" 타일 안의 아코디언. 항목마다 헤더 버튼에 제목, 기간(`시작 ~ 종료`, 종료일이 없으면 "진행 중"이나 "미정"), 상태 색 점과 라벨을 보여준다. 기본은 모두 접혀 있고, 펼치면 이미지(부모 이미지처럼 가로 나열), 개요, 번호 붙은 본문 섹션, 링크(부모 링크와 같은 배지) 순서로 부모 본문과 같은 스타일로 나온다. 내용이 길어도 팝업 전체 스크롤로 읽는다.
+    - 헤더는 `aria-expanded`/`aria-controls`를 가진 `<button>`이라 키보드로 열고 닫을 수 있다. 접힌 내용은 렌더하지 않아 포커스 트랩의 탭 순서에 들어가지 않는다. 펼침 애니메이션은 `prefers-reduced-motion`이면 끈다.
   - 링크
 - 하단에 이전/다음 프로젝트 이동을 둔다.
 - 키보드: Esc는 닫기, ←/→는 이전/다음.
-- 마크다운 본문(`ref`)은 기존 `src/data/markdowns/*.md`를 빌드할 때 렌더한다.
+- 마크다운 본문(`ref`)은 기존 `src/data/markdowns/*.md`를 빌드할 때 렌더한다. `ref`를 `{ ko, en? }`로 쓰면 언어별 파일을 읽고, 영어 파일이 없으면 한국어 파일로 대체한다.
 
 ## 7. 위성 하늘
 

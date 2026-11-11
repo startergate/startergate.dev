@@ -70,7 +70,7 @@ const en: Dictionary = {
       paragraphs: [
         {
           label: "Stack",
-          body: "I build with **TypeScript on Node.js**, mainly using **Nest.js** as the server framework. I work with MySQL-family databases both through raw queries and TypeORM, and have run **Aurora MySQL** migrations and operations, Redis/DynamoDB caching, and task distribution combining **RabbitMQ and SQS** in production.",
+          body: "I build with **TypeScript on Node.js**, mainly using **NestJS** as the server framework. I work with MySQL-family databases both through raw queries and TypeORM, and have run **Aurora MySQL** migrations and operations, Redis/DynamoDB caching, and task distribution combining **RabbitMQ and SQS** in production.",
         },
         {
           label: "Experience",
@@ -233,6 +233,9 @@ const en: Dictionary = {
     members: "Team",
     orgBadge: "Org",
     orgRoleLabel: "Organization",
+    subProjects: "Sub-projects",
+    subPeriodOngoing: "Ongoing",
+    subPeriodUndecided: "TBD",
     linksLabel: "Links",
     prevProject: "Previous project",
     nextProject: "Next project",
@@ -244,6 +247,7 @@ const en: Dictionary = {
     planningCaption: "Planning",
     noEndValue: "—",
     detailAriaTemplate: "View details for {name}",
+    codenameTemplate: "Codename: {codename}",
   },
 };
 

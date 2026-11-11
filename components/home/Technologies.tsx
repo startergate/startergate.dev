@@ -20,7 +20,9 @@ export function Technologies({
   dict: Dictionary;
   techs: Tech[];
 }) {
-  const filtered = techs.filter((t) => t.mode === mode || t.mode === "all");
+  const filtered = techs.filter(
+    (t) => t.listed !== false && (t.mode === mode || t.mode === "all"),
+  );
   const groups: { key: Tech["level"]; label: string; className?: string }[] = [
     { key: "using", label: dict.tech.using },
     { key: "learned", label: dict.tech.learned, className: styles.learned },

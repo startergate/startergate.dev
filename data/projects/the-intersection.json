@@ -18,7 +18,11 @@
     "JavaScript",
     "Qt",
     "Express.js",
-    "AWS EC2"
+    "AWS EC2",
+    "Node.js",
+    "Puppeteer",
+    "libcurl",
+    "JsonCpp"
   ],
   "collaborators": [
     {

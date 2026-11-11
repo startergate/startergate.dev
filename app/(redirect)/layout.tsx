@@ -1,12 +1,41 @@
 import type { Metadata } from "next";
 
 import { inter } from "@/lib/fonts";
-import { SITE_TITLE } from "@/lib/site-meta";
+import {
+  SITE_OG_IMAGE,
+  SITE_TITLE,
+  SITE_URL,
+  TWITTER_CREATOR,
+  getSiteDescription,
+} from "@/lib/site-meta";
 import "../globals.css";
 
+// "/" only redirects by browser language, so it stays out of search
+// results, but shared links still get a preview (English, like x-default).
+const description = getSiteDescription("en");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: SITE_TITLE,
+  description,
   robots: { index: false },
+  openGraph: {
+    title: SITE_TITLE,
+    description,
+    type: "website",
+    url: `${SITE_URL}/`,
+    siteName: SITE_TITLE,
+    locale: "en_US",
+    alternateLocale: ["ko_KR"],
+    images: [SITE_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: TWITTER_CREATOR,
+    title: SITE_TITLE,
+    description,
+    images: [SITE_OG_IMAGE],
+  },
 };
 
 /**

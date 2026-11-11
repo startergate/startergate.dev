@@ -68,7 +68,7 @@ const ko = {
       paragraphs: [
         {
           label: "기술 스택",
-          body: "**TypeScript 기반 Node.js**로 개발하며 서버 프레임워크는 **Nest.js**를 주로 씁니다. MySQL 계열 DB를 직접 쿼리와 TypeORM으로 다루고, **Aurora MySQL** 마이그레이션과 운영, Redis·DynamoDB 캐싱, **RabbitMQ와 SQS**를 조합한 태스크 분산을 프로덕션에서 운영했습니다.",
+          body: "**TypeScript 기반 Node.js**로 개발하며 서버 프레임워크는 **NestJS**를 주로 씁니다. MySQL 계열 DB를 직접 쿼리와 TypeORM으로 다루고, **Aurora MySQL** 마이그레이션과 운영, Redis·DynamoDB 캐싱, **RabbitMQ와 SQS**를 조합한 태스크 분산을 프로덕션에서 운영했습니다.",
         },
         {
           label: "경험",
@@ -231,6 +231,9 @@ const ko = {
     members: "참여 인원",
     orgBadge: "소속",
     orgRoleLabel: "소속 조직",
+    subProjects: "하위 프로젝트",
+    subPeriodOngoing: "진행 중",
+    subPeriodUndecided: "미정",
     linksLabel: "링크",
     prevProject: "이전 프로젝트",
     nextProject: "다음 프로젝트",
@@ -242,6 +245,7 @@ const ko = {
     planningCaption: "계획 중",
     noEndValue: "—",
     detailAriaTemplate: "{name} 상세 보기",
+    codenameTemplate: "가칭 {codename}",
   },
 };
 

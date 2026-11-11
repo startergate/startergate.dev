@@ -12,6 +12,9 @@ export type Tech = {
   level: "using" | "learned" | "learning";
   logo?: { src: string; background?: string; cover?: boolean; padding?: number };
   abbr?: string;
+  /** false면 홈 Technologies 섹션에는 안 보이고, 프로젝트 카드/팝업의
+   * 기술 로고 조회(getTechByName)에만 쓰인다. 이때 mode/level은 쓰이지 않는다. */
+  listed?: boolean;
 };
 
 export type Experience = {
@@ -51,9 +54,42 @@ export type TimelineItem = {
   link?: string;
 };
 
+/**
+ * 본문 섹션. `text`가 있으면 그것을, 없으면 `ref`(data/ 기준 마크다운
+ * 경로)를 읽는다. `ref`는 모든 언어에 같은 파일을 쓰는 문자열이거나,
+ * 언어별 파일을 지정하는 `{ ko, en? }`(en이 없으면 ko 파일)이다.
+ */
+export type ProjectContent = { title: L10n; text?: L10n; ref?: string | L10n; image?: string };
+
+export type ProjectImage = { src: string; description?: L10n };
+
+export type ProjectLink = { type: string; link: string; label: string };
+
+/**
+ * 완료한 프로젝트에 나중에 더한 큰 개발 (spec §5.1). 부모 파일 안에만
+ * 존재하며 카드·목록 필터·타임라인에는 따로 나오지 않고 부모 팝업
+ * 안에서만 보인다. 기술·참여 인원은 부모 것을 따른다.
+ */
+export type SubProject = {
+  /** slug, 부모 프로젝트 안에서 유일. */
+  id: string;
+  title: L10n;
+  status: ProjectStatus;
+  startedAt: string;
+  finishedAt?: string;
+  images?: ProjectImage[];
+  /** 패치노트 등 하위 프로젝트 자체의 링크. 부모 links와 같은 형식. */
+  links?: ProjectLink[];
+  /** 부모 contents와 같은 규칙: 첫 섹션 제목이 "개요"면 개요로 쓴다. */
+  contents?: ProjectContent[];
+};
+
 export type Project = {
   id: string;
-  name: string;
+  /** name과 codename 중 하나는 반드시 있어야 한다 (getAllProjects가 검사). */
+  name?: string;
+  /** 가칭. name이 없으면 이것이 표시 이름이 된다 (lib/data/project-name.ts). */
+  codename?: L10n;
   description: L10n;
   category: ProjectCategory;
   team?: { name: string; link?: string };
@@ -65,8 +101,9 @@ export type Project = {
   part?: string;
   collaborators: { name: string; roles: L10n[] | string[] }[];
   logo?: { src: string; srcOnLight?: string; isTitle?: boolean; background?: string; padding?: number };
-  images?: { src: string; description?: L10n }[];
-  links?: { type: string; link: string; label: string }[];
-  contents?: { title: L10n; text?: L10n; ref?: string; image?: string }[];
+  images?: ProjectImage[];
+  links?: ProjectLink[];
+  contents?: ProjectContent[];
+  subProjects?: SubProject[];
   highlight?: { backend?: number; game?: number };
 };

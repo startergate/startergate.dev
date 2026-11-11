@@ -54,12 +54,6 @@ export async function generateMetadata({
     },
     description,
     ...getPageUrlMetadata(locale, ""),
-    twitter: {
-      card: "summary",
-      creator: "@startergate",
-      title: SITE_TITLE,
-      description,
-    },
   };
 }
 
@@ -108,8 +102,8 @@ gtag('config', '${GA_MEASUREMENT_ID}');`}
               <ConsoleCapabilitiesProvider>
                 <NavPill />
                 {/* flex: 1 wrapper keeps Ground pinned to the viewport
-                    bottom even when the page renders little or nothing yet
-                    (e.g. the main page's Suspense fallback is null). */}
+                    bottom even when the page content is shorter than the
+                    viewport. */}
                 <main className="page-main">{children}</main>
                 <Ground previousVersionsLabel={dict.footer.previousVersions} />
                 <BottomDock />

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/OptimizedImage";
 import type { ReactNode } from "react";
 
 import { getLinkIcon, type LinkIconType } from "@/lib/data/link-icons";

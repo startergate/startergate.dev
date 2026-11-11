@@ -2,6 +2,44 @@
 @import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 /*
+ * Metric-matched fallback for Pretendard (issue #55).
+ * Pretendard's subsets arrive after first paint, and Hangul set in the
+ * system CJK font (Noto Sans CJK KR on Android/Linux: 0.92em per syllable)
+ * is wider than Pretendard's (~0.864em). On narrow screens that extra width
+ * wrapped the projects filter bar onto one more row, so the card grid jumped
+ * up when Pretendard swapped in (CLS 0.19 on mobile). Scaling the local
+ * fallback to Pretendard's advance width and vertical metrics keeps line
+ * breaks the same before and after the swap. Inter (Latin) already gets
+ * an adjusted fallback from next/font.
+ *   size-adjust     = 0.8643 / 0.92            ≈ 93.94%
+ *   ascent-override = 0.9521 / 0.9394          ≈ 101.36%
+ *   descent-override= 0.2412 / 0.9394          ≈ 25.68%
+ * Noto Sans KR (the non-CJK build) shares the same Hangul metrics.
+ */
+@font-face {
+  font-family: "Pretendard Fallback";
+  font-weight: 100 599;
+  src:
+    local("Noto Sans CJK KR"), local("NotoSansCJKkr-Regular"),
+    local("Noto Sans KR"), local("NotoSansKR-Regular");
+  size-adjust: 93.94%;
+  ascent-override: 101.36%;
+  descent-override: 25.68%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Pretendard Fallback";
+  font-weight: 600 900;
+  src:
+    local("Noto Sans CJK KR Bold"), local("NotoSansCJKkr-Bold"),
+    local("Noto Sans KR Bold"), local("NotoSansKR-Bold");
+  size-adjust: 93.94%;
+  ascent-override: 101.36%;
+  descent-override: 25.68%;
+  line-gap-override: 0%;
+}
+
+/*
  * 디자인 토큰 (docs/spec.md, AGENTS.md 참고)
  * 기본값은 라이트. prefers-color-scheme 미디어쿼리와 data-theme 속성
  * 양쪽에서 다크 값을 덮어써서, 저장된 선택이 있으면 그 값을, 없으면
@@ -156,10 +194,10 @@
   --color-st-cancel: var(--st-cancel);
   --color-st-done: var(--st-done);
 
-  --font-sans: var(--font-inter), "Pretendard Variable", system-ui,
-    sans-serif;
+  --font-sans: var(--font-inter), "Pretendard Variable",
+    "Pretendard Fallback", system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), "Pretendard Variable",
-    ui-monospace, monospace;
+    "Pretendard Fallback", ui-monospace, monospace;
 }
 
 * {
@@ -182,8 +220,7 @@ body {
      분량만 칠해지고 그 아래는 배경이 끊긴다. */
   min-height: 100vh;
   min-height: 100dvh;
-  /* 내용이 짧거나 아직 렌더되지 않았을 때(메인 페이지의 Suspense
-     fallback이 null이라 정적 HTML에는 본문이 비어 있다)도 지면(Ground)이
+  /* 내용이 짧거나 아직 렌더되지 않았을 때도 지면(Ground)이
      화면 맨 아래에 붙도록 세로 flex로 쌓고, 본문(.page-main)이 남는
      높이를 채운다. */
   display: flex;

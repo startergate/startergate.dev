@@ -22,7 +22,10 @@
     "Koa.js",
     "Unreal Engine",
     "MySQL",
-    "AWS EC2"
+    "AWS EC2",
+    "MongoDB",
+    "React",
+    "Sequelize"
   ],
   "collaborators": [
     {
