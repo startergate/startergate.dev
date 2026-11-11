@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/OptimizedImage";
 import Link from "next/link";
 
 import { ChevronDownIcon } from "@/components/icons";

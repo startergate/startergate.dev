@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/OptimizedImage";
 
 import { Badge } from "@/components/ui/Badge";
 import { cardPeriod } from "@/lib/data/format";

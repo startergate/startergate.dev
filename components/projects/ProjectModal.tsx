@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import Image from "next/image";
+import Image from "@/components/ui/OptimizedImage";
 
 import { CloseIcon, CopyLinkIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/Badge";

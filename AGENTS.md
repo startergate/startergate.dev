@@ -24,7 +24,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## 스택과 배포
 
 - Next.js (App Router, 이 저장소의 버전) + React + TypeScript + Tailwind CSS v4.
-- GitHub Pages 정적 배포 → `next.config.ts`에 `output: 'export'`, `images.unoptimized: true`, `trailingSlash: true`. 서버 기능(미들웨어, Route Handler 동적 응답, ISR, `next/image` 최적화)은 쓰지 않는다.
+- GitHub Pages 정적 배포 → `next.config.ts`에 `output: 'export'`, `trailingSlash: true`. 서버 기능(미들웨어, Route Handler 동적 응답, ISR, `next/image` 서버 최적화)은 쓰지 않는다.
+- 이미지는 `next/image` 대신 `@/components/ui/OptimizedImage`를 쓴다. `npm run build` 끝에 `next-image-export-optimizer`가 `public/images`를 WebP 여러 너비로 만들어 `out/`에 넣는다(dev 모드는 원본 표시).
 - `useSearchParams`를 쓰는 클라이언트 컴포넌트는 `<Suspense>`로 감싼다(정적 export 빌드 요건).
 - 방문자 분석은 기존과 같은 GA4 측정 ID `G-99G6KZQV5K`.
 - 새 의존성은 꼭 필요한 것만 추가한다. 위성 계산에는 `satellite.js`를 쓴다.
