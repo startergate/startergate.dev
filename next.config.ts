@@ -4,8 +4,25 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
+  // Static export has no image optimization server. After `next build`,
+  // next-image-export-optimizer resizes public/images into WebP at several
+  // widths, and components/ui/OptimizedImage wires them up via a custom loader.
   images: {
-    unoptimized: true,
+    loader: "custom",
+    // Only the widths our fixed-size images need at 1x/2x (logos 26–168px,
+    // screenshots 800–960px); every extra size is another file per image.
+    imageSizes: [32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [640, 960, 1280, 1920],
+  },
+  transpilePackages: ["next-image-export-optimizer"],
+  env: {
+    nextImageExportOptimizer_imageFolderPath: "public/images",
+    nextImageExportOptimizer_exportFolderPath: "out",
+    nextImageExportOptimizer_quality: "75",
+    nextImageExportOptimizer_storePicturesInWEBP: "true",
+    nextImageExportOptimizer_exportFolderName: "nextImageExportOptimizer",
+    // Logos have transparent backgrounds; a blurred placeholder looks wrong.
+    nextImageExportOptimizer_generateAndUseBlurImages: "false",
   },
   experimental: {
     // app/global-not-found.tsx로 전체 사이트 공통 404를 구성한다.
