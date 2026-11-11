@@ -54,12 +54,6 @@ export async function generateMetadata({
     },
     description,
     ...getPageUrlMetadata(locale, ""),
-    twitter: {
-      card: "summary",
-      creator: "@startergate",
-      title: SITE_TITLE,
-      description,
-    },
   };
 }
 
