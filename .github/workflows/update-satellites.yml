@@ -17,11 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 수동 실행 시 선택한 브랜치와 관계없이 항상 main을 갱신한다.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
