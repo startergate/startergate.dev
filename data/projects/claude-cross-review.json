@@ -1,0 +1,44 @@
+{
+  "id": "claude-cross-review",
+  "name": "Claude Cross Review",
+  "description": {
+    "ko": "Claude Code가 만든 변경을 Codex 같은 다른 코딩 에이전트가 먼저 검토하게 하는 플러그인",
+    "en": "Claude Code plugin that has other coding agents such as Codex review its changes first"
+  },
+  "category": "personal",
+  "status": "active",
+  "startedAt": "2026-11-12",
+  "types": [
+    "Etc"
+  ],
+  "techs": [
+    "Python"
+  ],
+  "collaborators": [
+    {
+      "name": "최호승",
+      "roles": [
+        {
+          "ko": "기획",
+          "en": "Planning"
+        }
+      ]
+    },
+    {
+      "name": "Claude Code",
+      "roles": [
+        {
+          "ko": "전체 구현",
+          "en": "Full Implementation"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "type": "GitHub",
+      "link": "https://github.com/startergate/claude-cross-review",
+      "label": "claude-cross-review"
+    }
+  ]
+}
