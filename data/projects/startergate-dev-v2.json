@@ -57,5 +57,24 @@
       "link": "https://github.com/startergate/startergate.github.io",
       "label": "startergate.github.io"
     }
+  ],
+  "subProjects": [
+    {
+      "id": "startergate-dev-v2-sub-projects",
+      "title": {
+        "ko": "하위 프로젝트 기능 추가",
+        "en": "Sub-project Support"
+      },
+      "status": "done",
+      "startedAt": "2026-11-03",
+      "finishedAt": "2026-11-04",
+      "links": [
+        {
+          "type": "GitHub",
+          "link": "https://github.com/startergate/startergate.dev/pull/52",
+          "label": "PR #52"
+        }
+      ]
+    }
   ]
 }
