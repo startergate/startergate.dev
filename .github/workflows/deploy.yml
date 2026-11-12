@@ -46,7 +46,7 @@ jobs:
             echo "ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.ref.outputs.skip != 'true'
         with:
           ref: ${{ steps.ref.outputs.ref }}
@@ -59,7 +59,7 @@ jobs:
           git fetch origin main
           git checkout FETCH_HEAD -- public/data/satellites.json
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.ref.outputs.skip != 'true'
         with:
           node-version: 24
