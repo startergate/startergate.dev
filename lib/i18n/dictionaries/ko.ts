@@ -165,7 +165,7 @@ const ko = {
     langChangedTemplate: "lang → {value}",
     gotoToTemplate: "→ #{id}",
     gotoNeedsTarget: "goto: 대상이 필요해요 (main · projects · timeline · conferences · main.<섹션> · projects.<id>)",
-    gotoConferencesLog: "→ /Conferences",
+    gotoConferencesLog: "→ /conferences",
     gotoTimelineLog: "→ /timeline",
     gotoMainLog: "→ /",
     gotoProjectsLog: "→ /projects",

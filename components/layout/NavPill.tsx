@@ -9,7 +9,6 @@ import { ChevronLeftIcon } from "@/components/icons";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
-import { SITE_CONFERENCES_URL } from "@/lib/site-meta";
 
 import { LangSwitcher } from "./LangSwitcher";
 import { ThemeToggleButton } from "./ThemeToggleButton";
@@ -60,14 +59,9 @@ export function NavPill() {
             <Link className={styles.navlink} href={`/${lang}/timeline/`}>
               {dict.nav.timeline}
             </Link>
-            <a
-              className={styles.navlink}
-              href={SITE_CONFERENCES_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link className={styles.navlink} href={`/${lang}/conferences/`}>
               {dict.nav.conferences}
-            </a>
+            </Link>
             <Tooltip content={dict.nav.blogSoon} className={styles.navlink}>
               {dict.nav.blog}
             </Tooltip>

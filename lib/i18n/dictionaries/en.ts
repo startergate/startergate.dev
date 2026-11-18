@@ -167,7 +167,7 @@ const en: Dictionary = {
     langChangedTemplate: "lang → {value}",
     gotoToTemplate: "→ #{id}",
     gotoNeedsTarget: "goto: needs a target (main · projects · timeline · conferences · main.<section> · projects.<id>)",
-    gotoConferencesLog: "→ /Conferences",
+    gotoConferencesLog: "→ /conferences",
     gotoTimelineLog: "→ /timeline",
     gotoMainLog: "→ /",
     gotoProjectsLog: "→ /projects",
