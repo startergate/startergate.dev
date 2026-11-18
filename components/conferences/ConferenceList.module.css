@@ -1,0 +1,35 @@
+/* Layout comes from components/timeline/TimelineList.module.css; this only
+   replaces the top spacing the timeline's filter chips provide there. */
+.list {
+  padding-top: 48px;
+}
+.axis {
+  top: 56px;
+}
+
+/* Breadcrumb year links land here (/{lang}/conferences/#year-YYYY);
+   keep the row clear of the fixed nav pill. */
+.yearRow {
+  scroll-margin-top: 100px;
+}
+
+.notice {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.notice + .list {
+  padding-top: 32px;
+}
+.notice + .list .axis {
+  top: 40px;
+}
+
+/* Events without notes are not links: no hover movement. */
+article.static:hover {
+  border-color: var(--line);
+  transform: none;
+}
+article.static:hover > span:first-child {
+  transform: none;
+}
