@@ -33,10 +33,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## 라우팅 요약 (상세는 spec §2)
 
 - 언어는 경로 접두사: `/ko/...`, `/en/...`. 루트 `/`는 브라우저 언어(또는 저장된 선택)로 클라이언트 리다이렉트.
-- 페이지: `/{lang}/` 메인, `/{lang}/projects/` 프로젝트 목록, `/{lang}/timeline/` 타임라인.
+- 페이지: `/{lang}/` 메인, `/{lang}/projects/` 프로젝트 목록, `/{lang}/timeline/` 타임라인, `/{lang}/conferences/` 가 본 컨퍼런스(행사 `/{lang}/conferences/{event}/`, 세션 노트 `/{lang}/conferences/{event}/{session}/`, 전부 `generateStaticParams`로 생성. 내용은 빌드 전에 clone한 `startergate/Conferences` 저장소의 md — spec §4.4).
 - 프로젝트 상세는 **팝업**이다. 목록에서 열면 정적 라우트 `/{lang}/projects/{id}/`(`generateStaticParams`로 전부 생성)로 이동하고, 뒤로가기로 닫힌다. 메인에서 연 팝업은 URL을 바꾸지 않는다(spec §2.3).
 - 프로필 모드(backend/game)는 메인 전용, `?mode=game`으로 지정 가능, 기본값 backend.
-- `/Conferences`, `/cv.pdf` 등은 이 앱의 라우트가 아니다(spec §2.4).
+- `/cv.pdf` 등 정적 파일은 이 앱의 라우트가 아니다. 옛 `/Conferences/...` 주소는 리다이렉트하지 않는다(spec §2.4).
 
 ## 디자인 토큰
 

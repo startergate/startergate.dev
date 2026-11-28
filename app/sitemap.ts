@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { getConferenceEvents, getNotedSessions } from "@/lib/data/conferences";
 import { getAllProjects } from "@/lib/data/projects";
 import { LOCALES } from "@/lib/i18n/locales";
 import { SITE_URL } from "@/lib/site-meta";
@@ -13,6 +14,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "projects/",
     "timeline/",
     ...getAllProjects().map((p) => `projects/${p.id}/`),
+    "conferences/",
+    ...getConferenceEvents()
+      .filter((e) => e.noteCount > 0)
+      .flatMap((e) => [
+        `conferences/${e.slug}/`,
+        ...getNotedSessions(e).map((s) => `conferences/${e.slug}/${s.slug}/`),
+      ]),
   ];
   return paths.flatMap((path) => {
     const languages = {

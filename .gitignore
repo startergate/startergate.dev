@@ -43,3 +43,6 @@ next-env.d.ts
 # next-image-export-optimizer (generated at build time)
 nextImageExportOptimizer/
 next-image-export-optimizer-hashes.json
+
+# startergate/Conferences checkout (scripts/fetch-conferences.mjs)
+/.conferences/
