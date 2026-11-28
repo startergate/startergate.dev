@@ -8,7 +8,7 @@ import { useConsoleCapabilities } from "@/lib/console/ConsoleCapabilities";
 import { useLang } from "@/lib/i18n/LangProvider";
 import { fillTemplate } from "@/lib/i18n/template";
 import { useNavMenu } from "@/lib/layout/NavMenuContext";
-import { SITE_CONFERENCES_URL, SITE_EMAIL } from "@/lib/site-meta";
+import { SITE_EMAIL } from "@/lib/site-meta";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { usePrefersReducedMotion } from "@/lib/ui/usePrefersReducedMotion";
 
@@ -108,9 +108,9 @@ export function GroundStationConsole() {
     return true;
   };
 
-  // 네비 pill의 Conferences 링크와 동일하게 새 탭으로 연다 — 이 앱의 라우트가 아니다(spec §2.4).
+  // 네비 pill의 Conferences 링크와 같은 앱 안의 라우트(spec §4.4).
   const openConferences = () => {
-    window.open(SITE_CONFERENCES_URL, "_blank", "noreferrer");
+    router.push(`/${lang}/conferences/`);
   };
 
   const recordHistory = (text: string) => {

@@ -23,6 +23,7 @@
 - 언어를 직접 고르면(상단 언어 메뉴, 콘솔 `lang`) `localStorage`에 저장한다. 언어 전환 시 같은 페이지·같은 쿼리를 유지한 채 접두사만 바꾼다.
 - `<html lang>`과 `hreflang` 대체 링크를 언어에 맞게 설정한다.
 - 영어 번역문이 아직 없는 데이터는 한국어로 대체 표시한다.
+- 예외: 컨퍼런스 노트 본문(§4.4)은 한국어로만 제공한다. UI 문구만 번역한다.
 
 ### 2.2 페이지
 
@@ -32,8 +33,11 @@
 | `/{lang}/projects/` | 프로젝트 목록 | `Projects.dc.html` |
 | `/{lang}/projects/{id}/` | 목록 + 해당 프로젝트 팝업 열린 상태 | `ProjectsDeep.dc.html` |
 | `/{lang}/timeline/` | 타임라인 (학력·수상·자격·그룹 활동·경력) | `Timeline.dc.html` |
+| `/{lang}/conferences/` **[계획]** | 가 본 컨퍼런스 목록 | 컨퍼런스 시안(§4.4) |
+| `/{lang}/conferences/{event}/` **[계획]** | 행사 페이지 (세션 목록) | 〃 |
+| `/{lang}/conferences/{event}/{session}/` **[계획]** | 세션 노트 | 〃 |
 
-- 목록·타임라인 페이지는 히어로 대신 좌측 상단에 **페이지 제목**(`Projects`, `Timeline`)만 둔다. 페이지 설명 문구는 넣지 않는다.
+- 목록·타임라인·컨퍼런스 목록 페이지는 히어로 대신 좌측 상단에 **페이지 제목**(`Projects`, `Timeline`, `가 본 컨퍼런스`)만 둔다. 페이지 설명 문구는 넣지 않는다.
 
 ### 2.3 프로젝트 상세 경로와 쿼리 파라미터
 
@@ -50,7 +54,7 @@
 
 ### 2.4 이 앱 밖의 경로
 
-- `/Conferences`: 별도 저장소 `startergate/Conferences`의 Jekyll 페이지다. 지금처럼 외부 링크로 이동한다.
+- `/Conferences`: 지금은 별도 저장소 `startergate/Conferences`의 Jekyll 페이지(GitHub Pages)다. **[계획]** 컨퍼런스 노트를 이 앱의 라우트 `/{lang}/conferences/`(§4.4)로 옮긴다. 옮긴 뒤에는 Conferences 저장소의 Pages를 끄고, 옛 `/Conferences/...` 주소는 리다이렉트하지 않는다(§2.4의 404 처리에서 일반 404 안내).
 - CV PDF: 기존처럼 저장소의 정적 파일을 그대로 서빙한다. `public/`에 둔다.
   - `cv.pdf` = 한국어 1페이지 요약
   - `resume-ko.pdf` = 한국어 전체
@@ -62,7 +66,8 @@
 
 ### 2.5 배포
 
-- `startergate.dev` 도메인은 사용자 사이트 저장소 `startergate/startergate.github.io`에 연결되어 있다. 이 저장소는 빌드 결과물만 담고(`main` 브랜치, Pages 소스), 소스는 이 저장소(`startergate/startergate.dev`)에 있다. `/Conferences` 같은 다른 저장소의 프로젝트 페이지도 이 도메인 아래에서 그대로 서빙된다.
+- `startergate.dev` 도메인은 사용자 사이트 저장소 `startergate/startergate.github.io`에 연결되어 있다. 이 저장소는 빌드 결과물만 담고(`main` 브랜치, Pages 소스), 소스는 이 저장소(`startergate/startergate.dev`)에 있다. 다른 저장소의 프로젝트 페이지(Pages를 켠 경우)도 이 도메인 아래에서 그대로 서빙된다.
+- **[계획]** 빌드 전에 `startergate/Conferences` 저장소를 얕게 clone(`--depth 1`, 기본 브랜치 `master`)해 gitignore된 폴더에 두고, 그 md로 컨퍼런스 페이지를 정적 생성한다(§4.4). `npm run build`와 배포 workflow 양쪽에서 같은 스크립트를 쓴다. Conferences 저장소가 바뀌어도 이 사이트를 다시 배포해야 반영된다.
 - 기존 Gatsby 사이트 저장소는 `startergate/startergate.dev-v1`로 이름을 바꿨다. 기존 사이트는 `/v1/` prefix로 빌드한 결과를 그 저장소의 빌드 브랜치 `master`에 두고, 배포할 때 `out/v1/`로 복사해 `startergate.dev/v1/`로 서빙한다(`/v1/` prefix 빌드가 아니면 건너뜀).
 - 배포는 `.github/workflows/deploy.yml`이 한다. 빌드한 `out/`을 deploy key(`ACTIONS_DEPLOY_KEY` secret)로 `startergate.github.io`의 `main`에 푸시하고 `CNAME`을 붙인다.
   - 새 release를 발행하면 그 태그를 배포한다. 태그·이름은 기존과 같은 형식(`20260911.01` / `2026.09.11. Build 01`)을 쓴다.
@@ -78,7 +83,7 @@
   - GitHub (https://github.com/startergate)
   - Projects
   - Timeline
-  - Conferences
+  - Conferences — **[계획]** 외부 링크(새 탭) 대신 앱 안의 `/{lang}/conferences/`로 이동한다(§4.4).
   - Blog
   - CV
 - **Blog** 링크는 블로그 도메인이 아직 정해지지 않았다. 링크는 없고, 호버·포커스하면 글자(Blog) 그대로 두고 아래에 말풍선으로 "준비 중 / Coming soon"을 띄운다.
@@ -160,6 +165,55 @@
 - 카테고리 칩: 전체 / 경력 / 수상 / 자격 / 그룹 활동 / 학력.
 - 연도별로 묶은 세로 타임라인이다.
 - 데이터는 기존 `index.tsx`의 학력, 수상, 그룹 활동과 이력서 내용을 `data/timeline.json`으로 옮긴다.
+
+### 4.4 컨퍼런스 **[계획]**
+
+다녀온 컨퍼런스의 세션 노트(별도 저장소 `startergate/Conferences`의 md)를 이 앱 안에서 보여준다. 네비·테마를 Jekyll 쪽에 중복 구현하지 않으려는 것이다(이슈 #69). 시안: https://claude.ai/artifact/QrU8S3T2ryTRz7MFur8uUN (레이아웃 참고용, 이 절이 우선).
+
+- **공통**: 기존 NavPill·PageHeader·Ground·BottomDock·테마를 그대로 쓴다. 세 페이지 모두 `generateStaticParams`로 빌드할 때 정적 생성한다.
+- **i18n**: UI 문구만 현지화하고 노트 내용(행사·세션 제목, 본문)은 한국어만 있다. 영어 목록 페이지에는 노트가 한국어로만 제공된다는 안내를 둔다.
+
+**목록 `/{lang}/conferences/`**
+- 제목은 PageHeader로 `가 본 컨퍼런스` / 영어 대응 문구.
+- 구조와 스타일은 타임라인(§4.3, `TimelineList`)과 같은 연도별 세로 타임라인(연도 열, 세로 축, 점, 카드)이다. 검색·필터(카테고리 칩)·태그·더보기는 없다.
+- 항목 카드: 행사 이름, `세션 N` 또는 `노트 없음` 칩, 날짜(`2023.05.03 ~ 2023.05.04`, 하루면 한 날짜).
+  - 여러 날 행사 중 하루만 간 경우 `DAY 2만 참석` 같은 부제를 붙인다.
+  - 노트가 없는 행사(Conferences README 목록에 이름만 있는 행사, 폴더가 없는 행사)도 목록에 `노트 없음`으로 표시한다. 이런 항목은 행사 페이지로 링크하지 않는다.
+- 최신순.
+
+**행사 페이지 `/{lang}/conferences/{event}/`**
+- 행사 이름과 날짜, 세션 목록(시간·세션 제목·발표자).
+- 여러 날 간 행사는 날짜 탭(`전체` / `DAY 1` / `DAY 2` …)으로 나누고 탭마다 그날의 세션 목록을 보인다.
+- "01 — Sessions" 같은 섹션 번호 라벨은 두지 않는다.
+- 위에 위치 표시(`컨퍼런스 / 2019 / 행사 이름`)를 둔다. `컨퍼런스`는 목록 맨 위로, 연도는 목록의 그 연도 위치(`/{lang}/conferences/#year-2019`)로 이동한다. 세션 노트 페이지는 `컨퍼런스 / 연도 / 행사 이름 / DAY N`이고 행사 이름은 행사 페이지로 간다(DAY N은 링크 없음).
+- 발표자 정보가 없는 세션은 그 줄을 생략한다.
+
+**세션 노트 `/{lang}/conferences/{event}/{session}/`**
+- md를 렌더링한다. `##` 제목으로 목차를 만든다.
+- 발표자는 제목 아래 한 줄(`이름, 이름 · 소속`)로, 그 옆에 세션 시간을 둔다.
+- 같은 행사 안에서 이전/다음 세션으로 이동하는 링크를 둔다.
+- 이미지는 빌드에 포함하지 않는다. md 안의 상대 경로를 `https://raw.githubusercontent.com/startergate/Conferences/master/<경로>`로 바꿔서 불러오고, 리사이즈하지 않는다.
+
+**콘텐츠 출처와 메타데이터** (Conferences 저장소의 작성 규칙)
+- 빌드 전에 Conferences 저장소를 얕게 clone해서 읽는다(§2.5).
+- **행사 = frontmatter에 `title`이 있는 `README.md`가 든 폴더.** 폴더는 중첩될 수 있다(예: `g-con/<연도>/`). 폴더 경로가 행사 URL의 `{event}`가 된다(소문자, `/`는 `-`로).
+- 행사 README frontmatter:
+  ```yaml
+  ---
+  title: AWS Summit Seoul 2023   # 필수. 목록·행사 페이지의 이름
+  date: 2023-05-03               # 간 날짜. YYYY-MM-DD, 모르면 YYYY-MM 또는 YYYY
+                                 # 이틀 이상을 한 README에 적은 경우 목록: [2020-09-26, 2020-09-27]
+  day: 2                         # 선택. 여러 날 행사 중 하루만 갔을 때 그날이 몇째 날인지 → "DAY 2만 참석"
+  ---
+  ```
+  - 하루만 간 행사는 행사 전체 기간을 적지 않는다(간 날짜만).
+- **여러 날 간 행사**는 `day-N/` 하위 폴더로 나누고, 행사 README에는 `title`만, 각 `day-N/README.md` frontmatter에 그날의 `date`를 적는다. 날짜 탭은 이 `day-N/` 폴더로 만든다.
+- **세션 목록**: (행사 또는 `day-N`) README 본문의 md 표 `| Time | Topic |`에서 읽는다. Time은 `HH:MM ~ HH:MM` 또는 `-`(모름). Topic이 링크(`[제목](./파일.md)`)면 그 md가 세션 노트, 링크가 아니면 노트 없는 세션으로 목록에만 표시한다.
+- **세션 노트**: 첫 `#`가 세션 제목, 그 바로 아래 `####` 줄이 발표자(없을 수 있음), 나머지가 본문.
+- 노트 없는 행사는 frontmatter만 있는 README로 둔다. 목록에 `노트 없음`으로 나온다. 본문이 외부 링크 한 줄뿐이면(노트를 다른 저장소에 둔 경우) 칩이 `외부 노트`가 되고 카드가 그 링크로 간다.
+- 세션 표 없이 README 본문에 `##` 이하 제목이 있으면 README 자체를 세션 하나짜리 노트로 본다.
+- 로컬에서 Conferences 변경을 푸시 전에 확인할 때는 `CONFERENCES_DIR=<로컬 체크아웃>`으로 clone 대신 그 폴더를 읽는다. frontmatter가 없는 README는 `#` 제목과 루트 README 목록으로 대신 채우고 빌드 로그에 경고한다.
+- 저장소 루트 README의 연도·월 목록은 사람이 보는 색인이다. 사이트는 frontmatter가 없을 때의 대체값으로만 읽는다: 행사 README에 날짜가 없으면 목록의 연·월을 쓰고, 목록에만 있고 폴더가 없는 행사는 `노트 없음`으로 보여준다(링크가 실제로 있는 폴더를 가리키는데 행사가 아니면 건너뜀). 모든 행사가 frontmatter를 갖추면 이 대체 경로는 쓰이지 않는다.
 
 ## 5. 데이터
 
@@ -386,7 +440,7 @@ type Project = {
 | `theme [dark\|light]` | 테마 전환. 인자가 없으면 토글 |
 | `mode [backend\|game]` | 프로필 모드. **메인에서만 동작** |
 | `lang [ko\|en]` | 언어 전환(URL 접두사 변경) |
-| `goto <main\|projects\|timeline\|conferences>` | 해당 페이지로 이동(각각 메인 `/{lang}/`, 프로젝트 목록 `/{lang}/projects/`, 타임라인, Conferences). 콘솔의 goto 빠른 버튼 4개도 이 페이지 단위 이동만 제공한다 |
+| `goto <main\|projects\|timeline\|conferences>` | 해당 페이지로 이동(각각 메인 `/{lang}/`, 프로젝트 목록 `/{lang}/projects/`, 타임라인, Conferences — **[계획]** Conferences도 새 탭 대신 `/{lang}/conferences/`로 이동). 콘솔의 goto 빠른 버튼 4개도 이 페이지 단위 이동만 제공한다 |
 | `goto main.<섹션>` | 메인 페이지의 특정 섹션으로 이동(빠른 버튼엔 없고 명령으로만). 다른 페이지에 있어도 메인으로 이동한 뒤 스크롤한다. 섹션 이름만 단독으로는(`goto tech`) 동작하지 않는다 |
 | `goto projects.<프로젝트 id>` | 해당 프로젝트 상세 라우트(`/{lang}/projects/{id}/`)로 바로 이동. 다른 페이지에 있어도 동작한다 |
 | `menu` | 상단 메뉴 펼치기/접기 |
